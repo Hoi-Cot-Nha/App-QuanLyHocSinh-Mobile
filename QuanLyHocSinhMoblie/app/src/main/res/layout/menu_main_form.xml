@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#222D32"
+    tools:context=".MainForm.MainForm">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:outlineAmbientShadowColor="@color/black"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/design_default_color_primary"
+            app:title="Chào mừng đến với QLHS"
+            app:titleCentered="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- LAB 1 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hồ sơ & Cơ Cấu"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="24dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="1"
+                    android:padding="8dp">
+
+                    <Button android:id="@+id/btnQLlopHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý lớp học" />
+                    <Button android:id="@+id/btnQLgiaoVien" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý giáo viên" />
+                    <Button android:id="@+id/btnQLtoBoMon" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý tổ bộ môn" />
+                    </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- LAB 2 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đào tạo"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="1"
+                    android:padding="8dp">
+
+                    <Button android:id="@+id/btnQLmonHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý môn học" />
+                    <Button android:id="@+id/btnQLthoiKhoaBieu" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý thời khóa biểu" />
+                    <Button android:id="@+id/btnQLphongHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý phòng học & thiết bị" />
+                </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- LAB 3 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khảo thí & kết quả"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:padding="8dp">
+
+                    <Button android:id="@+id/btnL3Football" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Football" />
+                    <Button android:id="@+id/btnL3B1" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 1" />
+                    <Button android:id="@+id/btnL3B2" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 2" />
+                    <Button android:id="@+id/btnL3B3" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 3" />
+                    <Button android:id="@+id/btnL3B4" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 4" />
+                </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- LAB 3 MENU -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hành chính & Chính sách"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="3"
+                    android:padding="8dp">
+
+                    <Button android:id="@+id/btnL3MenuB1" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 1" />
+                    <Button android:id="@+id/btnL3MenuB2" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 2" />
+                    <Button android:id="@+id/btnL3MenuB3" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 3" />
+                </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
