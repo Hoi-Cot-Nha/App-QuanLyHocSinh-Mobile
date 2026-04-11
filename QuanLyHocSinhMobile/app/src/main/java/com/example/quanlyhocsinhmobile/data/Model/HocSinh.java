@@ -8,19 +8,32 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "HocSinh",
         foreignKeys = {
-                @ForeignKey(entity = Lop.class, parentColumns = "maLop", childColumns = "maLop", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = DoiTuongUuTien.class, parentColumns = "maDT", childColumns = "maDT", onDelete = ForeignKey.SET_NULL, onUpdate = ForeignKey.CASCADE)
+                @ForeignKey(entity = Lop.class, parentColumns = "MaLop", childColumns = "MaLop", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+                @ForeignKey(entity = DoiTuongUuTien.class, parentColumns = "maDT", childColumns = "MaDT", onDelete = ForeignKey.SET_NULL, onUpdate = ForeignKey.CASCADE)
         },
-        indices = {@Index("maLop"), @Index("maDT")})
+        indices = {@Index("MaLop"), @Index("MaDT")})
 public class HocSinh {
     @PrimaryKey
     @NonNull
+    @androidx.room.ColumnInfo(name = "MaHS")
     private String maHS;
+
+    @androidx.room.ColumnInfo(name = "HoTen")
     private String hoTen;
+
+    @androidx.room.ColumnInfo(name = "NgaySinh")
     private String ngaySinh;
+
+    @androidx.room.ColumnInfo(name = "GioiTinh")
     private String gioiTinh;
+
+    @androidx.room.ColumnInfo(name = "DiaChi")
     private String diaChi;
+
+    @androidx.room.ColumnInfo(name = "MaLop")
     private String maLop;
+
+    @androidx.room.ColumnInfo(name = "MaDT")
     private String maDT;
 
     public HocSinh() {}

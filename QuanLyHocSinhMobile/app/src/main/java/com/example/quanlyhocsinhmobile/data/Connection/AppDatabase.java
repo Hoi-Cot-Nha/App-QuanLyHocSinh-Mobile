@@ -18,15 +18,17 @@ import java.util.concurrent.Executors;
     TaiKhoan.class, GiaoVien.class, Lop.class, HocSinh.class,
     ThoiKhoaBieu.class, Diem.class, HanhKiem.class, LichThi.class,
     HocPhi.class, ThongBao.class, PhucKhao.class
-}, version = 7, exportSchema = false)
+}, version = 15, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     // --- 1. Khai báo các DAO ---
     public abstract DiemDAO diemDAO();
     public abstract HocSinhDAO hocSinhDAO();
     public abstract MonHocDAO monHocDAO();
+    public abstract LichThiDAO lichThiDAO();
+    public abstract PhongHocDAO phongHocDAO();
 
-    // --- 2. Cấu hình Singleton & Executor ---
+    // --- 2. Cấu hình Singleton & Executor (cái này để tối ưu database giúp chạy mượt mà
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -52,7 +54,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // Gọi logic nạp dữ liệu từ file DatabaseInitializer riêng biệt
+            // Gọi logic nạp dữ liệu từ file KhoiTaoDatabase riêng biệt
             databaseWriteExecutor.execute(() -> KhoiTaoDatabase.checkAndSeedData(db));
         }
     };

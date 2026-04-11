@@ -13,7 +13,10 @@ import androidx.room.PrimaryKey;
 public class MonHoc {
     @PrimaryKey
     @NonNull
+    @androidx.room.ColumnInfo(name = "MaMH")
     private String maMH;
+    
+    @androidx.room.ColumnInfo(name = "TenMH")
     private String tenMH;
 
     public MonHoc() {}

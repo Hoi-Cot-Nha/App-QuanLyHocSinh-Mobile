@@ -26,6 +26,12 @@
             android:label="Quản lý điểm số"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
+        <activity
+            android:name=".ui.tien.LichThiUI"
+            android:exported="true"
+            android:label="Quản lý lịch thi"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
 
     </application>
 

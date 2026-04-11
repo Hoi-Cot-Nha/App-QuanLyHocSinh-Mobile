@@ -9,19 +9,17 @@ import androidx.room.Index;
 @Entity(tableName = "Diem",
         primaryKeys = {"maHS", "maMH", "hocKy"},
         foreignKeys = {
-                @ForeignKey(entity = HocSinh.class, parentColumns = "maHS", childColumns = "maHS", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = MonHoc.class, parentColumns = "maMH", childColumns = "maMH", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
+                @ForeignKey(entity = HocSinh.class, parentColumns = "MaHS", childColumns = "maHS", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+                @ForeignKey(entity = MonHoc.class, parentColumns = "MaMH", childColumns = "maMH", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
         },
         indices = {@Index("maMH")})
 public class Diem {
     @NonNull
     private String maHS;
-    @Ignore
-    private String tenHS; 
+
     @NonNull
     private String maMH;
-    @Ignore
-    private String tenMH;
+
     @NonNull
     private int hocKy;
 
@@ -48,15 +46,9 @@ public class Diem {
     public String getMaHS() { return maHS; }
     public void setMaHS(@NonNull String maHS) { this.maHS = maHS; }
 
-    public String getTenHS() { return tenHS; }
-    public void setTenHS(String tenHS) { this.tenHS = tenHS; }
-
     @NonNull
     public String getMaMH() { return maMH; }
     public void setMaMH(@NonNull String maMH) { this.maMH = maMH; }
-
-    public String getTenMH() { return tenMH; }
-    public void setTenMH(String tenMH) { this.tenMH = tenMH; }
 
     public int getHocKy() { return hocKy; }
     public void setHocKy(int hocKy) { this.hocKy = hocKy; }
@@ -77,7 +69,10 @@ public class Diem {
     public void setDiemTongKet(Double diemTongKet) { this.diemTongKet = diemTongKet; }
 
     public double calculateDiemTongKet() {
-        if (diem15p == null || diem1Tiet == null || diemGiuaKy == null || diemCuoiKy == null) return 0.0;
-        return (diem15p + diem1Tiet + diemGiuaKy * 2 + diemCuoiKy * 3) / 7.0;
+        double d15 = (diem15p != null) ? diem15p : 0;
+        double d1t = (diem1Tiet != null) ? diem1Tiet : 0;
+        double dgk = (diemGiuaKy != null) ? diemGiuaKy : 0;
+        double dck = (diemCuoiKy != null) ? diemCuoiKy : 0;
+        return (d15 + d1t + dgk * 2 + dck * 3) / 7.0;
     }
 }

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "LichThi",
         foreignKeys = {
-                @ForeignKey(entity = MonHoc.class, parentColumns = "maMH", childColumns = "maMH", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
+                @ForeignKey(entity = MonHoc.class, parentColumns = "MaMH", childColumns = "maMH", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE),
                 @ForeignKey(entity = PhongHoc.class, parentColumns = "maPhong", childColumns = "maPhong", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
         },
         indices = {@Index("maMH"), @Index("maPhong")})

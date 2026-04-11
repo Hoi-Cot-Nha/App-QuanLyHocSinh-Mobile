@@ -16,8 +16,11 @@ import androidx.room.PrimaryKey;
 public class Lop {
     @PrimaryKey
     @NonNull
+    @androidx.room.ColumnInfo(name = "MaLop")
     private String maLop;
+    
     @NonNull
+    @androidx.room.ColumnInfo(name = "TenLop")
     private String tenLop;
     private String nienKhoa;
     private String maGVCN;

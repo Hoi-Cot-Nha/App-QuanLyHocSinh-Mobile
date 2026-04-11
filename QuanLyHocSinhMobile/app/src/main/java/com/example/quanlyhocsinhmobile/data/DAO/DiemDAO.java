@@ -8,20 +8,30 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
+import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 
 import java.util.List;
 
 @Dao
 public interface DiemDAO {
 
-    @Query("SELECT * FROM Diem")
-    List<Diem> getAll();
+    @Query("SELECT Diem.*, HocSinh.HoTen as tenHS, MonHoc.TenMH as tenMH, Lop.TenLop as tenLop " +
+           "FROM Diem " +
+           "LEFT JOIN HocSinh ON Diem.maHS = HocSinh.MaHS " +
+           "LEFT JOIN MonHoc ON Diem.maMH = MonHoc.MaMH " +
+           "LEFT JOIN Lop ON HocSinh.MaLop = Lop.MaLop")
+    List<DiemDisplay> getAll();
 
     @Query("SELECT * FROM Diem WHERE maHS = :maHS AND maMH = :maMH AND hocKy = :hocKy")
     Diem getDiem(String maHS, String maMH, int hocKy);
 
-    @Query("SELECT * FROM Diem WHERE maHS = :maHS")
-    List<Diem> getDiemByHS(String maHS);
+    @Query("SELECT Diem.*, HocSinh.HoTen as tenHS, MonHoc.TenMH as tenMH, Lop.TenLop as tenLop " +
+           "FROM Diem " +
+           "LEFT JOIN HocSinh ON Diem.maHS = HocSinh.MaHS " +
+           "LEFT JOIN MonHoc ON Diem.maMH = MonHoc.MaMH " +
+           "LEFT JOIN Lop ON HocSinh.MaLop = Lop.MaLop " +
+           "WHERE Diem.maHS = :maHS")
+    List<DiemDisplay> getDiemByHS(String maHS);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Diem diem);
@@ -32,9 +42,19 @@ public interface DiemDAO {
     @Delete
     void delete(Diem diem);
 
-    @Query("SELECT * FROM Diem WHERE maHS LIKE :search OR maMH LIKE :search")
-    List<Diem> searchDiem(String search);
+    @Query("SELECT Diem.*, HocSinh.HoTen as tenHS, MonHoc.TenMH as tenMH, Lop.TenLop as tenLop " +
+           "FROM Diem " +
+           "LEFT JOIN HocSinh ON Diem.maHS = HocSinh.MaHS " +
+           "LEFT JOIN MonHoc ON Diem.maMH = MonHoc.MaMH " +
+           "LEFT JOIN Lop ON HocSinh.MaLop = Lop.MaLop " +
+           "WHERE Diem.maHS LIKE :search OR MonHoc.TenMH LIKE :search OR Lop.TenLop LIKE :search")
+    List<DiemDisplay> searchDiem(String search);
 
-    @Query("SELECT * FROM Diem WHERE (:maMH IS NULL OR maMH = :maMH) AND (:hocKy = 0 OR hocKy = :hocKy)")
-    List<Diem> filterDiem(String maMH, int hocKy);
+    @Query("SELECT Diem.*, HocSinh.HoTen as tenHS, MonHoc.TenMH as tenMH, Lop.TenLop as tenLop " +
+           "FROM Diem " +
+           "LEFT JOIN HocSinh ON Diem.maHS = HocSinh.MaHS " +
+           "LEFT JOIN MonHoc ON Diem.maMH = MonHoc.MaMH " +
+           "LEFT JOIN Lop ON HocSinh.MaLop = Lop.MaLop " +
+           "WHERE (:maMH IS NULL OR Diem.maMH = :maMH) AND (:hocKy = 0 OR Diem.hocKy = :hocKy)")
+    List<DiemDisplay> filterDiem(String maMH, int hocKy);
 }

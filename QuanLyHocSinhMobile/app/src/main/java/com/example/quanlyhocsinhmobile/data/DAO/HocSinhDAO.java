@@ -11,12 +11,12 @@ import java.util.List;
 
 @Dao
 public interface HocSinhDAO {
-    @Query("SELECT * FROM hocsinh")
+    @Query("SELECT * FROM HocSinh")
     List<HocSinh> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(HocSinh hocSinh);
 
-    @Query("SELECT hoTen FROM hocsinh WHERE maHS = :maHS")
+    @Query("SELECT HoTen FROM HocSinh WHERE MaHS = :maHS")
     String getTenHocSinh(String maHS);
 }

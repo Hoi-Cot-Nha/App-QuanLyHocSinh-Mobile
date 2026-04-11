@@ -10,25 +10,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
+import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 
 import java.util.List;
 import java.util.Locale;
 
 public class DiemAdapter extends RecyclerView.Adapter<DiemAdapter.DiemViewHolder> {
 
-    private List<Diem> diemList;
+    private List<DiemDisplay> diemList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Diem diem);
+        void onItemClick(DiemDisplay display);
     }
 
-    public DiemAdapter(List<Diem> diemList, OnItemClickListener listener) {
+    public DiemAdapter(List<DiemDisplay> diemList, OnItemClickListener listener) {
         this.diemList = diemList;
         this.listener = listener;
     }
 
-    public void setDiemList(List<Diem> diemList) {
+    public void setDiemList(List<DiemDisplay> diemList) {
         this.diemList = diemList;
         notifyDataSetChanged();
     }
@@ -42,20 +43,29 @@ public class DiemAdapter extends RecyclerView.Adapter<DiemAdapter.DiemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DiemViewHolder holder, int position) {
-        Diem diem = diemList.get(position);
+        DiemDisplay display = diemList.get(position);
+        Diem diem = display.getDiem();
         holder.tvMaHS.setText(diem.getMaHS());
-        holder.tvHoTen.setText(diem.getTenHS() != null ? diem.getTenHS() : "N/A");
-        holder.tvMon.setText(diem.getMaMH());
+        holder.tvHoTen.setText(display.getTenHS() != null ? display.getTenHS() : "N/A");
+        holder.tvTenLop.setText(display.getTenLop() != null ? display.getTenLop() : "N/A");
+        holder.tvMon.setText(display.getTenMH() != null ? display.getTenMH() : "N/A");
         holder.tvHK.setText(String.valueOf(diem.getHocKy()));
-        holder.tv15p.setText(String.format(Locale.getDefault(), "%.1f", diem.getDiem15p()));
-        holder.tv1Tiet.setText(String.format(Locale.getDefault(), "%.1f", diem.getDiem1Tiet()));
-        holder.tvGK.setText(String.format(Locale.getDefault(), "%.1f", diem.getDiemGiuaKy()));
-        holder.tvCK.setText(String.format(Locale.getDefault(), "%.1f", diem.getDiemCuoiKy()));
-        holder.tvTK.setText(String.format(Locale.getDefault(), "%.2f", diem.getDiemTongKet()));
+        
+        Double d15 = diem.getDiem15p();
+        Double d1t = diem.getDiem1Tiet();
+        Double dgk = diem.getDiemGiuaKy();
+        Double dck = diem.getDiemCuoiKy();
+        Double dtk = diem.getDiemTongKet();
+
+        holder.tv15p.setText(d15 != null ? String.format(Locale.getDefault(), "%.1f", d15) : "0.0");
+        holder.tv1Tiet.setText(d1t != null ? String.format(Locale.getDefault(), "%.1f", d1t) : "0.0");
+        holder.tvGK.setText(dgk != null ? String.format(Locale.getDefault(), "%.1f", dgk) : "0.0");
+        holder.tvCK.setText(dck != null ? String.format(Locale.getDefault(), "%.1f", dck) : "0.0");
+        holder.tvTK.setText(dtk != null ? String.format(Locale.getDefault(), "%.2f", dtk) : "0.0");
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(diem);
+                listener.onItemClick(display);
             }
         });
     }
@@ -66,12 +76,13 @@ public class DiemAdapter extends RecyclerView.Adapter<DiemAdapter.DiemViewHolder
     }
 
     public static class DiemViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMaHS, tvHoTen, tvMon, tvHK, tv15p, tv1Tiet, tvGK, tvCK, tvTK;
+        TextView tvMaHS, tvHoTen, tvTenLop, tvMon, tvHK, tv15p, tv1Tiet, tvGK, tvCK, tvTK;
 
         public DiemViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMaHS = itemView.findViewById(R.id.tv_mahs);
             tvHoTen = itemView.findViewById(R.id.tv_hoten);
+            tvTenLop = itemView.findViewById(R.id.tv_tenlop);
             tvMon = itemView.findViewById(R.id.tv_mon);
             tvHK = itemView.findViewById(R.id.tv_hk);
             tv15p = itemView.findViewById(R.id.tv_15p);

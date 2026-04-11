@@ -17,6 +17,6 @@ public interface MonHocDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(MonHoc monHoc);
 
-    @Query("SELECT tenMH FROM monhoc WHERE maMH = :maMH")
+    @Query("SELECT TenMH FROM monhoc WHERE MaMH = :maMH")
     String getTenMonHoc(String maMH);
 }

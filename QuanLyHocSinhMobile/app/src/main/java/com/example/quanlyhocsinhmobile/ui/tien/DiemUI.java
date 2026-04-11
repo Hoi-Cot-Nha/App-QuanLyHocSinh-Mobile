@@ -18,7 +18,16 @@ import com.example.quanlyhocsinhmobile.data.DAO.DiemDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.HocSinhDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.MonHocDAO;
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
+import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +42,7 @@ public class DiemUI extends AppCompatActivity {
     private HocSinhDAO hocSinhDAO;
     private MonHocDAO monHocDAO;
     private DiemAdapter adapter;
-    private List<Diem> currentList = new ArrayList<>();
+    private List<DiemDisplay> currentList = new ArrayList<>();
     private Diem selectedDiem;
 
     @Override
@@ -57,9 +66,9 @@ public class DiemUI extends AppCompatActivity {
         btnSearch.setOnClickListener(v -> {
             String query = etSearch.getText().toString();
             if(!query.isEmpty()){
-                List<Diem> results = diemDAO.searchDiem("%" + query + "%");
-                adapter.setDiemList(results);
-                Toast.makeText(this, "Tìm thấy " + results.size() + " kết quả", Toast.LENGTH_SHORT).show();
+                currentList = diemDAO.searchDiem("%" + query + "%");
+                adapter.setDiemList(currentList);
+                Toast.makeText(this, "Tìm thấy " + currentList.size() + " kết quả", Toast.LENGTH_SHORT).show();
             } else {
                 loadData();
             }
@@ -72,9 +81,9 @@ public class DiemUI extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new DiemAdapter(currentList, diem -> {
-            selectedDiem = diem;
-            displaySelectedDiem();
+        adapter = new DiemAdapter(currentList, display -> {
+            selectedDiem = display.getDiem();
+            displaySelectedDiem(display);
         });
         rvGrades.setAdapter(adapter);
     }
@@ -82,7 +91,6 @@ public class DiemUI extends AppCompatActivity {
     private void loadData() {
         String selectedSubject = null;
         if (spinnerSubject.getSelectedItemPosition() > 0) {
-            // "Môn: Toán" -> "MH01" (Giả định mapping đơn giản cho bản demo)
             String subjectText = spinnerSubject.getSelectedItem().toString();
             if (subjectText.contains("Toán")) selectedSubject = "MH01";
             else if (subjectText.contains("Văn")) selectedSubject = "MH02";
@@ -104,14 +112,14 @@ public class DiemUI extends AppCompatActivity {
         adapter.setDiemList(currentList);
     }
 
-    private void displaySelectedDiem() {
+    private void displaySelectedDiem(DiemDisplay display) {
         if (selectedDiem != null) {
             etMaHS.setText("Mã HS: " + selectedDiem.getMaHS());
-            etHoTen.setText("Học sinh: " + (selectedDiem.getTenHS() != null ? selectedDiem.getTenHS() : "---"));
-            et15p.setText(String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiem15p()));
-            et1Tiet.setText(String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiem1Tiet()));
-            etGK.setText(String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiemGiuaKy()));
-            etCK.setText(String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiemCuoiKy()));
+            etHoTen.setText("Học sinh: " + (display.getTenHS() != null ? display.getTenHS() : "---"));
+            et15p.setText(selectedDiem.getDiem15p() != null ? String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiem15p()) : "");
+            et1Tiet.setText(selectedDiem.getDiem1Tiet() != null ? String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiem1Tiet()) : "");
+            etGK.setText(selectedDiem.getDiemGiuaKy() != null ? String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiemGiuaKy()) : "");
+            etCK.setText(selectedDiem.getDiemCuoiKy() != null ? String.format(java.util.Locale.US, "%.1f", selectedDiem.getDiemCuoiKy()) : "");
         }
     }
 
@@ -126,6 +134,7 @@ public class DiemUI extends AppCompatActivity {
             selectedDiem.setDiem1Tiet(Double.parseDouble(et1Tiet.getText().toString()));
             selectedDiem.setDiemGiuaKy(Double.parseDouble(etGK.getText().toString()));
             selectedDiem.setDiemCuoiKy(Double.parseDouble(etCK.getText().toString()));
+            selectedDiem.setDiemTongKet(selectedDiem.calculateDiemTongKet());
 
             diemDAO.update(selectedDiem);
             loadData();
@@ -164,8 +173,61 @@ public class DiemUI extends AppCompatActivity {
         rvGrades.setLayoutManager(new LinearLayoutManager(this));
 
         btnExport.setOnClickListener(v -> {
-            Toast.makeText(this, "Tính năng Xuất Excel đang được phát triển", Toast.LENGTH_SHORT).show();
+            exportToExcel();
         });
+    }
+
+    private void exportToExcel() {
+        if (currentList.isEmpty()) {
+            Toast.makeText(this, "Danh sách trống, không thể xuất!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("BangDiem");
+
+        // Header
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Mã HS");
+        headerRow.createCell(1).setCellValue("Họ Tên");
+        headerRow.createCell(2).setCellValue("Môn");
+        headerRow.createCell(3).setCellValue("HK");
+        headerRow.createCell(4).setCellValue("15p");
+        headerRow.createCell(5).setCellValue("1 Tiết");
+        headerRow.createCell(6).setCellValue("Giữa Kỳ");
+        headerRow.createCell(7).setCellValue("Cuối Kỳ");
+        headerRow.createCell(8).setCellValue("Trung Bình");
+
+        // Data
+        for (int i = 0; i < currentList.size(); i++) {
+            DiemDisplay display = currentList.get(i);
+            Diem d = display.getDiem();
+            Row row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(d.getMaHS());
+            row.createCell(1).setCellValue(display.getTenHS());
+            row.createCell(2).setCellValue(display.getTenMH());
+            row.createCell(3).setCellValue(d.getHocKy());
+            row.createCell(4).setCellValue(d.getDiem15p() != null ? d.getDiem15p() : 0.0);
+            row.createCell(5).setCellValue(d.getDiem1Tiet() != null ? d.getDiem1Tiet() : 0.0);
+            row.createCell(6).setCellValue(d.getDiemGiuaKy() != null ? d.getDiemGiuaKy() : 0.0);
+            row.createCell(7).setCellValue(d.getDiemCuoiKy() != null ? d.getDiemCuoiKy() : 0.0);
+            row.createCell(8).setCellValue(d.getDiemTongKet() != null ? d.getDiemTongKet() : 0.0);
+        }
+
+        try {
+            File cachePath = new File(getExternalFilesDir(null), "exports");
+            if (!cachePath.exists()) cachePath.mkdirs();
+            File file = new File(cachePath, "BangDiem_" + System.currentTimeMillis() + ".xlsx");
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+
+            Toast.makeText(this, "Đã lưu tại: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Lỗi khi xuất Excel: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initDatabase() {
@@ -173,38 +235,6 @@ public class DiemUI extends AppCompatActivity {
         diemDAO = db.diemDAO();
         hocSinhDAO = db.hocSinhDAO();
         monHocDAO = db.monHocDAO();
-        
-//        // Thêm dữ liệu mẫu nếu DB trống
-//        if (diemDAO.getAll().isEmpty()) {
-//            // Thêm môn học
-//            monHocDAO.insert(new MonHoc("MH01", "Toán"));
-//            monHocDAO.insert(new MonHoc("MH02", "Văn"));
-//            monHocDAO.insert(new MonHoc("MH03", "Anh"));
-//
-//            // Thêm học sinh
-//            HocSinh hs1 = new HocSinh(); hs1.setMaHS("HS001"); hs1.setHoTen("Nguyễn Văn An"); hocSinhDAO.insert(hs1);
-//            HocSinh hs2 = new HocSinh(); hs2.setMaHS("HS002"); hs2.setHoTen("Trần Thị Bình"); hocSinhDAO.insert(hs2);
-//            HocSinh hs3 = new HocSinh(); hs3.setMaHS("HS003"); hs3.setHoTen("Lê Văn Cường"); hocSinhDAO.insert(hs3);
-//            HocSinh hs4 = new HocSinh(); hs4.setMaHS("HS004"); hs4.setHoTen("Phạm Minh Đức"); hocSinhDAO.insert(hs4);
-//
-//            // Thêm điểm
-//            diemDAO.insert(new Diem("HS001", "MH01", 1, 8.5, 7.0, 9.0, 8.0) {{
-//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-//            }});
-//            diemDAO.insert(new Diem("HS002", "MH01", 1, 6.0, 7.5, 8.0, 7.0) {{
-//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-//            }});
-//            diemDAO.insert(new Diem("HS003", "MH02", 1, 9.0, 9.0, 8.5, 9.5) {{
-//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-//            }});
-//            diemDAO.insert(new Diem("HS004", "MH03", 1, 7.0, 8.0, 7.5, 8.5) {{
-//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-//            }});
-//        }
     }
 
     private void setupSpinners() {
@@ -212,8 +242,8 @@ public class DiemUI extends AppCompatActivity {
         String[] subjects = {"--- Tất cả môn ---", "Môn: Toán", "Môn: Văn", "Môn: Anh"};
         String[] semesters = {"--- Tất cả HK ---", "HK: 1", "HK: 2"};
 
-        spinnerClass.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, classes));
-        spinnerSubject.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, subjects));
-        spinnerSemester.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, semesters));
+        spinnerClass.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, classes));
+        spinnerSubject.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, subjects));
+        spinnerSemester.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, semesters));
     }
 }

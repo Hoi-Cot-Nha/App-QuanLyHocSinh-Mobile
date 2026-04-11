@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "HocPhi",
         foreignKeys = {@ForeignKey(entity = HocSinh.class,
-                parentColumns = "maHS",
+                parentColumns = "MaHS",
                 childColumns = "maHS",
                 onDelete = ForeignKey.CASCADE,
                 onUpdate = ForeignKey.CASCADE)},
