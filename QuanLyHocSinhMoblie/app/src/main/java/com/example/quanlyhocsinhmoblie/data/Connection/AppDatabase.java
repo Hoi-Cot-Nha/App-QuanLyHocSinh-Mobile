@@ -21,7 +21,7 @@ import com.example.quanlyhocsinhmoblie.data.Model.*;
     Thongbao.class, DoiTuongUuTien.class
     */
 }, version = 1, exportSchema = false)
-@TypeConverters({Converters.class})
+//@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;

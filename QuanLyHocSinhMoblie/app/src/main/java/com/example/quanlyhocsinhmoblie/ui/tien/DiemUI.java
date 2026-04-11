@@ -176,37 +176,37 @@ public class DiemUI extends AppCompatActivity {
         hocSinhDAO = db.hocSinhDAO();
         monHocDAO = db.monHocDAO();
         
-        // Thêm dữ liệu mẫu nếu DB trống
-        if (diemDAO.getAll().isEmpty()) {
-            // Thêm môn học
-            monHocDAO.insert(new MonHoc("MH01", "Toán"));
-            monHocDAO.insert(new MonHoc("MH02", "Văn"));
-            monHocDAO.insert(new MonHoc("MH03", "Anh"));
-
-            // Thêm học sinh
-            HocSinh hs1 = new HocSinh(); hs1.setMaHS("HS001"); hs1.setHoTen("Nguyễn Văn An"); hocSinhDAO.insert(hs1);
-            HocSinh hs2 = new HocSinh(); hs2.setMaHS("HS002"); hs2.setHoTen("Trần Thị Bình"); hocSinhDAO.insert(hs2);
-            HocSinh hs3 = new HocSinh(); hs3.setMaHS("HS003"); hs3.setHoTen("Lê Văn Cường"); hocSinhDAO.insert(hs3);
-            HocSinh hs4 = new HocSinh(); hs4.setMaHS("HS004"); hs4.setHoTen("Phạm Minh Đức"); hocSinhDAO.insert(hs4);
-
-            // Thêm điểm
-            diemDAO.insert(new Diem("HS001", "MH01", 1, 8.5, 7.0, 9.0, 8.0) {{
-                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-            }});
-            diemDAO.insert(new Diem("HS002", "MH01", 1, 6.0, 7.5, 8.0, 7.0) {{
-                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-            }});
-            diemDAO.insert(new Diem("HS003", "MH02", 1, 9.0, 9.0, 8.5, 9.5) {{
-                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-            }});
-            diemDAO.insert(new Diem("HS004", "MH03", 1, 7.0, 8.0, 7.5, 8.5) {{
-                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
-                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
-            }});
-        }
+//        // Thêm dữ liệu mẫu nếu DB trống
+//        if (diemDAO.getAll().isEmpty()) {
+//            // Thêm môn học
+//            monHocDAO.insert(new MonHoc("MH01", "Toán"));
+//            monHocDAO.insert(new MonHoc("MH02", "Văn"));
+//            monHocDAO.insert(new MonHoc("MH03", "Anh"));
+//
+//            // Thêm học sinh
+//            HocSinh hs1 = new HocSinh(); hs1.setMaHS("HS001"); hs1.setHoTen("Nguyễn Văn An"); hocSinhDAO.insert(hs1);
+//            HocSinh hs2 = new HocSinh(); hs2.setMaHS("HS002"); hs2.setHoTen("Trần Thị Bình"); hocSinhDAO.insert(hs2);
+//            HocSinh hs3 = new HocSinh(); hs3.setMaHS("HS003"); hs3.setHoTen("Lê Văn Cường"); hocSinhDAO.insert(hs3);
+//            HocSinh hs4 = new HocSinh(); hs4.setMaHS("HS004"); hs4.setHoTen("Phạm Minh Đức"); hocSinhDAO.insert(hs4);
+//
+//            // Thêm điểm
+//            diemDAO.insert(new Diem("HS001", "MH01", 1, 8.5, 7.0, 9.0, 8.0) {{
+//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
+//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
+//            }});
+//            diemDAO.insert(new Diem("HS002", "MH01", 1, 6.0, 7.5, 8.0, 7.0) {{
+//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
+//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
+//            }});
+//            diemDAO.insert(new Diem("HS003", "MH02", 1, 9.0, 9.0, 8.5, 9.5) {{
+//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
+//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
+//            }});
+//            diemDAO.insert(new Diem("HS004", "MH03", 1, 7.0, 8.0, 7.5, 8.5) {{
+//                setTenHS(hocSinhDAO.getTenHocSinh(getMaHS()));
+//                setTenMH(monHocDAO.getTenMonHoc(getMaMH()));
+//            }});
+//        }
     }
 
     private void setupSpinners() {
