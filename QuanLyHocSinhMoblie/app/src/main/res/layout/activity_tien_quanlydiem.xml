@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/color_primary_blue">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8.5dp"
+            android:text="QUẢN LÝ ĐIỂM SỐ"
+            android:textAlignment="center"
+            android:textColor="@color/color_primary_blue_dark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:background="@color/white" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. BỘ LỌC DANH SÁCH"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Spinner android:id="@+id/spinner_class" android:layout_width="0dp" android:layout_weight="1" android:layout_height="54dp" />
+                        <Spinner android:id="@+id/spinner_subject" android:layout_width="0dp" android:layout_weight="1" android:layout_height="54dp" />
+                        <Spinner android:id="@+id/spinner_semester" android:layout_width="0dp" android:layout_weight="1" android:layout_height="54dp" />
+
+                        <Button android:id="@+id/btn_filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LỌC"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/color_secondary_teal" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. TÌM KIẾM NHANH"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="54dp"
+                        android:hint="Tên hoặc Mã học sinh..."
+                        android:textSize="18sp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="12dp"/>
+
+                    <Button
+                        android:id="@+id/btn_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TÌM"
+                        android:textSize="18sp"
+                        android:backgroundTint="@color/color_primary_blue" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. DANH SÁCH CHI TIẾT"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/color_primary_blue_dark"
+                            android:padding="12dp">
+                            <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Mã HS" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="160dp" android:layout_height="wrap_content" android:text="Họ Tên" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="Môn" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="40dp" android:layout_height="wrap_content" android:text="HK" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="15p" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="1 Tiết" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="G.Kỳ" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="70dp" android:layout_height="wrap_content" android:text="C.Kỳ" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="T.Kết" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_grades"
+                            android:layout_width="wrap_content"
+                            android:layout_height="300dp" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. CẬP NHẬT ĐIỂM SỐ"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView android:id="@+id/et_mahs_update" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Mã HS: --" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/color_primary_blue_dark" android:layout_marginBottom="4dp"/>
+                    <TextView android:id="@+id/et_hoten_update" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Học sinh: --" android:textSize="20sp" android:textStyle="bold" android:textColor="@color/color_primary_blue" android:layout_marginBottom="16dp"/>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Điểm 15p" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_diem15p" android:layout_width="match_parent" android:layout_height="54dp" android:inputType="numberDecimal" android:textSize="20sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Điểm 1 Tiết" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_diem1tiet" android:layout_width="match_parent" android:layout_height="54dp" android:inputType="numberDecimal" android:textSize="20sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Điểm Giữa Kỳ" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_diemgk" android:layout_width="match_parent" android:layout_height="54dp" android:inputType="numberDecimal" android:textSize="20sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Điểm Cuối Kỳ" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_diemck" android:layout_width="match_parent" android:layout_height="54dp" android:inputType="numberDecimal" android:textSize="20sp" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </GridLayout>
+
+                    <Button
+                        android:id="@+id/btn_update_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="20dp"
+                        android:text="LƯU DỮ LIỆU"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:backgroundTint="@color/color_secondary_teal" />
+
+                    <Button
+                        android:id="@+id/btn_export_excel"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="12dp"
+                        android:text="XUẤT EXCEL"
+                        android:textSize="20sp"
+                        android:backgroundTint="@color/color_primary_blue_dark" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

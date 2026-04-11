@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#222D32"
-    tools:context=".MainForm.MainForm">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/color_primary_blue">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Header Title -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:outlineAmbientShadowColor="@color/black"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        app:cardElevation="4dp">
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/design_default_color_primary"
-            app:title="Chào mừng đến với QLHS"
-            app:titleCentered="true" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="HỆ THỐNG QUẢN LÝ HỌC SINH"
+            android:textAlignment="center"
+            android:textColor="@color/color_primary_blue_dark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:background="@color/white" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:fadeScrollbars="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,129 +38,154 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- LAB 1 -->
+            <!-- NHÓM 1: HỒ SƠ & CƠ CẤU -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hồ sơ & Cơ Cấu"
-                android:textSize="14sp"
+                android:text="1. HỒ SƠ &amp; CƠ CẤU"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginBottom="24dp">
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="1"
+                    android:orientation="vertical"
                     android:padding="8dp">
 
-                    <Button android:id="@+id/btnQLlopHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý lớp học" />
-                    <Button android:id="@+id/btnQLgiaoVien" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý giáo viên" />
-                    <Button android:id="@+id/btnQLtoBoMon" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý tổ bộ môn" />
-                    </GridLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <Button android:id="@+id/btn_classes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LỚP HỌC" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_teachers" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="GIÁO VIÊN" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_departments" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="TỔ BỘ MÔN" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- LAB 2 -->
+            <!-- NHÓM 2: ĐÀO TẠO -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đào tạo"
-                android:textSize="14sp"
+                android:text="2. ĐÀO TẠO"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginBottom="24dp">
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="1"
+                    android:orientation="vertical"
                     android:padding="8dp">
 
-                    <Button android:id="@+id/btnQLmonHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý môn học" />
-                    <Button android:id="@+id/btnQLthoiKhoaBieu" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý thời khóa biểu" />
-                    <Button android:id="@+id/btnQLphongHoc" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Quản lý phòng học & thiết bị" />
-                </GridLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <Button android:id="@+id/btn_subjects" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MÔN HỌC" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_schedule" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LỊCH DẠY" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_facilities" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="THIẾT BỊ" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- LAB 3 -->
+            <!-- NHÓM 3: KHẢO THÍ & KẾT QUẢ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Khảo thí & kết quả"
-                android:textSize="14sp"
+                android:text="3. KHẢO THÍ &amp; KẾT QUẢ"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginBottom="24dp">
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="2"
+                    android:orientation="vertical"
                     android:padding="8dp">
 
-                    <Button android:id="@+id/btnL3Football" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Football" />
-                    <Button android:id="@+id/btnL3B1" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 1" />
-                    <Button android:id="@+id/btnL3B2" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 2" />
-                    <Button android:id="@+id/btnL3B3" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 3" />
-                    <Button android:id="@+id/btnL3B4" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 4" />
-                </GridLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <Button android:id="@+id/btn_grades" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ĐIỂM SỐ" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_conduct" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="HẠNH KIỂM" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_exams" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LỊCH THI" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- LAB 3 MENU -->
+            <!-- NHÓM 4: HÀNH CHÍ & TÀI VỤ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hành chính & Chính sách"
-                android:textSize="14sp"
+                android:text="4. HÀNH CHÍNH &amp; TÀI VỤ"
+                android:textColor="@color/white"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginBottom="24dp">
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="3"
+                    android:orientation="vertical"
                     android:padding="8dp">
 
-                    <Button android:id="@+id/btnL3MenuB1" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 1" />
-                    <Button android:id="@+id/btnL3MenuB2" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 2" />
-                    <Button android:id="@+id/btnL3MenuB3" style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="Bài 3" />
-                </GridLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <Button android:id="@+id/btn_tuition" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="HỌC PHÍ" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_notifications" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="THÔNG BÁO" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_phuckhao" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PHÚC KHẢO" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- NHÓM 5: HỆ THỐNG & CHÍNH SÁCH -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5. HỆ THỐNG &amp; CHÍNH SÁCH"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <Button android:id="@+id/btn_student_info" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="HỒ SƠ HS" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_users" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="TÀI KHOẢN" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_policy" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CHÍNH SÁCH" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+                    <Button android:id="@+id/btn_logout" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ĐĂNG XUẤT" android:textColor="@color/color_primary_blue" android:textSize="20sp" android:gravity="start|center_vertical" android:paddingStart="20dp" android:background="@android:color/transparent" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
