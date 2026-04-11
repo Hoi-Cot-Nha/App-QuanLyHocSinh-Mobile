@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "QuanLyHocSinhMoblie"
+rootProject.name = "QuanLyHocSinhMobile"
 include(":app")
  
