@@ -39,4 +39,23 @@ public class PhucKhao {
 
     public String getTrangThai() { return trangThai; }
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
+
+    public static class Display {
+        private PhucKhao phucKhao;
+        private String tenHS;
+        private String tenMH;
+        private String tenLop;
+
+        public Display(PhucKhao phucKhao, String tenHS, String tenMH, String tenLop) {
+            this.phucKhao = phucKhao;
+            this.tenHS = tenHS;
+            this.tenMH = tenMH;
+            this.tenLop = tenLop;
+        }
+
+        public PhucKhao getPhucKhao() { return phucKhao; }
+        public String getTenHS() { return tenHS; }
+        public String getTenMH() { return tenMH; }
+        public String getTenLop() { return tenLop; }
+    }
 }

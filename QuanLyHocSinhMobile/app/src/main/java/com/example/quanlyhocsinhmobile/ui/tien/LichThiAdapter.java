@@ -10,25 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.data.Model.LichThi;
-import com.example.quanlyhocsinhmobile.data.Model.LichThiDisplay;
 
 import java.util.List;
 
 public class LichThiAdapter extends RecyclerView.Adapter<LichThiAdapter.LichThiViewHolder> {
 
-    private List<LichThiDisplay> lichThiList;
+    private List<LichThi.Display> lichThiList;
     private final OnLichThiClickListener listener;
 
     public interface OnLichThiClickListener {
-        void onLichThiClick(LichThiDisplay display);
+        void onLichThiClick(LichThi.Display display);
     }
 
-    public LichThiAdapter(List<LichThiDisplay> lichThiList, OnLichThiClickListener listener) {
+    public LichThiAdapter(List<LichThi.Display> lichThiList, OnLichThiClickListener listener) {
         this.lichThiList = lichThiList;
         this.listener = listener;
     }
 
-    public void setLichThiList(List<LichThiDisplay> lichThiList) {
+    public void setLichThiList(List<LichThi.Display> lichThiList) {
         this.lichThiList = lichThiList;
         notifyDataSetChanged();
     }
@@ -42,7 +41,7 @@ public class LichThiAdapter extends RecyclerView.Adapter<LichThiAdapter.LichThiV
 
     @Override
     public void onBindViewHolder(@NonNull LichThiViewHolder holder, int position) {
-        LichThiDisplay display = lichThiList.get(position);
+        LichThi.Display display = lichThiList.get(position);
         holder.bind(display, listener);
     }
 
@@ -63,7 +62,7 @@ public class LichThiAdapter extends RecyclerView.Adapter<LichThiAdapter.LichThiV
             tvPhong = itemView.findViewById(R.id.tv_phong);
         }
 
-        public void bind(LichThiDisplay display, OnLichThiClickListener listener) {
+        public void bind(LichThi.Display display, OnLichThiClickListener listener) {
             LichThi lichThi = display.getLichThi();
             tvTenKyThi.setText(lichThi.getTenKyThi());
             tvMon.setText(display.getTenMH() != null ? display.getTenMH() : lichThi.getMaMH());

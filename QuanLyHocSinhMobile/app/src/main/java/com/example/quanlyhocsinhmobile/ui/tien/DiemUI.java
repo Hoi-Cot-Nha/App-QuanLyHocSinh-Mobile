@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.Controller_View.DiemController;
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
-import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 import com.example.quanlyhocsinhmobile.data.Model.Lop;
 import com.example.quanlyhocsinhmobile.data.Model.MonHoc;
 
@@ -32,7 +31,7 @@ public class DiemUI extends AppCompatActivity {
 
     private DiemController controller;
     private DiemAdapter adapter;
-    private List<DiemDisplay> currentList = new ArrayList<>();
+    private List<Diem.Display> currentList = new ArrayList<>();
     private List<Lop> listLop = new ArrayList<>();
     private List<MonHoc> listMonHoc = new ArrayList<>();
     private Diem selectedDiem;
@@ -82,7 +81,7 @@ public class DiemUI extends AppCompatActivity {
     }
 
     private void loadData() {
-        String maMH = null;
+        String maMH = "";
         int subjectPos = spinnerSubject.getSelectedItemPosition();
         if (subjectPos > 0 && !listMonHoc.isEmpty()) {
             maMH = listMonHoc.get(subjectPos - 1).getMaMH();
@@ -93,7 +92,7 @@ public class DiemUI extends AppCompatActivity {
         if (semesterPos == 1) hocKy = 1;
         else if (semesterPos == 2) hocKy = 2;
 
-        String maLop = null;
+        String maLop = "";
         int lopPos = spinnerClass.getSelectedItemPosition();
         if (lopPos > 0 && !listLop.isEmpty()) {
             maLop = listLop.get(lopPos - 1).getMaLop();
@@ -103,7 +102,7 @@ public class DiemUI extends AppCompatActivity {
         adapter.setDiemList(currentList);
     }
 
-    private void displaySelectedDiem(DiemDisplay display) {
+    private void displaySelectedDiem(Diem.Display display) {
         if (selectedDiem != null) {
             etMaHS.setText("Mã HS: " + selectedDiem.getMaHS());
             etHoTen.setText("Học sinh: " + (display.getTenHS() != null ? display.getTenHS() : "---"));

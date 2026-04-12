@@ -170,8 +170,10 @@ public class KhoiTaoDatabase {
             db.execSQL("INSERT INTO LichThi (TenKyThi, MaMH, NgayThi, GioBatDau, GioKetThuc, MaPhong) VALUES " +
                     "('Thi Giữa Kỳ 1', 'MH01', '2026-10-15', '07:30', '09:00', 'P101');");
 
+/*
             db.execSQL("INSERT INTO PhucKhao (MaHS, MaMH, LyDo, TrangThai) VALUES " +
                     "('HS001', 'MH01', 'Em thấy điểm tự luận bị chấm thiếu.', 'Đang chờ xử lý');");
+*/
 
             db.execSQL("INSERT INTO ThoiKhoaBieu (MaLop, MaMH, MaGV, MaPhong, Thu, TietBatDau, TietKetThuc) VALUES " +
                     "('10A1', 'MH01', 'GV01', 'P101', 2, 1, 2);");

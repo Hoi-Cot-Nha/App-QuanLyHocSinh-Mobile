@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.Controller_View.LichThiController;
 import com.example.quanlyhocsinhmobile.data.Model.LichThi;
-import com.example.quanlyhocsinhmobile.data.Model.LichThiDisplay;
 import com.example.quanlyhocsinhmobile.data.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.data.Model.PhongHoc;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +39,7 @@ public class LichThiUI extends AppCompatActivity {
 
     private LichThiController controller;
     private LichThiAdapter adapter;
-    private List<LichThiDisplay> currentList = new ArrayList<>();
+    private List<LichThi.Display> currentList = new ArrayList<>();
     private LichThi selectedLichThi;
 
     private List<MonHoc> listMonHoc = new ArrayList<>();

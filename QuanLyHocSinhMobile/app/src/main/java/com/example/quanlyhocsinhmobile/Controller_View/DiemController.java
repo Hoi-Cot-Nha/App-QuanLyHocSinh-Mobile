@@ -9,7 +9,6 @@ import com.example.quanlyhocsinhmobile.data.DAO.DiemDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.LopDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.MonHocDAO;
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
-import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 import com.example.quanlyhocsinhmobile.data.Model.Lop;
 import com.example.quanlyhocsinhmobile.data.Model.MonHoc;
 
@@ -45,18 +44,15 @@ public class DiemController {
         return monHocDAO.getAll();
     }
 
-    public List<DiemDisplay> getAllDiem() {
+    public List<Diem.Display> getAllDiem() {
         return diemDAO.getAll();
     }
 
-    public List<DiemDisplay> searchDiem(String query) {
+    public List<Diem.Display> searchDiem(String query) {
         return diemDAO.searchDiem("%" + query + "%");
     }
 
-    public List<DiemDisplay> filterDiem(String maMH, int hocKy, String maLop) {
-        if (maMH == null && hocKy == 0 && maLop == null) {
-            return getAllDiem();
-        }
+    public List<Diem.Display> filterDiem(String maMH, int hocKy, String maLop) {
         return diemDAO.filterDiem(maMH, hocKy, maLop);
     }
 
@@ -76,7 +72,7 @@ public class DiemController {
         }
     }
 
-    public void exportToExcel(List<DiemDisplay> list) {
+    public void exportToExcel(List<Diem.Display> list) {
         if (list == null || list.isEmpty()) {
             Toast.makeText(context, "Danh sách trống, không thể xuất!", Toast.LENGTH_SHORT).show();
             return;
@@ -97,7 +93,7 @@ public class DiemController {
         headerRow.createCell(8).setCellValue("Trung Bình");
 
         for (int i = 0; i < list.size(); i++) {
-            DiemDisplay display = list.get(i);
+            Diem.Display display = list.get(i);
             Diem d = display.getDiem();
             Row row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(d.getMaHS());

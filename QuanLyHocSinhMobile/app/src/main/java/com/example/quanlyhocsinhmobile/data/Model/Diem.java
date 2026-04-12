@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
+import androidx.room.Embedded;
 
 @Entity(tableName = "Diem",
         primaryKeys = {"maHS", "maMH", "hocKy"},
@@ -74,5 +75,27 @@ public class Diem {
         double dgk = (diemGiuaKy != null) ? diemGiuaKy : 0;
         double dck = (diemCuoiKy != null) ? diemCuoiKy : 0;
         return (d15 + d1t + dgk * 2 + dck * 3) / 7.0;
+    }
+
+    public static class Display {
+        @Embedded
+        private Diem diem;
+        private String tenHS;
+        private String tenMH;
+        private String tenLop;
+
+        public Display() {}
+
+        public Diem getDiem() { return diem; }
+        public void setDiem(Diem diem) { this.diem = diem; }
+
+        public String getTenHS() { return tenHS; }
+        public void setTenHS(String tenHS) { this.tenHS = tenHS; }
+
+        public String getTenMH() { return tenMH; }
+        public void setTenMH(String tenMH) { this.tenMH = tenMH; }
+
+        public String getTenLop() { return tenLop; }
+        public void setTenLop(String tenLop) { this.tenLop = tenLop; }
     }
 }

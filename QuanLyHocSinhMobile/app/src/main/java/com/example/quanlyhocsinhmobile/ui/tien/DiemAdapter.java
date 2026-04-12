@@ -10,26 +10,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.data.Model.Diem;
-import com.example.quanlyhocsinhmobile.data.Model.DiemDisplay;
 
 import java.util.List;
 import java.util.Locale;
 
 public class DiemAdapter extends RecyclerView.Adapter<DiemAdapter.DiemViewHolder> {
 
-    private List<DiemDisplay> diemList;
+    private List<Diem.Display> diemList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(DiemDisplay display);
+        void onItemClick(Diem.Display display);
     }
 
-    public DiemAdapter(List<DiemDisplay> diemList, OnItemClickListener listener) {
+    public DiemAdapter(List<Diem.Display> diemList, OnItemClickListener listener) {
         this.diemList = diemList;
         this.listener = listener;
     }
 
-    public void setDiemList(List<DiemDisplay> diemList) {
+    public void setDiemList(List<Diem.Display> diemList) {
         this.diemList = diemList;
         notifyDataSetChanged();
     }
@@ -43,7 +42,7 @@ public class DiemAdapter extends RecyclerView.Adapter<DiemAdapter.DiemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DiemViewHolder holder, int position) {
-        DiemDisplay display = diemList.get(position);
+        Diem.Display display = diemList.get(position);
         Diem diem = display.getDiem();
         holder.tvMaHS.setText(diem.getMaHS());
         holder.tvHoTen.setText(display.getTenHS() != null ? display.getTenHS() : "N/A");

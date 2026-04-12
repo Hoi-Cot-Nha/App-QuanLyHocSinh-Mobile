@@ -9,7 +9,6 @@ import com.example.quanlyhocsinhmobile.data.DAO.LichThiDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.MonHocDAO;
 import com.example.quanlyhocsinhmobile.data.DAO.PhongHocDAO;
 import com.example.quanlyhocsinhmobile.data.Model.LichThi;
-import com.example.quanlyhocsinhmobile.data.Model.LichThiDisplay;
 import com.example.quanlyhocsinhmobile.data.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.data.Model.PhongHoc;
 
@@ -37,11 +36,11 @@ public class LichThiController {
         this.phongHocDAO = db.phongHocDAO();
     }
 
-    public List<LichThiDisplay> getAllLichThi() {
+    public List<LichThi.Display> getAllLichThi() {
         return lichThiDAO.getAll();
     }
 
-    public List<LichThiDisplay> searchLichThi(String query) {
+    public List<LichThi.Display> searchLichThi(String query) {
         return lichThiDAO.searchLichThi("%" + query + "%");
     }
 
@@ -100,7 +99,7 @@ public class LichThiController {
         lichThiDAO.delete(lichThi);
     }
 
-    public void exportToExcel(List<LichThiDisplay> list) {
+    public void exportToExcel(List<LichThi.Display> list) {
         if (list == null || list.isEmpty()) {
             Toast.makeText(context, "Danh sách trống, không thể xuất!", Toast.LENGTH_SHORT).show();
             return;
@@ -119,7 +118,7 @@ public class LichThiController {
         headerRow.createCell(6).setCellValue("Giờ Kết Thúc");
 
         for (int i = 0; i < list.size(); i++) {
-            LichThiDisplay display = list.get(i);
+            LichThi.Display display = list.get(i);
             LichThi lt = display.getLichThi();
             Row row = sheet.createRow(i + 1);
             row.createCell(0).setCellValue(lt.getMaLT());

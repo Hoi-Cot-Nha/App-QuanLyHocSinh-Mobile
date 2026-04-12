@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.quanlyhocsinhmobile.data.Model.LichThi;
-import com.example.quanlyhocsinhmobile.data.Model.LichThiDisplay;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface LichThiDAO {
            "FROM LichThi " +
            "LEFT JOIN MonHoc ON LichThi.maMH = MonHoc.MaMH " +
            "LEFT JOIN PhongHoc ON LichThi.maPhong = PhongHoc.MaPhong")
-    List<LichThiDisplay> getAll();
+    List<LichThi.Display> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(LichThi lichThi);
@@ -35,5 +34,5 @@ public interface LichThiDAO {
            "LEFT JOIN MonHoc ON LichThi.maMH = MonHoc.MaMH " +
            "LEFT JOIN PhongHoc ON LichThi.maPhong = PhongHoc.MaPhong " +
            "WHERE LichThi.tenKyThi LIKE :search OR MonHoc.TenMH LIKE :search")
-    List<LichThiDisplay> searchLichThi(String search);
+    List<LichThi.Display> searchLichThi(String search);
 }

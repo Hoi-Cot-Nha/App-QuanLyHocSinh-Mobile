@@ -3,6 +3,7 @@ package com.example.quanlyhocsinhmobile.data.Model;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Embedded;
 
 @Entity(tableName = "HanhKiem",
         primaryKeys = {"maHS", "hocKy", "namHoc"},
@@ -39,4 +40,22 @@ public class HanhKiem {
 
     public String getNhanXet() { return nhanXet; }
     public void setNhanXet(String nhanXet) { this.nhanXet = nhanXet; }
+
+    public static class Display {
+        @Embedded
+        private HanhKiem hanhKiem;
+        private String tenHS;
+        private String tenLop;
+
+        public Display() {}
+
+        public HanhKiem getHanhKiem() { return hanhKiem; }
+        public void setHanhKiem(HanhKiem hanhKiem) { this.hanhKiem = hanhKiem; }
+
+        public String getTenHS() { return tenHS; }
+        public void setTenHS(String tenHS) { this.tenHS = tenHS; }
+
+        public String getTenLop() { return tenLop; }
+        public void setTenLop(String tenLop) { this.tenLop = tenLop; }
+    }
 }

@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
     TaiKhoan.class, GiaoVien.class, Lop.class, HocSinh.class,
     ThoiKhoaBieu.class, Diem.class, HanhKiem.class, LichThi.class,
     HocPhi.class, ThongBao.class, PhucKhao.class
-}, version = 16, exportSchema = false)
+}, version = 17, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     // --- 1. Khai báo các DAO ---
@@ -28,8 +28,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract LichThiDAO lichThiDAO();
     public abstract PhongHocDAO phongHocDAO();
     public abstract LopDAO lopDAO();
+    public abstract HanhKiemDAO hanhKiemDAO();
+    public abstract HocPhiDAO hocPhiDAO();
 
-    // --- 2. Cấu hình Singleton & Executor (cái này để tối ưu database giúp chạy mượt mà
+    //Cấu hình Singleton & Executor (cái này để tối ưu database giúp chạy mượt mà
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);

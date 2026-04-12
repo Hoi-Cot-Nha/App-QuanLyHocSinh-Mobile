@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.Embedded;
 
 @Entity(tableName = "LichThi",
         foreignKeys = {
@@ -43,4 +44,22 @@ public class LichThi {
 
     public String getMaPhong() { return maPhong; }
     public void setMaPhong(String maPhong) { this.maPhong = maPhong; }
+
+    public static class Display {
+        @Embedded
+        private LichThi lichThi;
+        private String tenMH;
+        private String tenPhong;
+
+        public Display() {}
+
+        public LichThi getLichThi() { return lichThi; }
+        public void setLichThi(LichThi lichThi) { this.lichThi = lichThi; }
+
+        public String getTenMH() { return tenMH; }
+        public void setTenMH(String tenMH) { this.tenMH = tenMH; }
+
+        public String getTenPhong() { return tenPhong; }
+        public void setTenPhong(String tenPhong) { this.tenPhong = tenPhong; }
+    }
 }

@@ -9,9 +9,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/iconqlhs"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/iconqlhs"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyHocSinhMoblie">
         <activity
@@ -33,6 +33,12 @@
             android:name=".ui.tien.LichThiUI"
             android:exported="true"
             android:label="Quản lý lịch thi"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
+        <activity
+            android:name=".ui.tien.HanhKiemUI"
+            android:exported="true"
+            android:label="Quản lý hạnh kiểm"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
 
