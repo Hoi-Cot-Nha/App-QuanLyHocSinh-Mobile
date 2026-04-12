@@ -42,24 +42,20 @@ public class DiemViewModel extends AndroidViewModel {
         executorService.execute(() -> {
             lopList.postValue(repository.getAllLop());
             monHocList.postValue(repository.getAllMonHoc());
+            // Tải dữ liệu tất cả điểm ngay khi vào
+            diemList.postValue(repository.filterDiem("", 0, ""));
         });
     }
 
     public void filter(String maMH, int hocKy, String maLop) {
-        executorService.execute(() -> {
-            diemList.postValue(repository.filterDiem(maMH, hocKy, maLop));
-        });
+        executorService.execute(() -> diemList.postValue(repository.filterDiem(maMH, hocKy, maLop)));
     }
 
     public void search(String query) {
-        executorService.execute(() -> {
-            diemList.postValue(repository.searchDiem(query));
-        });
+        executorService.execute(() -> diemList.postValue(repository.searchDiem(query)));
     }
 
     public void update(Diem diem) {
-        executorService.execute(() -> {
-            repository.updateDiem(diem);
-        });
+        executorService.execute(() -> repository.updateDiem(diem));
     }
 }

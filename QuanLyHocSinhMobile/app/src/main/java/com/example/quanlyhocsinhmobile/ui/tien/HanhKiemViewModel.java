@@ -35,19 +35,17 @@ public class HanhKiemViewModel extends AndroidViewModel {
     private void loadLops() {
         executorService.execute(() -> {
             lopList.postValue(repository.getAllLop());
+            // Tải dữ liệu tất cả hạnh kiểm ngay khi vào
+            hanhKiemList.postValue(repository.filterHanhKiem("", 0, ""));
         });
     }
 
     public void filter(String maLop, int hocKy, String namHoc) {
-        executorService.execute(() -> {
-            hanhKiemList.postValue(repository.filterHanhKiem(maLop, hocKy, namHoc));
-        });
+        executorService.execute(() -> hanhKiemList.postValue(repository.filterHanhKiem(maLop, hocKy, namHoc)));
     }
 
     public void search(String query) {
-        executorService.execute(() -> {
-            hanhKiemList.postValue(repository.searchHanhKiem(query));
-        });
+        executorService.execute(() -> hanhKiemList.postValue(repository.searchHanhKiem(query)));
     }
 
     public void update(HanhKiem hanhKiem) {
