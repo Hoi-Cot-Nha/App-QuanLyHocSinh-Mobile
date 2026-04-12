@@ -4,74 +4,179 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/color_primary_blue">
 
-    <!-- Header -->
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary_blue"
-        android:padding="16dp">
-
+        app:cardElevation="8dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8.5dp"
             android:text="QUẢN LÝ LỊCH THI"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/color_primary_blue_dark"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+            android:background="@color/white" />
+    </androidx.cardview.widget.CardView>
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. BỘ LỌC DANH SÁCH"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
 
-                <!-- Search Section -->
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
-                    android:layout_marginBottom="16dp">
-                    <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp"
-                        android:gravity="center_vertical">
-                        <EditText
-                            android:id="@+id/et_search_lichthi"
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:hint="Tìm kiếm kỳ thi hoặc môn..."
-                            android:paddingStart="12dp"
-                            android:background="@drawable/edittext_border"/>
-                        <Button
-                            android:id="@+id/btn_search_lichthi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TÌM"
-                            android:layout_marginStart="8dp"
-                            android:backgroundTint="@color/color_primary_blue"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins">
 
-                <!-- Table Header -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:orientation="vertical"
+                            android:layout_margin="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Môn học"
+                                android:textSize="12sp"
+                                android:textColor="#666666"
+                                android:paddingStart="4dp"/>
+                            <Spinner android:id="@+id/spinner_filter_mon" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:orientation="vertical"
+                            android:layout_margin="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phòng học"
+                                android:textSize="12sp"
+                                android:textColor="#666666"
+                                android:paddingStart="4dp"/>
+                            <Spinner android:id="@+id/spinner_filter_phong" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                        </LinearLayout>
+
+                        <Button android:id="@+id/btn_filter_lichthi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="bottom"
+                            android:layout_margin="4dp"
+                            android:text="LỌC"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/color_secondary_teal" />
+
+                        <Button android:id="@+id/btn_refresh_lichthi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="bottom"
+                            android:layout_margin="4dp"
+                            android:text="LÀM MỚI"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/color_primary_blue" />
+                    </GridLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. TÌM KIẾM NHANH"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <EditText
+                        android:id="@+id/et_search_lichthi"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="54dp"
+                        android:hint="Tìm kỳ thi hoặc môn học..."
+                        android:textSize="18sp"
+                        android:background="@android:color/transparent"
+                        android:paddingStart="12dp"/>
+
+                    <Button
+                        android:id="@+id/btn_search_lichthi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TÌM"
+                        android:textSize="18sp"
+                        android:backgroundTint="@color/color_primary_blue" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. DANH SÁCH CHI TIẾT"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="24dp">
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,144 +185,129 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/color_primary_blue"
+                            android:background="@color/color_primary_blue_dark"
                             android:padding="12dp">
-                            <TextView android:layout_width="150dp" android:layout_height="wrap_content" android:text="Tên Kỳ Thi" android:textColor="@color/white" android:textStyle="bold" android:gravity="center"/>
-                            <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="Môn Học" android:textColor="@color/white" android:textStyle="bold" android:gravity="center"/>
-                            <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Ngày Thi" android:textColor="@color/white" android:textStyle="bold" android:gravity="center"/>
-                            <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="Thời Gian" android:textColor="@color/white" android:textStyle="bold" android:gravity="center"/>
-                            <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Phòng" android:textColor="@color/white" android:textStyle="bold" android:gravity="center"/>
+                            <TextView android:layout_width="150dp" android:layout_height="wrap_content" android:text="Tên Kỳ Thi" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="Môn Học" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Ngày Thi" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="120dp" android:layout_height="wrap_content" android:text="Thời Gian" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                            <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Phòng" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_lichthi"
                             android:layout_width="wrap_content"
-                            android:layout_height="300dp"
-                            android:background="@color/white"/>
+                            android:layout_height="300dp" />
                     </LinearLayout>
                 </HorizontalScrollView>
+            </androidx.cardview.widget.CardView>
 
-                <!-- Form Section -->
-                <androidx.cardview.widget.CardView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. CẬP NHẬT LỊCH THI"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="80dp"
-                    app:cardCornerRadius="8dp">
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tên kỳ thi" android:textSize="16sp" android:textColor="#666666"/>
+                    <EditText android:id="@+id/et_form_tenkythi" android:layout_width="match_parent" android:layout_height="54dp" android:textSize="20sp" android:textStyle="bold" android:hint="Nhập tên kỳ thi..."/>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins"
+                        android:layout_marginTop="16dp">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Môn học" android:textSize="16sp" android:textColor="#666666"/>
+                            <Spinner android:id="@+id/spinner_form_mon" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Phòng học" android:textSize="16sp" android:textColor="#666666"/>
+                            <Spinner android:id="@+id/spinner_form_phong" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Ngày thi" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_form_ngaythi" android:layout_width="match_parent" android:layout_height="54dp" android:focusable="false" android:textSize="18sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Giờ bắt đầu" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_form_giobd" android:layout_width="match_parent" android:layout_height="54dp" android:focusable="false" android:textSize="18sp" android:textStyle="bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
+                            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Giờ kết thúc" android:textSize="16sp" android:textColor="#666666"/>
+                            <EditText android:id="@+id/et_form_giokt" android:layout_width="match_parent" android:layout_height="54dp" android:focusable="false" android:textSize="18sp" android:textStyle="bold"/>
+                        </LinearLayout>
+                    </GridLayout>
+
+                    <Button
+                        android:id="@+id/btn_save_lichthi"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="20dp"
+                        android:text="LƯU DỮ LIỆU"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:backgroundTint="@color/color_secondary_teal" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="THÔNG TIN CHI TIẾT"
-                            android:textStyle="bold"
-                            android:textColor="@color/color_primary_blue"
-                            android:layout_marginBottom="12dp"/>
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp">
 
-                        <EditText android:id="@+id/et_form_tenkythi" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tên Kỳ Thi" />
-                        <Spinner android:id="@+id/spinner_form_mon" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"/>
-                        <EditText android:id="@+id/et_form_ngaythi" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Ngày Thi (dd/mm/yyyy)" android:layout_marginTop="8dp"/>
+                        <Button
+                            android:id="@+id/btn_add_lichthi"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="54dp"
+                            android:text="THÊM MỚI"
+                            android:textSize="16sp"
+                            android:backgroundTint="@color/color_primary_blue"
+                            android:layout_marginEnd="4dp"/>
 
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
-                            <EditText android:id="@+id/et_form_giobd" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Bắt đầu"/>
-                            <EditText android:id="@+id/et_form_giokt" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="Kết thúc" android:layout_marginStart="8dp"/>
-                        </LinearLayout>
-
-                        <Spinner android:id="@+id/spinner_form_phong" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"/>
+                        <Button
+                            android:id="@+id/btn_delete_lichthi"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="54dp"
+                            android:text="XÓA"
+                            android:textSize="16sp"
+                            android:backgroundTint="#F44336"
+                            android:layout_marginStart="4dp"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-        </ScrollView>
 
-        <!-- Circular Menu Container -->
-        <FrameLayout
-            android:id="@+id/layout_circular_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="#80000000">
+                    <Button
+                        android:id="@+id/btn_export_excel_lichthi"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="12dp"
+                        android:text="XUẤT EXCEL"
+                        android:textSize="20sp"
+                        android:backgroundTint="@color/color_primary_blue_dark" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="160dp"
-                android:src="@android:drawable/ic_input_add"
-                app:fabSize="mini"
-                app:tint="@color/white"
-                app:backgroundTint="#4CAF50"
-                contentDescription="Thêm"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="100dp"
-                android:layout_marginBottom="140dp"
-                android:src="@android:drawable/ic_menu_save"
-                app:fabSize="mini"
-                app:tint="@color/white"
-                app:backgroundTint="#2196F3"
-                contentDescription="Lưu"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="140dp"
-                android:layout_marginBottom="80dp"
-                android:src="@android:drawable/ic_menu_delete"
-                app:fabSize="mini"
-                app:tint="@color/white"
-                app:backgroundTint="#F44336"
-                contentDescription="Xóa"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="100dp"
-                android:layout_marginBottom="24dp"
-                android:src="@android:drawable/stat_notify_sync"
-                app:fabSize="mini"
-                app:tint="@color/white"
-                app:backgroundTint="#FF9800"
-                contentDescription="Làm mới"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_excel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="230dp"
-                android:src="@android:drawable/ic_menu_share"
-                app:fabSize="mini"
-                app:tint="@color/white"
-                app:backgroundTint="#1B5E20"
-                contentDescription="Excel"/>
-
-        </FrameLayout>
-
-        <!-- Main FAB -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_options"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="24dp"
-            android:src="@android:drawable/ic_menu_manage"
-            app:backgroundTint="@color/color_primary_blue"
-            app:tint="@color/white"
-            app:fabSize="normal" />
-
-    </FrameLayout>
 </LinearLayout>

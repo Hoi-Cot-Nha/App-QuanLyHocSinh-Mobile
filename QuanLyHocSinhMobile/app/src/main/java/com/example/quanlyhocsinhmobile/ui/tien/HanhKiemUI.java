@@ -1,6 +1,8 @@
 package com.example.quanlyhocsinhmobile.ui.tien;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyhocsinhmobile.R;
-import com.example.quanlyhocsinhmobile.Controller_View.HanhKiemController;
+import com.example.quanlyhocsinhmobile.data.Connection.AppDatabase;
+import com.example.quanlyhocsinhmobile.data.DAO.HanhKiemDAO;
+import com.example.quanlyhocsinhmobile.data.DAO.LopDAO;
 import com.example.quanlyhocsinhmobile.data.Model.HanhKiem;
 import com.example.quanlyhocsinhmobile.data.Model.Lop;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +40,9 @@ public class HanhKiemUI extends AppCompatActivity {
     private Button btnFilter, btnSearch, btnUpdate, btnExport;
     private RecyclerView rvHanhKiem;
 
-    private HanhKiemController controller;
+    private HanhKiemDAO hanhKiemDAO;
+    private LopDAO lopDAO;
+
     private HanhKiemAdapter adapter;
     private List<HanhKiem.Display> currentList = new ArrayList<>();
     private List<Lop> listLop = new ArrayList<>();
@@ -39,7 +53,7 @@ public class HanhKiemUI extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tien_hanhkiem);
 
-        controller = new HanhKiemController(this);
+        initDatabase();
         initViews();
         setupRecyclerView();
         setupSpinners();
@@ -50,7 +64,7 @@ public class HanhKiemUI extends AppCompatActivity {
         btnSearch.setOnClickListener(v -> {
             String query = etSearch.getText().toString();
             if (!query.isEmpty()) {
-                currentList = controller.searchHanhKiem(query);
+                currentList = hanhKiemDAO.searchHanhKiem("%" + query + "%");
                 adapter.setList(currentList);
             } else {
                 loadData();
@@ -59,7 +73,13 @@ public class HanhKiemUI extends AppCompatActivity {
 
         btnUpdate.setOnClickListener(v -> updateHanhKiem());
 
-        btnExport.setOnClickListener(v -> controller.exportToExcel(currentList));
+        btnExport.setOnClickListener(v -> exportToExcel());
+    }
+
+    private void initDatabase() {
+        AppDatabase db = AppDatabase.getDatabase(this);
+        hanhKiemDAO = db.hanhKiemDAO();
+        lopDAO = db.lopDAO();
     }
 
     private void initViews() {
@@ -69,8 +89,8 @@ public class HanhKiemUI extends AppCompatActivity {
         spinnerXepLoai = findViewById(R.id.spinner_xep_loai);
         etSearch = findViewById(R.id.et_search_hk);
         etNhanXet = findViewById(R.id.et_nhan_xet);
-        tvMaHS = findViewById(R.id.tv_mahs_hk_update); // Sửa ID cho đúng layout
-        tvHoTen = findViewById(R.id.tv_hoten_hk_update); // Sửa ID cho đúng layout
+        tvMaHS = findViewById(R.id.tv_mahs_hk_update);
+        tvHoTen = findViewById(R.id.tv_hoten_hk_update);
         btnFilter = findViewById(R.id.btn_filter_hk);
         btnSearch = findViewById(R.id.btn_search_hk);
         btnUpdate = findViewById(R.id.btn_update_hk);
@@ -87,11 +107,10 @@ public class HanhKiemUI extends AppCompatActivity {
             tvHoTen.setText("Học sinh: " + display.getTenHS());
             etNhanXet.setText(selectedHanhKiem.getNhanXet());
             
-            // Set selection for Xếp loại
             String xl = selectedHanhKiem.getXepLoai();
             if (xl != null) {
-                ArrayAdapter adapter = (ArrayAdapter) spinnerXepLoai.getAdapter();
-                int pos = adapter.getPosition(xl);
+                ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinnerXepLoai.getAdapter();
+                int pos = spinnerAdapter.getPosition(xl);
                 if (pos >= 0) spinnerXepLoai.setSelection(pos);
             }
         });
@@ -99,22 +118,18 @@ public class HanhKiemUI extends AppCompatActivity {
     }
 
     private void setupSpinners() {
-        // Lớp
-        listLop = controller.getAllLop();
+        listLop = lopDAO.getAll();
         List<String> lopNames = new ArrayList<>();
         lopNames.add("--- Tất cả lớp ---");
         for (Lop l : listLop) lopNames.add(l.getTenLop());
         spinnerClass.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, lopNames));
 
-        // Học kỳ
         String[] semesters = {"--- Tất cả HK ---", "1", "2"};
         spinnerSemester.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, semesters));
 
-        // Năm học (Ví dụ)
         String[] years = {"--- Tất cả năm ---", "2023-2024", "2024-2025"};
         spinnerYear.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item, years));
 
-        // Xếp loại
         String[] ratings = {"Tốt", "Khá", "Trung bình", "Yếu", "Kém"};
         spinnerXepLoai.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ratings));
     }
@@ -133,7 +148,7 @@ public class HanhKiemUI extends AppCompatActivity {
         int yearPos = spinnerYear.getSelectedItemPosition();
         if (yearPos > 0) namHoc = spinnerYear.getSelectedItem().toString();
 
-        currentList = controller.filterHanhKiem(maLop, hocKy, namHoc);
+        currentList = hanhKiemDAO.filterHanhKiem(maLop, hocKy, namHoc);
         adapter.setList(currentList);
     }
 
@@ -142,9 +157,56 @@ public class HanhKiemUI extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng chọn học sinh", Toast.LENGTH_SHORT).show();
             return;
         }
-        String xl = spinnerXepLoai.getSelectedItem().toString();
-        String nx = etNhanXet.getText().toString();
-        controller.updateHanhKiem(selectedHanhKiem, xl, nx);
+        selectedHanhKiem.setXepLoai(spinnerXepLoai.getSelectedItem().toString());
+        selectedHanhKiem.setNhanXet(etNhanXet.getText().toString());
+        hanhKiemDAO.update(selectedHanhKiem);
+        Toast.makeText(this, "Cập nhật hạnh kiểm thành công", Toast.LENGTH_SHORT).show();
         loadData();
+    }
+
+    private void exportToExcel() {
+        if (currentList == null || currentList.isEmpty()) {
+            Toast.makeText(this, "Danh sách trống!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("HanhKiem");
+
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Mã HS");
+        headerRow.createCell(1).setCellValue("Họ Tên");
+        headerRow.createCell(2).setCellValue("Lớp");
+        headerRow.createCell(3).setCellValue("Học Kỳ");
+        headerRow.createCell(4).setCellValue("Năm Học");
+        headerRow.createCell(5).setCellValue("Xếp Loại");
+        headerRow.createCell(6).setCellValue("Nhận Xét");
+
+        for (int i = 0; i < currentList.size(); i++) {
+            HanhKiem.Display display = currentList.get(i);
+            HanhKiem hk = display.getHanhKiem();
+            Row row = sheet.createRow(i + 1);
+            row.createCell(0).setCellValue(hk.getMaHS());
+            row.createCell(1).setCellValue(display.getTenHS());
+            row.createCell(2).setCellValue(display.getTenLop());
+            row.createCell(3).setCellValue(hk.getHocKy());
+            row.createCell(4).setCellValue(hk.getNamHoc());
+            row.createCell(5).setCellValue(hk.getXepLoai());
+            row.createCell(6).setCellValue(hk.getNhanXet());
+        }
+
+        try {
+            File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            String fileName = "HanhKiem_" + System.currentTimeMillis() + ".xlsx";
+            File file = new File(downloadDir, fileName);
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+            Toast.makeText(this, "Đã lưu tại Download: " + fileName, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Lỗi khi xuất Excel", Toast.LENGTH_SHORT).show();
+        }
     }
 }

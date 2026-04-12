@@ -1,1 +1,18 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24"><path android:fillColor="#1A73E8" android:pathData="M5,13.18v4L12,21l7,-3.82v-4L12,17l-7,-3.82zM12,3L1,9l11,6 9,-4.91V17h2V9L12,3z"/></vector>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Cái bảng màu xanh lá đậm -->
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M2,4h20v12H2z"/>
+    <!-- Khung bảng màu nâu gỗ -->
+    <path
+        android:fillColor="#795548"
+        android:pathData="M2,4v12h20V4H2zM20,14H4V6h16V14z"/>
+    <!-- Phấn và giẻ lau màu trắng/xám -->
+    <path
+        android:fillColor="#ECEFF1"
+        android:pathData="M16,11h3v1h-3zM5,11h2v1H5z"/>
+</vector>

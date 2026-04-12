@@ -43,10 +43,10 @@ public class MainForm extends AppCompatActivity {
         });
 
         // Group 4
-        findViewById(R.id.btn_hoc_phi).setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(MainForm.this, com.example.quanlyhocsinhmobile.ui.tien.HocPhiUI.class);
-            startActivity(intent);
-        });
+//        findViewById(R.id.btn_hoc_phi).setOnClickListener(v -> {
+//            android.content.Intent intent = new android.content.Intent(MainForm.this, com.example.quanlyhocsinhmobile.ui.tien.HocPhiUI.class);
+//            startActivity(intent);
+//        });
         findViewById(R.id.btn_thong_bao).setOnClickListener(v -> showToast("Quản lý thông báo"));
         findViewById(R.id.btn_phuc_khao).setOnClickListener(v -> showToast("Quản lý phúc khảo"));
 
