@@ -59,6 +59,12 @@
             android:label="Quản lý phòng học"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
+        <activity
+            android:name=".ui.hatrang.HocPhiActivity"
+            android:exported="true"
+            android:label="Quản lý học phí"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
 
     </application>
 
