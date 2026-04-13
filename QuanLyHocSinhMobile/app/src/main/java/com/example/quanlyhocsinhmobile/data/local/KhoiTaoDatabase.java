@@ -26,7 +26,7 @@ public class KhoiTaoDatabase {
     private static void seedData(SupportSQLiteDatabase db) {
         db.beginTransaction();
         try {
-            // ==========================================
+// ==========================================
 // 1. DANH MỤC CƠ BẢN
 // ==========================================
             db.execSQL("INSERT INTO DoiTuongUuTien (MaDT, TenDT, TiLeGiamHocPhi) VALUES " +
