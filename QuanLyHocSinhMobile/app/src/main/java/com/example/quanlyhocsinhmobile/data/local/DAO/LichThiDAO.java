@@ -43,4 +43,19 @@ public interface LichThiDAO {
            "WHERE (:maMH IS NULL OR :maMH = '' OR LichThi.maMH = :maMH) " +
            "AND (:maPhong IS NULL OR :maPhong = '' OR LichThi.maPhong = :maPhong)")
     List<LichThi.Display> filterLichThi(String maMH, String maPhong);
+
+    @Query("SELECT COUNT(*) FROM LichThi " +
+           "WHERE maPhong = :maPhong " +
+           "AND ngayThi = :ngayThi " +
+           "AND gioBatDau < :gioKetThuc " +
+           "AND gioKetThuc > :gioBatDau")
+    int countConflicts(String maPhong, String ngayThi, String gioBatDau, String gioKetThuc);
+
+    @Query("SELECT COUNT(*) FROM LichThi " +
+           "WHERE maLT != :maLT " +
+           "AND maPhong = :maPhong " +
+           "AND ngayThi = :ngayThi " +
+           "AND gioBatDau < :gioKetThuc " +
+           "AND gioKetThuc > :gioBatDau")
+    int countConflictsExcludeId(int maLT, String maPhong, String ngayThi, String gioBatDau, String gioKetThuc);
 }

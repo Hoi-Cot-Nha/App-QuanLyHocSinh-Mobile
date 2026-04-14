@@ -10,6 +10,17 @@ public class KhoiTaoDatabase {
         if (isTableEmpty(db, "HocSinh")) {
             seedData(db);
         }
+        normalizeLichThiDateFormat(db);
+    }
+
+    private static void normalizeLichThiDateFormat(SupportSQLiteDatabase db) {
+        try {
+            db.execSQL("UPDATE LichThi " +
+                    "SET ngayThi = SUBSTR(ngayThi, 9, 2) || '/' || SUBSTR(ngayThi, 6, 2) || '/' || SUBSTR(ngayThi, 1, 4) " +
+                    "WHERE ngayThi LIKE '____-__-__';");
+        } catch (Exception ignored) {
+            // Keep app startup resilient if table/schema is not ready yet.
+        }
     }
 
     private static boolean isTableEmpty(SupportSQLiteDatabase db, String tableName) {
@@ -167,7 +178,7 @@ public class KhoiTaoDatabase {
                     "('Lịch nghỉ lễ', 'Nghỉ lễ 30/4 từ ngày 30/04 đến 03/05.', 'AD01');");
 
             db.execSQL("INSERT INTO LichThi (TenKyThi, MaMH, NgayThi, GioBatDau, GioKetThuc, MaPhong) VALUES " +
-                    "('Thi Giữa Kỳ 1', 'MH01', '2026-10-15', '07:30', '09:00', 'P101');");
+                    "('Thi Giữa Kỳ 1', 'MH01', '15/10/2026', '07:30', '09:00', 'P101');");
 
 /*
             db.execSQL("INSERT INTO PhucKhao (MaHS, MaMH, LyDo, TrangThai) VALUES " +

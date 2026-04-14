@@ -18,6 +18,7 @@ public class LichThiViewModel extends AndroidViewModel {
     private final MutableLiveData<List<LichThi.Display>> lichThiList = new MutableLiveData<>();
     private final MutableLiveData<List<MonHoc>> monHocList = new MutableLiveData<>();
     private final MutableLiveData<List<PhongHoc>> phongHocList = new MutableLiveData<>();
+    private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public LichThiViewModel(@NonNull Application application) {
@@ -36,6 +37,10 @@ public class LichThiViewModel extends AndroidViewModel {
 
     public LiveData<List<PhongHoc>> getPhongHocList() {
         return phongHocList;
+    }
+
+    public LiveData<String> getToastMessage() {
+        return toastMessage;
     }
 
     private void loadInitialData() {
@@ -66,14 +71,24 @@ public class LichThiViewModel extends AndroidViewModel {
 
     public void insert(LichThi lichThi) {
         executorService.execute(() -> {
+            if (repository.hasConflict(lichThi)) {
+                toastMessage.postValue("Phòng thi đã có lịch trong khung giờ này");
+                return;
+            }
             repository.insert(lichThi);
+            toastMessage.postValue("Thêm lịch thi thành công");
             loadAll();
         });
     }
 
     public void update(LichThi lichThi) {
         executorService.execute(() -> {
+            if (repository.hasConflictExcludeId(lichThi)) {
+                toastMessage.postValue("Phòng thi đã có lịch trong khung giờ này");
+                return;
+            }
             repository.update(lichThi);
+            toastMessage.postValue("Cập nhật lịch thi thành công");
             loadAll();
         });
     }
@@ -81,6 +96,7 @@ public class LichThiViewModel extends AndroidViewModel {
     public void delete(LichThi lichThi) {
         executorService.execute(() -> {
             repository.delete(lichThi);
+            toastMessage.postValue("Xóa lịch thi thành công");
             loadAll();
         });
     }

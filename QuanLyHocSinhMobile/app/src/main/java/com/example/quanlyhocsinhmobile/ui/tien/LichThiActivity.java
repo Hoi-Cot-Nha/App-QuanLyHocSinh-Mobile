@@ -19,8 +19,11 @@ import com.example.quanlyhocsinhmobile.utils.ExcelHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class LichThiActivity extends AppCompatActivity {
 
@@ -85,6 +88,12 @@ public class LichThiActivity extends AppCompatActivity {
         viewModel.getLichThiList().observe(this, list -> {
             adapter.setLichThiList(list);
         });
+
+        viewModel.getToastMessage().observe(this, message -> {
+            if (message == null || message.isEmpty()) return;
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            if (message.contains("thành công")) refreshForm();
+        });
     }
 
     private void setupDateTimePickers() {
@@ -129,8 +138,6 @@ public class LichThiActivity extends AppCompatActivity {
             LichThi lt = getFormData();
             if (lt != null) {
                 viewModel.insert(lt);
-                Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                refreshForm();
             }
         });
 
@@ -140,7 +147,6 @@ public class LichThiActivity extends AppCompatActivity {
             if (lt != null) {
                 lt.setMaLT(selectedLichThi.getMaLT());
                 viewModel.update(lt);
-                Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,13 +166,32 @@ public class LichThiActivity extends AppCompatActivity {
     }
 
     private LichThi getFormData() {
-        String ten = binding.etFormTenkythi.getText().toString();
-        if (ten.isEmpty()) return null;
+        String ten = binding.etFormTenkythi.getText().toString().trim();
+        String ngayThiInput = binding.etFormNgaythi.getText().toString().trim();
+        String gioBatDau = binding.etFormGiobd.getText().toString().trim();
+        String gioKetThuc = binding.etFormGiokt.getText().toString().trim();
+
+        if (ten.isEmpty() || ngayThiInput.isEmpty() || gioBatDau.isEmpty() || gioKetThuc.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin lịch thi", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        String ngayThi = normalizeDateToStorage(ngayThiInput);
+        if (ngayThi == null) {
+            Toast.makeText(this, "Ngày thi không đúng định dạng", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (gioBatDau.compareTo(gioKetThuc) >= 0) {
+            Toast.makeText(this, "Giờ kết thúc phải lớn hơn giờ bắt đầu", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
         LichThi lt = new LichThi();
         lt.setTenKyThi(ten);
-        lt.setNgayThi(binding.etFormNgaythi.getText().toString());
-        lt.setGioBatDau(binding.etFormGiobd.getText().toString());
-        lt.setGioKetThuc(binding.etFormGiokt.getText().toString());
+        lt.setNgayThi(ngayThi);
+        lt.setGioBatDau(gioBatDau);
+        lt.setGioKetThuc(gioKetThuc);
         lt.setMaMH(listMonHoc.get(binding.spinnerFormMon.getSelectedItemPosition()).getMaMH());
         lt.setMaPhong(listPhongHoc.get(binding.spinnerFormPhong.getSelectedItemPosition()).getMaPhong());
         return lt;
@@ -175,13 +200,41 @@ public class LichThiActivity extends AppCompatActivity {
     private void displaySelectedLichThi() {
         if (selectedLichThi == null) return;
         binding.etFormTenkythi.setText(selectedLichThi.getTenKyThi());
-        binding.etFormNgaythi.setText(selectedLichThi.getNgayThi());
+        binding.etFormNgaythi.setText(formatDateForDisplay(selectedLichThi.getNgayThi()));
         binding.etFormGiobd.setText(selectedLichThi.getGioBatDau());
         binding.etFormGiokt.setText(selectedLichThi.getGioKetThuc());
         for (int i = 0; i < listMonHoc.size(); i++) 
             if (listMonHoc.get(i).getMaMH().equals(selectedLichThi.getMaMH())) binding.spinnerFormMon.setSelection(i);
         for (int i = 0; i < listPhongHoc.size(); i++) 
             if (listPhongHoc.get(i).getMaPhong().equals(selectedLichThi.getMaPhong())) binding.spinnerFormPhong.setSelection(i);
+    }
+
+    private String normalizeDateToStorage(String value) {
+        Date parsed = parseDate(value, "dd/MM/yyyy");
+        if (parsed == null) {
+            parsed = parseDate(value, "yyyy-MM-dd");
+        }
+        if (parsed == null) return null;
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(parsed);
+    }
+
+    private String formatDateForDisplay(String storageDate) {
+        Date parsed = parseDate(storageDate, "dd/MM/yyyy");
+        if (parsed == null) {
+            parsed = parseDate(storageDate, "yyyy-MM-dd");
+        }
+        if (parsed == null) return storageDate;
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(parsed);
+    }
+
+    private Date parseDate(String value, String pattern) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+            sdf.setLenient(false);
+            return sdf.parse(value);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     private void refreshForm() {

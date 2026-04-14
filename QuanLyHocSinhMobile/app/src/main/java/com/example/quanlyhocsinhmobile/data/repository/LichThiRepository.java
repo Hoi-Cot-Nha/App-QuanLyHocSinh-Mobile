@@ -46,6 +46,23 @@ public class LichThiRepository {
         lichThiDAO.insert(lichThi);
     }
 
+    public boolean hasConflict(LichThi lichThi) {
+        return lichThiDAO.countConflicts(
+                lichThi.getMaPhong(),
+                lichThi.getNgayThi(),
+                lichThi.getGioBatDau(),
+                lichThi.getGioKetThuc()) > 0;
+    }
+
+    public boolean hasConflictExcludeId(LichThi lichThi) {
+        return lichThiDAO.countConflictsExcludeId(
+                lichThi.getMaLT(),
+                lichThi.getMaPhong(),
+                lichThi.getNgayThi(),
+                lichThi.getGioBatDau(),
+                lichThi.getGioKetThuc()) > 0;
+    }
+
     public void update(LichThi lichThi) {
         lichThiDAO.update(lichThi);
     }
