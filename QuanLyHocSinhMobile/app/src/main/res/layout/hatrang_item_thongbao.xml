@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@drawable/border_bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_matb"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="1"/>
+
+    <TextView
+        android:id="@+id/tv_tieude"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Thông báo học phí"/>
+
+    <TextView
+        android:id="@+id/tv_noidung"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Đóng học phí trước 30/4"/>
+
+    <TextView
+        android:id="@+id/tv_ngaytao"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="2026-04-14"/>
+
+    <TextView
+        android:id="@+id/tv_nguoigui"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Amin"/>
+
+</LinearLayout>

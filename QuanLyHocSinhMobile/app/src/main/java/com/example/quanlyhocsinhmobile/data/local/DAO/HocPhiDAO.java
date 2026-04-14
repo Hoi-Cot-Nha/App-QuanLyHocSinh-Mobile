@@ -34,15 +34,12 @@ public interface HocPhiDAO {
             "WHERE HocPhi.maHS = :maHS")
     List<HocPhi.Display> getHocPhiByHS(String maHS);
 
-    // Thêm
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(HocPhi hocPhi);
 
-    // Sửa
     @Update
     void update(HocPhi hocPhi);
 
-    // Xoá
     @Delete
     void delete(HocPhi hocPhi);
 

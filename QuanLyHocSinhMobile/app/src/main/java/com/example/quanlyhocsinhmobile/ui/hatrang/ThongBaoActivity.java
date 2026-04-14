@@ -1,0 +1,170 @@
+package com.example.quanlyhocsinhmobile.ui.hatrang;
+
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.quanlyhocsinhmobile.R;
+import com.example.quanlyhocsinhmobile.data.local.Model.ThongBao;
+import com.example.quanlyhocsinhmobile.databinding.HatrangActivityThongbaoBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ThongBaoActivity extends AppCompatActivity {
+
+    private HatrangActivityThongbaoBinding binding;
+    private ThongBaoViewModel viewModel;
+    private ThongBaoAdapter adapter;
+    private ThongBao selectedThongBao;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = HatrangActivityThongbaoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        viewModel = new ViewModelProvider(this).get(ThongBaoViewModel.class);
+
+        setupRecyclerView();
+        setupSpinners();
+        observeViewModel();
+        setupClick();
+    }
+
+    private void setupRecyclerView() {
+        binding.rvThongbao.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ThongBaoAdapter(new ArrayList<>(), tb -> {
+            selectedThongBao = tb;
+            showSelected(tb);
+        });
+        binding.rvThongbao.setAdapter(adapter);
+    }
+
+    private void setupSpinners() {
+        String[] nguoiGui = {"---Tất cả---","AD01","AD02"};
+        binding.spinnerNguoigui.setAdapter(
+                new ArrayAdapter<>(this, R.layout.spinner_item, nguoiGui)
+        );
+    }
+
+    private void observeViewModel() {
+        viewModel.getThongBaoList().observe(this, list -> {
+            adapter.setList(list);
+        });
+    }
+
+    private void setupClick() {
+
+        binding.btnFilterTb.setOnClickListener(v -> {
+            String search = binding.etSearchTb.getText().toString();
+
+            String nguoiGui = "";
+            if (binding.spinnerNguoigui.getSelectedItemPosition() > 0) {
+                nguoiGui = binding.spinnerNguoigui.getSelectedItem().toString();
+            }
+
+            viewModel.filter(search, nguoiGui);
+        });
+
+        binding.btnAddTb.setOnClickListener(v -> {
+            insertThongBao();
+        });
+        binding.btnUpdateTb.setOnClickListener(v -> {
+            updateThongBao();
+        });
+        binding.btnDeleteTb.setOnClickListener(v -> {
+            deleteThongBao();
+        });
+    }
+
+    private void deleteThongBao() {
+        if (selectedThongBao == null) {
+            Toast.makeText(this, "Chọn thông báo!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        viewModel.delete(selectedThongBao);
+
+        Toast.makeText(this, "Xoá thành công!", Toast.LENGTH_SHORT).show();
+
+        // reset
+        binding.etTieude.setText("");
+        binding.etNoidung.setText("");
+        binding.etNguoigui.setText("");
+        selectedThongBao = null;
+    }
+
+    private void updateThongBao() {
+        if (selectedThongBao == null) {
+            Toast.makeText(this, "Chọn thông báo!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            selectedThongBao.setTieuDe(binding.etTieude.getText().toString());
+            selectedThongBao.setNoiDung(binding.etNoidung.getText().toString());
+            selectedThongBao.setNguoiGui(binding.etNguoigui.getText().toString());
+
+            viewModel.update(selectedThongBao);
+
+            Toast.makeText(this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+
+            // reset
+            binding.etTieude.setText("");
+            binding.etNoidung.setText("");
+            binding.etNguoigui.setText("");
+            selectedThongBao = null;
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi sửa!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showSelected(ThongBao tb) {
+        binding.etTieude.setText(tb.getTieuDe());
+        binding.etNoidung.setText(tb.getNoiDung());
+        binding.etNguoigui.setText(tb.getNguoiGui());
+    }
+
+    private void insertThongBao() {
+        try {
+            String tieude = binding.etTieude.getText().toString();
+            String noidung = binding.etNoidung.getText().toString();
+            String nguoiGui = binding.etNguoigui.getText().toString();
+
+            if (tieude.isEmpty() || noidung.isEmpty()) {
+                Toast.makeText(this, "Nhập đầy đủ dữ liệu!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ThongBao tb = new ThongBao();
+            tb.setTieuDe(tieude);
+            tb.setNoiDung(noidung);
+            tb.setNguoiGui(nguoiGui);
+            tb.setNgayTao(getCurrentDate());
+
+            viewModel.insert(tb);
+
+            Toast.makeText(this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
+
+            // reset form
+            binding.etTieude.setText("");
+            binding.etNoidung.setText("");
+            binding.etNguoigui.setText("");
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi thêm dữ liệu!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private String getCurrentDate() {
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        return sdf.format(new java.util.Date());
+    }
+
+}

@@ -48,6 +48,9 @@ public class HocPhiViewModel extends AndroidViewModel {
     }
 
     public void update(HocPhi hp) {
-        ex.execute(() -> repo.update(hp));
+        ex.execute(() -> {
+            repo.update(hp);
+            list.postValue(repo.filterHocPhi(0, "", ""));
+        });
     }
 }

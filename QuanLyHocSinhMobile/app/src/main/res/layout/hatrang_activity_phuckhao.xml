@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="QUẢN LÝ HỌC PHÍ"
+            android:text="QUẢN LÝ PHÚC KHẢO"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -24,6 +24,7 @@
             android:background="@color/white"/>
     </androidx.cardview.widget.CardView>
 
+    <!-- SCROLL -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -55,30 +56,22 @@
                     android:padding="12dp">
 
                     <Spinner
-                        android:id="@+id/spinner_lop"
+                        android:id="@+id/spinner_loc_lop"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
+                        android:layout_height="wrap_content" />
 
                     <Spinner
-                        android:id="@+id/spinner_hocky"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_namhoc"
+                        android:id="@+id/spinner_loc_monhoc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp" />
 
                     <Button
-                        android:id="@+id/btn_filter_hp"
+                        android:id="@+id/btn_filter_pk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="LỌC" />
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -87,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="2. DANH SÁCH HỌC PHÍ"
+                android:text="2. DANH SÁCH PHÚC KHẢO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -123,43 +116,25 @@
                             <TextView
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:text="Họ Tên"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:text="Lớp"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:text="HK"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Năm"
+                                android:text="Họ tên"
                                 android:textColor="@color/white" />
 
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:text="Tổng"
+                                android:text="Môn"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="Lý do"
                                 android:textColor="@color/white" />
 
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:text="Miễn"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:text="Phải đóng"
+                                android:text="Ngày"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -170,7 +145,7 @@
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_hocphi"
+                            android:id="@+id/rv_phuckhao"
                             android:layout_width="wrap_content"
                             android:layout_height="300dp" />
                     </LinearLayout>
@@ -178,12 +153,12 @@
                 </HorizontalScrollView>
             </androidx.cardview.widget.CardView>
 
-            <!-- CẬP NHẬT -->
+            <!-- THÊM / SỬA / XOÁ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="3. CẬP NHẬT HỌC PHÍ"
+                android:text="3. QUẢN LÝ PHÚC KHẢO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -191,7 +166,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -199,41 +175,52 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <EditText
-                        android:id="@+id/et_tongtien"
+                    <Spinner
+                        android:id="@+id/spinner_mahs_pk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Tổng tiền"
-                        android:inputType="numberDecimal" />
-
-                    <EditText
-                        android:id="@+id/et_miengiam"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:hint="Miễn giảm"
-                        android:inputType="numberDecimal" />
-
-                    <EditText
-                        android:id="@+id/et_phaidong"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:hint="Phải đóng"
-                        android:inputType="numberDecimal" />
+                        android:hint="Mã học sinh" />
 
                     <Spinner
-                        android:id="@+id/spinner_trangthai"
+                        android:id="@+id/spinner_mamh_pk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Mã môn học" />
+
+                    <EditText
+                        android:id="@+id/et_lydo_pk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Lý do" />
+
+                    <Spinner
+                        android:id="@+id/spinner_trangthai_pk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp" />
 
                     <Button
-                        android:id="@+id/btn_save_hp"
+                        android:id="@+id/btn_add_pk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="LƯU" />
+                        android:text="THÊM" />
+
+                    <Button
+                        android:id="@+id/btn_update_pk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="SỬA" />
+
+                    <Button
+                        android:id="@+id/btn_delete_pk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="XOÁ" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

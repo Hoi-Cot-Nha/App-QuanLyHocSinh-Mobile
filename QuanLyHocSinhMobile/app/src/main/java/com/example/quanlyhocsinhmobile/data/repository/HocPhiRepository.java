@@ -21,33 +21,20 @@ public class HocPhiRepository {
         lopDAO = db.lopDAO();
     }
 
-    // Lấy danh sách lớp
     public List<Lop> getAllLop() {
         return lopDAO.getAll();
     }
 
-    // Lọc học phí (HK + năm + lớp)
     public List<HocPhi.Display> filterHocPhi(int hocKy, String namHoc, String maLop) {
         return hocPhiDAO.filterHocPhi(hocKy, namHoc, maLop);
     }
 
-    // Tìm kiếm học phí
     public List<HocPhi.Display> searchHocPhi(String query) {
         return hocPhiDAO.searchHocPhi("%" + query + "%");
     }
 
-    // Cập nhật học phí
     public void update(HocPhi hocPhi) {
         hocPhiDAO.update(hocPhi);
     }
 
-    // Thêm học phí
-    public void insert(HocPhi hocPhi) {
-        hocPhiDAO.insert(hocPhi);
-    }
-
-    // Xoá học phí
-    public void delete(HocPhi hocPhi) {
-        hocPhiDAO.delete(hocPhi);
-    }
 }

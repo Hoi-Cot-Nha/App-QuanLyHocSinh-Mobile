@@ -163,16 +163,16 @@ public class KhoiTaoDatabase {
             db.execSQL("INSERT INTO TaiKhoan (TenDangNhap, MatKhau, Quyen, MaNguoiDung) VALUES " +
                     "('admin', '123456', 'Admin', 'AD01'), ('gv01', '123456', 'GiaoVien', 'GV01'), ('hs001', '123456', 'HocSinh', 'HS001');");
 
-            db.execSQL("INSERT INTO ThongBao (TieuDe, NoiDung, NguoiGui) VALUES " +
-                    "('Lịch nghỉ lễ', 'Nghỉ lễ 30/4 từ ngày 30/04 đến 03/05.', 'AD01');");
+            db.execSQL("INSERT INTO ThongBao (TieuDe, NoiDung, ngayTao, NguoiGui) VALUES " +
+                    "('Lịch nghỉ lễ', 'Nghỉ lễ 30/4 từ ngày 30/04 đến 03/05','2026-03-01', 'AD01');");
 
             db.execSQL("INSERT INTO LichThi (TenKyThi, MaMH, NgayThi, GioBatDau, GioKetThuc, MaPhong) VALUES " +
                     "('Thi Giữa Kỳ 1', 'MH01', '2026-10-15', '07:30', '09:00', 'P101');");
 
-/*
-            db.execSQL("INSERT INTO PhucKhao (MaHS, MaMH, LyDo, TrangThai) VALUES " +
-                    "('HS001', 'MH01', 'Em thấy điểm tự luận bị chấm thiếu.', 'Đang chờ xử lý');");
-*/
+
+            db.execSQL("INSERT INTO PhucKhao (MaHS, MaMH, LyDo, NgayGui, TrangThai) VALUES " +
+                    "('HS001', 'MH01', 'Em thấy điểm tự luận bị chấm thiếu.','2026-03-01', 'Đang chờ xử lý');");
+
 
             db.execSQL("INSERT INTO ThoiKhoaBieu (MaLop, MaMH, MaGV, MaPhong, Thu, TietBatDau, TietKetThuc) VALUES " +
                     "('10A1', 'MH01', 'GV01', 'P101', 2, 1, 2);");

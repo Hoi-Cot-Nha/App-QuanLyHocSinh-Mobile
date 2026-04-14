@@ -92,12 +92,24 @@ public class HocPhiActivity extends AppCompatActivity {
 
             viewModel.filter(hocKy, namHoc, maLop);
         });
+        binding.btnSaveHp.setOnClickListener(v -> {
+            updateHocPhi();
+        });
     }
 
     private void showSelected(HocPhi.Display d) {
         binding.etTongtien.setText(d.getHocPhi().getTongTien()+"");
         binding.etMiengiam.setText(d.getHocPhi().getMienGiam()+"");
         binding.etPhaidong.setText(d.getHocPhi().getPhaiDong()+"");
+
+        String tt = d.getHocPhi().getTrangThai();
+        if (tt.equals("Chưa đóng")) {
+            binding.spinnerTrangthai.setSelection(1);
+        } else if (tt.equals("Đã đóng")) {
+            binding.spinnerTrangthai.setSelection(2);
+        } else {
+            binding.spinnerTrangthai.setSelection(0); // Trạng thái (mặc định)
+        }
     }
 
     private void updateHocPhi() {
@@ -118,8 +130,18 @@ public class HocPhiActivity extends AppCompatActivity {
             );
 
             viewModel.update(selectedHocPhi);
+            viewModel.filter(0,"","");
 
             Toast.makeText(this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+
+            //Reset lại form
+            binding.etTongtien.setText("");
+            binding.etMiengiam.setText("");
+            binding.etPhaidong.setText("");
+            binding.spinnerTrangthai.setSelection(0);
+
+            //bỏ chọn
+            selectedHocPhi = null;
 
         } catch (Exception e) {
             Toast.makeText(this, "Sai dữ liệu!", Toast.LENGTH_SHORT).show();

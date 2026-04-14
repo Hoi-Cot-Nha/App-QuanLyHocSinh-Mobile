@@ -60,8 +60,14 @@ public class MainForm extends AppCompatActivity {
             Intent intent = new Intent(MainForm.this, com.example.quanlyhocsinhmobile.ui.hatrang.HocPhiActivity.class);
             startActivity(intent);
         });
-        findViewById(R.id.btn_thong_bao).setOnClickListener(v -> showToast("Quản lý thông báo"));
-        findViewById(R.id.btn_phuc_khao).setOnClickListener(v -> showToast("Quản lý phúc khảo"));
+        findViewById(R.id.btn_thong_bao).setOnClickListener(v ->{
+            Intent intent = new Intent(MainForm.this, com.example.quanlyhocsinhmobile.ui.hatrang.ThongBaoActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.btn_phuc_khao).setOnClickListener(v ->{
+            Intent intent = new Intent(MainForm.this, com.example.quanlyhocsinhmobile.ui.hatrang.PhucKhaoActivity.class);
+            startActivity(intent);
+        });
 
         // Group 5
         findViewById(R.id.btn_ho_so_hs).setOnClickListener(v -> showToast("Hồ sơ học sinh (Chi tiết)"));

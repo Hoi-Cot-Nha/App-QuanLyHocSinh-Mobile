@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="QUẢN LÝ HỌC PHÍ"
+            android:text="QUẢN LÝ THÔNG BÁO"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -27,10 +27,9 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="826dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -54,26 +53,20 @@
                     android:orientation="vertical"
                     android:padding="12dp">
 
-                    <Spinner
-                        android:id="@+id/spinner_lop"
+                    <EditText
+                        android:id="@+id/et_search_tb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
+                        android:hint="Tìm tiêu đề..." />
 
                     <Spinner
-                        android:id="@+id/spinner_hocky"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_namhoc"
+                        android:id="@+id/spinner_nguoigui"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp" />
 
                     <Button
-                        android:id="@+id/btn_filter_hp"
+                        android:id="@+id/btn_filter_tb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -87,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="2. DANH SÁCH HỌC PHÍ"
+                android:text="2. DANH SÁCH THÔNG BÁO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -117,60 +110,36 @@
                             <TextView
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
-                                android:text="Mã HS"
+                                android:text="Mã TB"
                                 android:textColor="@color/white" />
 
                             <TextView
                                 android:layout_width="150dp"
                                 android:layout_height="wrap_content"
-                                android:text="Họ Tên"
+                                android:text="Tiêu đề"
                                 android:textColor="@color/white" />
 
                             <TextView
-                                android:layout_width="80dp"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
-                                android:text="Lớp"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:text="HK"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="100dp"
-                                android:layout_height="wrap_content"
-                                android:text="Năm"
+                                android:text="Nội dung"
                                 android:textColor="@color/white" />
 
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:text="Tổng"
+                                android:text="Ngày"
                                 android:textColor="@color/white" />
 
                             <TextView
                                 android:layout_width="120dp"
                                 android:layout_height="wrap_content"
-                                android:text="Miễn"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:text="Phải đóng"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:layout_width="120dp"
-                                android:layout_height="wrap_content"
-                                android:text="Trạng thái"
+                                android:text="Người gửi"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_hocphi"
+                            android:id="@+id/rv_thongbao"
                             android:layout_width="wrap_content"
                             android:layout_height="300dp" />
                     </LinearLayout>
@@ -178,12 +147,12 @@
                 </HorizontalScrollView>
             </androidx.cardview.widget.CardView>
 
-            <!-- CẬP NHẬT -->
+            <!-- THÊM -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="3. CẬP NHẬT HỌC PHÍ"
+                android:text="3. THÊM THÔNG BÁO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -200,45 +169,48 @@
                     android:padding="16dp">
 
                     <EditText
-                        android:id="@+id/et_tongtien"
+                        android:id="@+id/et_tieude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Tổng tiền"
-                        android:inputType="numberDecimal" />
+                        android:hint="Tiêu đề" />
 
                     <EditText
-                        android:id="@+id/et_miengiam"
+                        android:id="@+id/et_noidung"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:hint="Miễn giảm"
-                        android:inputType="numberDecimal" />
+                        android:hint="Nội dung" />
 
                     <EditText
-                        android:id="@+id/et_phaidong"
+                        android:id="@+id/et_nguoigui"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:hint="Phải đóng"
-                        android:inputType="numberDecimal" />
-
-                    <Spinner
-                        android:id="@+id/spinner_trangthai"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
+                        android:hint="Người gửi" />
 
                     <Button
-                        android:id="@+id/btn_save_hp"
+                        android:id="@+id/btn_add_tb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="LƯU" />
+                        android:text="THÊM" />
+
+                    <Button
+                        android:id="@+id/btn_update_tb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="SỬA" />
+                    <Button
+                        android:id="@+id/btn_delete_tb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Xoá"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </LinearLayout>
