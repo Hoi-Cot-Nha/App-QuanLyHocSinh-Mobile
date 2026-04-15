@@ -29,10 +29,6 @@ public class HocPhiRepository {
         return hocPhiDAO.filterHocPhi(hocKy, namHoc, maLop);
     }
 
-    public List<HocPhi.Display> searchHocPhi(String query) {
-        return hocPhiDAO.searchHocPhi("%" + query + "%");
-    }
-
     public void update(HocPhi hocPhi) {
         hocPhiDAO.update(hocPhi);
     }

@@ -56,7 +56,7 @@
                     android:padding="12dp">
 
                     <Spinner
-                        android:id="@+id/spinner_loc_lop"
+                        android:id="@+id/spinner_loc_mahs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -182,11 +182,11 @@
                         android:hint="Mã học sinh" />
 
                     <Spinner
-                        android:id="@+id/spinner_mamh_pk"
+                        android:id="@+id/spinner_tenmh_pk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:hint="Mã môn học" />
+                        android:hint="Tên môn học" />
 
                     <EditText
                         android:id="@+id/et_lydo_pk"

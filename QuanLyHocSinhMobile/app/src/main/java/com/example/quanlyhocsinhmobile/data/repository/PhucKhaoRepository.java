@@ -45,12 +45,12 @@ public class PhucKhaoRepository {
         return hocSinhDAO.getAll();
     }
 
-    public List<PhucKhao.Display> filterPhucKhao(String maLop, String maMH, String trangThai) {
-        return phucKhaoDAO.filterPhucKhao(maLop, maMH, trangThai);
+    public List<PhucKhao.Display> filterPhucKhao(String maHS, String maMH, String trangThai) {
+        return phucKhaoDAO.filterPhucKhao(maHS, maMH, trangThai);
     }
 
     public List<PhucKhao.Display> searchPhucKhao(String query) {
-        return phucKhaoDAO.searchPhucKhao("%" + query + "%");
+        return phucKhaoDAO.searchPhucKhao(query);
     }
 
     public void update(PhucKhao phucKhao) {

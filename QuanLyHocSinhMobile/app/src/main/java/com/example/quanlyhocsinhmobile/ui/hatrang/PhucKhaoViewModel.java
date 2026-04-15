@@ -56,9 +56,9 @@ public class PhucKhaoViewModel extends AndroidViewModel {
         });
     }
 
-    public void filter(String maLop, String maMH, String trangThai) {
+    public void filter(String maHS, String maMH, String trangThai) {
         ex.execute(() -> {
-            list.postValue(repo.filterPhucKhao(maLop, maMH, trangThai));
+            list.postValue(repo.filterPhucKhao(maHS, maMH, trangThai));
         });
     }
 

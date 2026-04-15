@@ -62,8 +62,10 @@ public interface PhucKhaoDAO {
             "LEFT JOIN HocSinh ON PhucKhao.maHS = HocSinh.MaHS " +
             "LEFT JOIN MonHoc ON PhucKhao.maMH = MonHoc.MaMH " +
             "LEFT JOIN Lop ON HocSinh.MaLop = Lop.MaLop " +
-            "WHERE (:maLop = '' OR Lop.MaLop = :maLop) " +
+            "WHERE (:maHS = '' OR PhucKhao.maHS = :maHS) " +
             "AND (:maMH = '' OR PhucKhao.maMH = :maMH) " +
             "AND (:trangThai = '' OR PhucKhao.trangThai = :trangThai)")
-    List<PhucKhao.Display> filterPhucKhao(@NonNull String maLop, @NonNull String maMH, @NonNull String trangThai);
+    List<PhucKhao.Display> filterPhucKhao(@NonNull String maHS,
+                                          @NonNull String maMH,
+                                          @NonNull String trangThai);
 }

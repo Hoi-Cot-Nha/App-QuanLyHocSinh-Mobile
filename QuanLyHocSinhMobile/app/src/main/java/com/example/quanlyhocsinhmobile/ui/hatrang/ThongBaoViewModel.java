@@ -26,32 +26,18 @@ public class ThongBaoViewModel extends AndroidViewModel {
         load();
     }
 
-    // 🔹 Lấy danh sách thông báo
     public LiveData<List<ThongBao>> getThongBaoList() {
         return list;
     }
 
-    // 🔹 Load dữ liệu ban đầu
     private void load() {
         ex.execute(() -> list.postValue(repo.getAll()));
     }
 
-    // 🔹 Filter theo người gửi
-    public void filter(String nguoiGui) {
-        ex.execute(() -> list.postValue(repo.filterThongBao(nguoiGui)));
-    }
-
-    // 🔹 Search
     public void search(String search) {
         ex.execute(() -> list.postValue(repo.searchThongBao(search)));
     }
 
-    // 🔹 Filter + Search (giống HocPhi)
-    public void filter(String search, String nguoiGui) {
-        ex.execute(() -> list.postValue(repo.filter(search, nguoiGui)));
-    }
-
-    // 🔹 Thêm
     public void insert(ThongBao tb) {
         ex.execute(() -> {
             repo.insert(tb);
@@ -59,7 +45,6 @@ public class ThongBaoViewModel extends AndroidViewModel {
         });
     }
 
-    // 🔹 Sửa
     public void update(ThongBao tb) {
         ex.execute(() -> {
             repo.update(tb);
@@ -67,7 +52,6 @@ public class ThongBaoViewModel extends AndroidViewModel {
         });
     }
 
-    // 🔹 Xoá
     public void delete(ThongBao tb) {
         ex.execute(() -> {
             repo.delete(tb);

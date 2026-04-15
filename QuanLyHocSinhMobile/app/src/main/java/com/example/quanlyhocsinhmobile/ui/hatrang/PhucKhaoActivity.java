@@ -27,10 +27,10 @@ public class PhucKhaoActivity extends AppCompatActivity {
     private PhucKhaoViewModel viewModel;
     private PhucKhaoAdapter adapter;
 
-    private List<Lop> listLop = new ArrayList<>();
+    private List<HocSinh> listHocSinh = new ArrayList<>();
     private List<MonHoc> listMonHoc = new ArrayList<>();
     private List<String> listMaHS = new ArrayList<>();
-    private List<String> listMaMH = new ArrayList<>();
+    private List<String> listTenMH = new ArrayList<>();
 
     private PhucKhao selected;
 
@@ -58,7 +58,7 @@ public class PhucKhaoActivity extends AppCompatActivity {
     }
 
     private void setupSpinner() {
-        String[] tt = {"-- Trạng thái --", "Đang chờ", "Đã duyệt", "Từ chối"};
+        String[] tt = {"Trạng thái", "Đang chờ", "Đã duyệt", "Từ chối"};
         binding.spinnerTrangthaiPk.setAdapter(
                 new ArrayAdapter<>(this, R.layout.spinner_item, tt)
         );
@@ -68,6 +68,7 @@ public class PhucKhaoActivity extends AppCompatActivity {
 
         viewModel.getHocSinhList().observe(this, hsList -> {
             listMaHS.clear();
+            listMaHS.add("Mã Học Sinh");
             for (HocSinh hs : hsList) listMaHS.add(hs.getMaHS());
 
             binding.spinnerMahsPk.setAdapter(
@@ -76,21 +77,22 @@ public class PhucKhaoActivity extends AppCompatActivity {
         });
 
         viewModel.getMonHocList().observe(this, mons -> {
-            listMaMH.clear();
-            for (MonHoc m : mons) listMaMH.add(m.getMaMH());
+            listTenMH.clear();
+            listTenMH.add("Tên Môn Học");
+            for (MonHoc m : mons) listTenMH.add(m.getTenMH());
 
-            binding.spinnerMamhPk.setAdapter(
-                    new ArrayAdapter<>(this, R.layout.spinner_item, listMaMH)
+            binding.spinnerTenmhPk.setAdapter(
+                    new ArrayAdapter<>(this, R.layout.spinner_item, listTenMH)
             );
         });
 
-        viewModel.getLopList().observe(this, lops -> {
-            listLop = lops;
+        viewModel.getHocSinhList().observe(this, HocSinh -> {
+            listHocSinh = HocSinh;
             List<String> names = new ArrayList<>();
-            names.add("--- Tất cả lớp ---");
-            for (Lop l : lops) names.add(l.getTenLop());
+            names.add("Mã học sinh");
+            for (HocSinh hocSinh : HocSinh) names.add(hocSinh.getMaHS());
 
-            binding.spinnerLocLop.setAdapter(
+            binding.spinnerLocMahs.setAdapter(
                     new ArrayAdapter<>(this, R.layout.spinner_item, names)
             );
         });
@@ -98,7 +100,7 @@ public class PhucKhaoActivity extends AppCompatActivity {
         viewModel.getMonHocList().observe(this, mons -> {
             listMonHoc = mons;
             List<String> names = new ArrayList<>();
-            names.add("--- Tất cả môn ---");
+            names.add("Tên môn");
             for (MonHoc m : mons) names.add(m.getTenMH());
 
             binding.spinnerLocMonhoc.setAdapter(
@@ -114,9 +116,9 @@ public class PhucKhaoActivity extends AppCompatActivity {
     private void setupClick() {
 
         binding.btnFilterPk.setOnClickListener(v -> {
-            String maLop = "";
-            if (binding.spinnerLocLop.getSelectedItemPosition() > 0) {
-                maLop = listLop.get(binding.spinnerLocLop.getSelectedItemPosition() - 1).getMaLop();
+            String mahs = "";
+            if (binding.spinnerLocMahs.getSelectedItemPosition() > 0) {
+                mahs = listHocSinh.get(binding.spinnerLocMahs.getSelectedItemPosition() - 1).getMaHS();
             }
 
             String maMH = "";
@@ -124,7 +126,7 @@ public class PhucKhaoActivity extends AppCompatActivity {
                 maMH = listMonHoc.get(binding.spinnerLocMonhoc.getSelectedItemPosition() - 1).getMaMH();
             }
 
-            viewModel.filter(maLop, maMH, "");
+            viewModel.filter(mahs, maMH, "");
         });
 
         binding.btnAddPk.setOnClickListener(v -> add());
@@ -137,8 +139,8 @@ public class PhucKhaoActivity extends AppCompatActivity {
         int posHS = listMaHS.indexOf(d.getPhucKhao().getMaHS());
         if (posHS >= 0) binding.spinnerMahsPk.setSelection(posHS);
 
-        int posMH = listMaMH.indexOf(d.getPhucKhao().getMaMH());
-        if (posMH >= 0) binding.spinnerMamhPk.setSelection(posMH);
+        int posMH = listTenMH.indexOf(d.getTenMH());
+        if (posMH >= 0) binding.spinnerTenmhPk.setSelection(posMH);
 
         binding.etLydoPk.setText(d.getPhucKhao().getLyDo());
 
@@ -152,14 +154,14 @@ public class PhucKhaoActivity extends AppCompatActivity {
     private void add() {
         try {
             if (binding.spinnerMahsPk.getSelectedItem() == null ||
-                    binding.spinnerMamhPk.getSelectedItem() == null) {
+                    binding.spinnerTenmhPk.getSelectedItem() == null) {
                 Toast.makeText(this, "Chưa có dữ liệu!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             PhucKhao pk = new PhucKhao();
-            pk.setMaHS(binding.spinnerMahsPk.getSelectedItem().toString());
-            pk.setMaMH(binding.spinnerMamhPk.getSelectedItem().toString());
+            pk.setMaHS(listHocSinh.get(binding.spinnerMahsPk.getSelectedItemPosition() - 1).getMaHS());
+            pk.setMaMH(listMonHoc.get(binding.spinnerTenmhPk.getSelectedItemPosition() - 1).getMaMH());
             pk.setLyDo(binding.etLydoPk.getText().toString());
             pk.setNgayGui(getCurrentDate());
             pk.setTrangThai(binding.spinnerTrangthaiPk.getSelectedItem().toString());
@@ -180,7 +182,8 @@ public class PhucKhaoActivity extends AppCompatActivity {
             Toast.makeText(this, "Chọn dữ liệu!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        selected.setMaHS(listHocSinh.get(binding.spinnerMahsPk.getSelectedItemPosition() - 1).getMaHS());
+        selected.setMaMH(listMonHoc.get(binding.spinnerTenmhPk.getSelectedItemPosition() - 1).getMaMH());
         selected.setLyDo(binding.etLydoPk.getText().toString());
         selected.setNgayGui(getCurrentDate());
         selected.setTrangThai(binding.spinnerTrangthaiPk.getSelectedItem().toString());
@@ -210,7 +213,7 @@ public class PhucKhaoActivity extends AppCompatActivity {
 
     private void clearForm() {
         binding.spinnerMahsPk.setSelection(0);
-        binding.spinnerMahsPk.setSelection(0);
+        binding.spinnerTenmhPk.setSelection(0);
         binding.etLydoPk.setText("");
         binding.spinnerTrangthaiPk.setSelection(0);
         selected = null;

@@ -59,12 +59,6 @@
                         android:layout_height="wrap_content"
                         android:hint="Tìm tiêu đề..." />
 
-                    <Spinner
-                        android:id="@+id/spinner_nguoigui"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp" />
-
                     <Button
                         android:id="@+id/btn_filter_tb"
                         android:layout_width="match_parent"

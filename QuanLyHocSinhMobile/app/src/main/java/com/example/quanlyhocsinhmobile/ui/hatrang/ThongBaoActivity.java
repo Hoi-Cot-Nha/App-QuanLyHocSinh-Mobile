@@ -1,10 +1,12 @@
 package com.example.quanlyhocsinhmobile.ui.hatrang;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,7 +33,6 @@ public class ThongBaoActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ThongBaoViewModel.class);
 
         setupRecyclerView();
-        setupSpinners();
         observeViewModel();
         setupClick();
     }
@@ -45,13 +46,6 @@ public class ThongBaoActivity extends AppCompatActivity {
         binding.rvThongbao.setAdapter(adapter);
     }
 
-    private void setupSpinners() {
-        String[] nguoiGui = {"---Tất cả---","AD01","AD02"};
-        binding.spinnerNguoigui.setAdapter(
-                new ArrayAdapter<>(this, R.layout.spinner_item, nguoiGui)
-        );
-    }
-
     private void observeViewModel() {
         viewModel.getThongBaoList().observe(this, list -> {
             adapter.setList(list);
@@ -62,13 +56,7 @@ public class ThongBaoActivity extends AppCompatActivity {
 
         binding.btnFilterTb.setOnClickListener(v -> {
             String search = binding.etSearchTb.getText().toString();
-
-            String nguoiGui = "";
-            if (binding.spinnerNguoigui.getSelectedItemPosition() > 0) {
-                nguoiGui = binding.spinnerNguoigui.getSelectedItem().toString();
-            }
-
-            viewModel.filter(search, nguoiGui);
+            viewModel.search(search);
         });
 
         binding.btnAddTb.setOnClickListener(v -> {
