@@ -124,7 +124,13 @@ public class HocPhiActivity extends AppCompatActivity {
 
             selectedHocPhi.setTongTien(tong);
             selectedHocPhi.setMienGiam(mg);
+
+            if ( mg>tong ){
+                Toast.makeText(this,"Miễn giảm không hợp lệ!",Toast.LENGTH_SHORT).show();
+                return;
+            }
             selectedHocPhi.setPhaiDong(tong - mg);
+
             selectedHocPhi.setTrangThai(
                     binding.spinnerTrangthai.getSelectedItem().toString()
             );
@@ -134,13 +140,11 @@ public class HocPhiActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
 
-            //Reset lại form
             binding.etTongtien.setText("");
             binding.etMiengiam.setText("");
             binding.etPhaidong.setText("");
             binding.spinnerTrangthai.setSelection(0);
 
-            //bỏ chọn
             selectedHocPhi = null;
 
         } catch (Exception e) {
