@@ -60,6 +60,32 @@
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
 
+<!--        <activity-->
+<!--            android:name=".ui.dat.LopActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="Quản lý lớp học"-->
+<!--            android:theme="@style/Theme.QuanLyHocSinhMoblie">-->
+<!--        </activity>-->
+        <activity
+            android:name=".ui.dat.GiaoVienActivity"
+            android:exported="true"
+            android:label="Quản lý Giáo Viên"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
+
+        <activity
+            android:name=".ui.dat.ToBoMonActivity"
+            android:exported="true"
+            android:label="Quản lý Tổ Bộ Môn"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
+
+        <activity
+            android:name=".ui.dat.LopActivity"
+            android:exported="true"
+            android:label="Quản lý Lớp"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
     </application>
 
 </manifest>

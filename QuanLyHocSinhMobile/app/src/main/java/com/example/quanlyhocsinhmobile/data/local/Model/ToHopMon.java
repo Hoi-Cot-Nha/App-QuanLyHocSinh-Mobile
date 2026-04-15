@@ -13,13 +13,14 @@ public class ToHopMon {
     @NonNull
     private String tenToHop;
 
-    public ToHopMon() {}
-
     @Ignore
     public ToHopMon(@NonNull String maToHop, @NonNull String tenToHop) {
         this.maToHop = maToHop;
         this.tenToHop = tenToHop;
     }
+    public ToHopMon() {}
+
+
 
     @NonNull
     public String getMaToHop() { return maToHop; }
