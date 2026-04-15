@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@drawable/border_bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_mahs"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="HS01"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_hoten"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Nguyễn Văn A"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_tenmon"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Toán"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_lydo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Chấm sót câu 2"
+        android:textColor="@android:color/black"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/tv_ngaygui"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="20/05/2024"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_trangthai"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Đang chờ"
+        android:textStyle="italic"
+        android:textColor="@android:color/black" />
+
+</LinearLayout>

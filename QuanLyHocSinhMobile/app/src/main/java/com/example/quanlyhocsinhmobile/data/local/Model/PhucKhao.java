@@ -1,5 +1,6 @@
 package com.example.quanlyhocsinhmobile.data.local.Model;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -41,6 +42,7 @@ public class PhucKhao {
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
 
     public static class Display {
+        @Embedded
         private PhucKhao phucKhao;
         private String tenHS;
         private String tenMH;

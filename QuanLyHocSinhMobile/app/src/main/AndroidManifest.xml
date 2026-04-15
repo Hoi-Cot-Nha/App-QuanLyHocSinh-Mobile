@@ -83,6 +83,24 @@
             android:label="Đăng nhập"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
+        <activity
+            android:name=".ui.hatrang.HocPhiActivity"
+            android:exported="true"
+            android:label="Quản lý học phí"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
+        <activity
+            android:name=".ui.hatrang.ThongBaoActivity"
+            android:exported="true"
+            android:label="Quản lý thông báo"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
+        <activity
+            android:name=".ui.hatrang.PhucKhaoActivity"
+            android:exported="true"
+            android:label="Quản lý phúc khảo"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
+        </activity>
 
     </application>
 
