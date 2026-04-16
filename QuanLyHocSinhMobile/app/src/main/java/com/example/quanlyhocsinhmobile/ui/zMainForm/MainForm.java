@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quanlyhocsinhmobile.R;
-import com.example.quanlyhocsinhmobile.ui.dai.LoginActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.MonHocActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.PhongHocActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.TKBActivity;
@@ -25,9 +24,18 @@ public class MainForm extends AppCompatActivity {
 
     private void setupButtons() {
         // Group 1
-        findViewById(R.id.btn_lop_hoc).setOnClickListener(v -> showToast("Quản lý lớp học"));
-        findViewById(R.id.btn_giao_vien).setOnClickListener(v -> showToast("Quản lý giáo viên"));
-        findViewById(R.id.btn_to_bo_mon).setOnClickListener(v -> showToast("Quản lý tổ bộ môn"));
+        findViewById(R.id.btn_lop_hoc).setOnClickListener(v -> {;
+            Intent intent = new Intent(MainForm.this, LopActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.btn_giao_vien).setOnClickListener(v -> {
+            Intent intent = new Intent(MainForm.this, GiaoVienActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.btn_to_bo_mon).setOnClickListener(v -> {
+            Intent intent = new Intent(MainForm.this, ToBoMonActivity.class);
+            startActivity(intent);
+        });
 
         // Group 2
         findViewById(R.id.btn_mon_hoc).setOnClickListener(v -> {

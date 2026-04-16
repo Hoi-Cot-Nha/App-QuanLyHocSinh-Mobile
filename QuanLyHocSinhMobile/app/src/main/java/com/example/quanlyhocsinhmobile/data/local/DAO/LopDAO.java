@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 
@@ -20,3 +21,5 @@ public interface LopDAO {
     @Query("SELECT MaLop FROM Lop")
     List<String> getAllMaLop();
 }
+
+

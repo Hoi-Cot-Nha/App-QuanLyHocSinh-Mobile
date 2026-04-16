@@ -36,7 +36,7 @@ public class TKBRepository {
 
     public List<Lop> getAllLop() { return lopDAO.getAll(); }
     public List<MonHoc> getAllMonHoc() { return monHocDAO.getAll(); }
-    public List<GiaoVien> getAllGiaoVien() { return giaoVienDAO.getAll(); }
+    public List<GiaoVien.Display> getAllGiaoVien() { return giaoVienDAO.getAll(); }
     public List<PhongHoc> getAllPhongHoc() { return phongHocDAO.getAll(); }
 
     public void insert(ThoiKhoaBieu tkb) {

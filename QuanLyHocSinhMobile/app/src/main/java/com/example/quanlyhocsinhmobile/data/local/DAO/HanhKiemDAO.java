@@ -13,7 +13,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.HanhKiem;
 import java.util.List;
 
 @Dao
-public interface HanhKiemDAO {
+public interface  HanhKiemDAO {
 
     @Query("SELECT HanhKiem.*, HocSinh.HoTen as tenHS, Lop.TenLop as tenLop " +
            "FROM HanhKiem " +

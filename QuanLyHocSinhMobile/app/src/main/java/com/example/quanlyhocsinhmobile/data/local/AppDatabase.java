@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
     TaiKhoan.class, GiaoVien.class, Lop.class, HocSinh.class,
     ThoiKhoaBieu.class, Diem.class, HanhKiem.class, LichThi.class,
     HocPhi.class, ThongBao.class, PhucKhao.class
-}, version = 17, exportSchema = false)
+}, version = 18, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     // --- 1. Khai báo các DAO ---
@@ -32,6 +32,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract HocPhiDAO hocPhiDAO();
     public abstract TKBDAO tkbDAO();
     public abstract GiaoVienDAO giaoVienDAO();
+
+    public abstract ToBoMonDAO toBoMonDAO();
     public abstract ThongBaoDAO thongBaoDAO();
     public abstract PhucKhaoDAO phucKhaoDAO();
     public abstract DoiTuongDAO doiTuongDAO();
