@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@color/color_primary_blue">
 
     <!-- TITLE -->
@@ -64,7 +65,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="LỌC" />
+                        android:backgroundTint="@color/color_secondary_teal"
+                        android:text="LỌC"
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -187,20 +190,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="THÊM" />
+                        android:backgroundTint="#4CAF50"
+                        android:text="THÊM"
+                        android:textColor="@color/white" />
 
                     <Button
                         android:id="@+id/btn_update_tb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="SỬA" />
+                        android:backgroundTint="#2196F3"
+                        android:text="SỬA"
+                        android:textColor="@color/white" />
                     <Button
                         android:id="@+id/btn_delete_tb"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Xoá"/>
+                        android:backgroundTint="#F44336"
+                        android:text="Xoá"
+                        android:textColor="@color/white"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
