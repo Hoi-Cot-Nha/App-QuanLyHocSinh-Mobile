@@ -19,6 +19,7 @@
             app:cardCornerRadius="0dp">
 
             <TextView
+                android:id="@+id/tv_title_giaovien"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -44,15 +45,17 @@
 
                 <!-- SEARCH -->
                 <TextView
+                    android:id="@+id/tv_filter_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1. BỘ LỌC GIÁO VIÊN"
+                    android:text="BỘ LỌC GIÁO VIÊN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp"/>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="8dp"
@@ -85,9 +88,10 @@
 
                 <!-- LIST -->
                 <TextView
+                    android:id="@+id/tv_list_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2. DANH SÁCH GIÁO VIÊN"
+                    android:text="DANH SÁCH GIÁO VIÊN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -192,9 +196,10 @@
 
                 <!-- FORM -->
                 <TextView
+                    android:id="@+id/tv_form_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3. THÔNG TIN GIÁO VIÊN"
+                    android:text="THÔNG TIN GIÁO VIÊN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"

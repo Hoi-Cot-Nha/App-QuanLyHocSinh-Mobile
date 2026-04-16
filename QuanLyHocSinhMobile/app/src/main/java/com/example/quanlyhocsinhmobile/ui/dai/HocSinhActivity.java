@@ -2,6 +2,7 @@ package com.example.quanlyhocsinhmobile.ui.dai;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.data.local.AppDatabase;
 import com.example.quanlyhocsinhmobile.data.local.Model.HocSinh;
 import com.example.quanlyhocsinhmobile.utils.FormatDate;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -26,14 +28,13 @@ import java.util.List;
 
 public class HocSinhActivity extends AppCompatActivity {
 
-    // ===== VIEW =====
     private EditText etSearch;
     private TextInputEditText ma, ten, etNs, gt, dc;
     private Spinner spLop, spDT;
     private Button btnAdd, btnSave, btnDelete, btnSearch, btnRefresh;
     private RecyclerView rv;
+    private PhanQuyen phanQuyen;
 
-    // ===== DATA =====
     private HocSinhViewModel vm;
     private HocSinhAdapter adapter;
     private HocSinh selected;
@@ -46,15 +47,42 @@ public class HocSinhActivity extends AppCompatActivity {
         super.onCreate(b);
         setContentView(R.layout.dai_activity_hocsinh);
 
+        phanQuyen = PhanQuyen.getInstance(this);
         vm = new ViewModelProvider(this).get(HocSinhViewModel.class);
 
         initViews();
         loadSpinner();
         setupRecyclerView();
         observeViewModel();
+        apDungPhanQuyen();
     }
 
-    // ================= INIT VIEW =================
+    private void apDungPhanQuyen() {
+        if ("GiaoVien".equals(phanQuyen.getQuyen())) {
+            if (btnAdd != null) btnAdd.setVisibility(View.GONE);
+            if (btnDelete != null) btnDelete.setVisibility(View.GONE);
+        }
+        
+        if ("HocSinh".equals(phanQuyen.getQuyen())) {
+            // Học sinh ẩn nút thêm và xóa
+            if (btnAdd != null) btnAdd.setVisibility(View.GONE);
+            if (btnDelete != null) btnDelete.setVisibility(View.GONE);
+            
+            // Không được sửa mã lớp và mã đối tượng
+            if (spLop != null) spLop.setEnabled(false);
+            if (spDT != null) spDT.setEnabled(false);
+            
+            // Chỉ thấy hồ sơ của chính mình
+            String maHS = phanQuyen.getMaNguoiDung();
+            if (maHS != null) {
+                vm.search(maHS);
+                // Ẩn tìm kiếm
+                if (etSearch != null) etSearch.setVisibility(View.GONE);
+                if (btnSearch != null) btnSearch.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void initViews() {
         etSearch = findViewById(R.id.et_search);
         ma = findViewById(R.id.et_ma);
@@ -72,13 +100,9 @@ public class HocSinhActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btn_search);
         btnRefresh = findViewById(R.id.btn_refresh);
 
-        // ===== DATE PICKER =====
         etNs.setOnClickListener(v -> {
             etNs.setError(null);
-
             Calendar c = Calendar.getInstance();
-
-            // 👉 mặc định năm giữa cho đẹp (2009)
             int defaultYear = 2009;
 
             DatePickerDialog dialog = new DatePickerDialog(
@@ -271,21 +295,20 @@ public class HocSinhActivity extends AppCompatActivity {
         return true;
     }
 
-    // ================= CLEAR =================
     private void clearForm() {
         selected = null;
-
         ma.setText("");
         ten.setText("");
         etNs.setText("");
         etNs.setTag(null);
         gt.setText("");
         dc.setText("");
-
         spLop.setSelection(0);
         spDT.setSelection(0);
 
-        ma.setEnabled(true);
+        if (!"HocSinh".equals(phanQuyen.getQuyen())) {
+            ma.setEnabled(true);
+        }
         etSearch.setText("");
     }
 }

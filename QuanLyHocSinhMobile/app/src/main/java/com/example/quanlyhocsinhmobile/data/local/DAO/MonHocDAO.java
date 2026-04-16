@@ -31,9 +31,6 @@ public interface MonHocDAO {
     @Query("SELECT COUNT(*) FROM monhoc WHERE TenMH = :tenMH")
     int checkTenMonHoc(String tenMH);
 
-    @Query("SELECT TenMH FROM monhoc WHERE MaMH = :maMH")
-    String getTenMonHoc(String maMH);
-
     @Query("SELECT * FROM monhoc WHERE MaMH LIKE '%' || :query || '%' OR TenMH LIKE '%' || :query || '%'")
     List<MonHoc> search(String query);
 }

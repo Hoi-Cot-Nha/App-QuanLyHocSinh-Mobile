@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="8dp">
         <TextView
+            android:id="@+id/tv_title_diem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8.5dp"
@@ -34,15 +35,17 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_filter_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. BỘ LỌC DANH SÁCH"
+                android:text="BỘ LỌC DANH SÁCH"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -129,15 +132,17 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_search_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2. TÌM KIẾM NHANH"
+                android:text="TÌM KIẾM NHANH"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -172,7 +177,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3. DANH SÁCH CHI TIẾT"
+                android:text="DANH SÁCH CHI TIẾT"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -219,15 +224,17 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tvUpdateTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4. CẬP NHẬT ĐIỂM SỐ"
+                android:text="CẬP NHẬT ĐIỂM SỐ"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_update_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"

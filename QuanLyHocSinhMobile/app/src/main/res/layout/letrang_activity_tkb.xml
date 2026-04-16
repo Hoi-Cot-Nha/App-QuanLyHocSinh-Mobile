@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             app:cardElevation="8dp">
             <TextView
+                android:id="@+id/tv_title_tkb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8.5dp"
@@ -39,15 +40,17 @@
 
                 <!-- 1. BỘ LỌC -->
                 <TextView
+                    android:id="@+id/tv_filter_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1. BỘ LỌC THỜI KHÓA BIỂU"
+                    android:text="BỘ LỌC THỜI KHÓA BIỂU"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="8dp"
@@ -65,19 +68,58 @@
                             android:columnCount="2"
                             android:alignmentMode="alignMargins">
 
-                            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:orientation="vertical" android:layout_margin="4dp">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lớp học" android:textSize="12sp" android:textColor="#666666" android:paddingStart="4dp"/>
-                                <Spinner android:id="@+id/spinner_class" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <LinearLayout android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_margin="4dp">
+                                <TextView android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lớp học"
+                                    android:textSize="12sp"
+                                    android:textColor="#666666"
+                                    android:paddingStart="4dp"/>
+                                <Spinner android:id="@+id/spinner_class"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:background="@android:drawable/btn_dropdown"/>
                             </LinearLayout>
 
-                            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:orientation="vertical" android:layout_margin="4dp">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Môn học" android:textSize="12sp" android:textColor="#666666" android:paddingStart="4dp"/>
-                                <Spinner android:id="@+id/spinner_subject" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <LinearLayout android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_margin="4dp">
+                                <TextView android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Môn học"
+                                    android:textSize="12sp"
+                                    android:textColor="#666666"
+                                    android:paddingStart="4dp"/>
+                                <Spinner android:id="@+id/spinner_subject"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:background="@android:drawable/btn_dropdown"/>
                             </LinearLayout>
 
-                            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:orientation="vertical" android:layout_margin="4dp">
-                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thứ" android:textSize="12sp" android:textColor="#666666" android:paddingStart="4dp"/>
-                                <Spinner android:id="@+id/spinner_thu" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_margin="4dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thứ"
+                                    android:textSize="12sp"
+                                    android:textColor="#666666"
+                                    android:paddingStart="4dp"/>
+                                <Spinner
+                                    android:id="@+id/spinner_thu"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:background="@android:drawable/btn_dropdown"/>
                             </LinearLayout>
 
                             <Button android:id="@+id/btn_filter"
@@ -95,9 +137,10 @@
 
                 <!-- 2. DANH SÁCH DẠNG BẢNG -->
                 <TextView
+                    android:id="@+id/tv_list_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2. DANH SÁCH CHI TIẾT"
+                    android:text="DANH SÁCH CHI TIẾT"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -123,12 +166,54 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/color_primary_blue_dark"
                                 android:padding="12dp">
-                                <TextView android:layout_width="60dp" android:layout_height="wrap_content" android:text="Thứ" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
-                                <TextView android:layout_width="100dp" android:layout_height="wrap_content" android:text="Tiết" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
-                                <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Lớp" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
-                                <TextView android:layout_width="140dp" android:layout_height="wrap_content" android:text="Môn học" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
-                                <TextView android:layout_width="80dp" android:layout_height="wrap_content" android:text="Phòng" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
-                                <TextView android:layout_width="150dp" android:layout_height="wrap_content" android:text="Giáo viên" android:textColor="@color/white" android:textStyle="bold" android:gravity="center" android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thứ"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tiết"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lớp"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="140dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Môn học"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Phòng"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Giáo viên"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:textSize="16sp"/>
                             </LinearLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -141,15 +226,17 @@
 
                 <!-- 3. CẬP NHẬT THÔNG TIN -->
                 <TextView
+                    android:id="@+id/tv_update_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3. CẬP NHẬT THÔNG TIN"
+                    android:text="CẬP NHẬT THÔNG TIN"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="8dp"
@@ -161,88 +248,195 @@
                         android:orientation="vertical"
                         android:padding="16dp">
 
-                        <TextView android:id="@+id/tv_tkb_info" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tiết học: --" android:textSize="18sp" android:textStyle="bold" android:textColor="@color/color_primary_blue_dark" android:layout_marginBottom="16dp"/>
-
-                        <GridLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:columnCount="2"
-                            android:alignmentMode="alignMargins">
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tiết bắt đầu" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_tietBD" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Tiết kết thúc" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_tietKT" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Lớp học" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_update_class" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Môn học" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_update_subject" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Phòng học" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_update_room" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Giáo viên" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_update_teacher" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:padding="4dp">
-                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Thứ" android:textSize="14sp" android:textColor="#666666"/>
-                                <Spinner android:id="@+id/spinner_update_thu" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
-                            </LinearLayout>
-                        </GridLayout>
-
+                        <!-- Layout contains inputs and form info -->
                         <LinearLayout
+                            android:id="@+id/layout_tkb_form"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="16dp"
-                            android:gravity="center">
+                            android:orientation="vertical">
 
-                            <Button android:id="@+id/btn_add"
-                                android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/tv_tkb_info"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_margin="4dp"
-                                android:text="THÊM"
-                                android:backgroundTint="#4CAF50"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
+                                android:text="Tiết học: --"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/color_primary_blue_dark"
+                                android:layout_marginBottom="16dp"/>
 
-                            <Button android:id="@+id/btn_save"
-                                android:layout_width="0dp"
+                            <GridLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_margin="4dp"
-                                android:text="SỬA"
-                                android:backgroundTint="#2196F3"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
+                                android:columnCount="2"
+                                android:alignmentMode="alignMargins">
 
-                            <Button android:id="@+id/btn_delete"
-                                android:layout_width="0dp"
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tiết bắt đầu"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_tietBD"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tiết kết thúc"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_tietKT"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Lớp học"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_update_class"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Môn học"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_update_subject"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Phòng học"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_update_room"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Giáo viên"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner android:id="@+id/spinner_update_teacher"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+
+                                <LinearLayout android:layout_width="0dp"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:padding="4dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Thứ"
+                                        android:textSize="14sp"
+                                        android:textColor="#666666"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_update_thu"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@android:drawable/btn_dropdown"/>
+                                </LinearLayout>
+                            </GridLayout>
+
+                            <LinearLayout
+                                android:id="@+id/layout_admin_actions"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_margin="4dp"
-                                android:text="XÓA"
-                                android:backgroundTint="#F44336"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
+                                android:orientation="horizontal"
+                                android:layout_marginTop="16dp"
+                                android:gravity="center">
+
+                                <Button android:id="@+id/btn_add"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_margin="4dp"
+                                    android:text="THÊM"
+                                    android:backgroundTint="#4CAF50"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold" />
+
+                                <Button android:id="@+id/btn_save"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_margin="4dp"
+                                    android:text="SỬA"
+                                    android:backgroundTint="#2196F3"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold" />
+
+                                <Button android:id="@+id/btn_delete"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_margin="4dp"
+                                    android:text="XÓA"
+                                    android:backgroundTint="#F44336"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
                         </LinearLayout>
 
+                        <!-- Common buttons visible to everyone -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

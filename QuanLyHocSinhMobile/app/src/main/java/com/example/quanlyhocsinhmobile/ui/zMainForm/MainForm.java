@@ -2,6 +2,9 @@ package com.example.quanlyhocsinhmobile.ui.zMainForm;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,15 +18,51 @@ import com.example.quanlyhocsinhmobile.ui.dat.ToBoMonActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.MonHocActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.PhongHocActivity;
 import com.example.quanlyhocsinhmobile.ui.letrang.TKBActivity;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 public class MainForm extends AppCompatActivity {
+
+    private PhanQuyen phanQuyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_main_form);
 
+        phanQuyen = PhanQuyen.getInstance(this);
         setupButtons();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        String quyen = phanQuyen.getQuyen();
+        if ("GiaoVien".equals(quyen)) {
+            findViewById(R.id.btn_lop_hoc).setVisibility(View.GONE);
+            findViewById(R.id.btn_to_bo_mon).setVisibility(View.GONE);
+            findViewById(R.id.btn_mon_hoc).setVisibility(View.GONE);
+            findViewById(R.id.btn_thiet_bi).setVisibility(View.GONE);
+            findViewById(R.id.btn_hoc_phi).setVisibility(View.GONE);
+            findViewById(R.id.btn_tai_khoan).setVisibility(View.GONE);
+            findViewById(R.id.btn_chinh_sach).setVisibility(View.GONE);
+            
+            Button btnGiaoVien = findViewById(R.id.btn_giao_vien);
+            if (btnGiaoVien != null) {
+                btnGiaoVien.setText("HỒ SƠ GIÁO VIÊN");
+            }
+        } else if ("HocSinh".equals(quyen)) {
+            View tvHoso = findViewById(R.id.tv_Hoso);
+            if (tvHoso != null) tvHoso.setVisibility(View.GONE);
+            
+            findViewById(R.id.btn_lop_hoc).setVisibility(View.GONE);
+            findViewById(R.id.btn_giao_vien).setVisibility(View.GONE);
+            findViewById(R.id.btn_to_bo_mon).setVisibility(View.GONE);
+            
+            findViewById(R.id.btn_mon_hoc).setVisibility(View.GONE);
+            findViewById(R.id.btn_thiet_bi).setVisibility(View.GONE);
+            
+            findViewById(R.id.btn_tai_khoan).setVisibility(View.GONE);
+            findViewById(R.id.btn_chinh_sach).setVisibility(View.GONE);
+        }
     }
 
     private void setupButtons() {
@@ -102,14 +141,10 @@ public class MainForm extends AppCompatActivity {
                     .setTitle("Đăng xuất")
                     .setMessage("Bạn có chắc muốn đăng xuất?")
                     .setPositiveButton("Đăng xuất", (dialog, which) -> {
-
+                        phanQuyen.dangXuat();
                         Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-
                         Intent intent = new Intent(MainForm.this, LoginActivity.class);
-
-                        // Xóa toàn bộ stack
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     })

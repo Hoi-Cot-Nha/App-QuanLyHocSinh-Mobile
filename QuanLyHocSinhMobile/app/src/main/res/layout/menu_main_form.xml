@@ -40,9 +40,10 @@
 
             <!-- NHÓM 1: HỒ SƠ & CƠ CẤU -->
             <TextView
+                android:id="@+id/tv_Hoso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. HỒ SƠ &amp; CƠ CẤU"
+                android:text="HỒ SƠ &amp; CƠ CẤU"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -71,13 +72,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2. ĐÀO TẠO"
+                android:text="ĐÀO TẠO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_nhom2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -98,20 +100,21 @@
 
             <!-- NHÓM 3: KHẢO THÍ & KẾT QUẢ -->
             <TextView
+                android:id="@+id/tv_nhom3_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3. KHẢO THÍ &amp; KẾT QUẢ"
+                android:text="KHẢO THÍ &amp; KẾT QUẢ"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_nhom3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
-                app:cardBackgroundColor="@color/white"
-                android:layout_marginBottom="24dp">
+                app:cardBackgroundColor="@color/white" android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -127,15 +130,17 @@
 
             <!-- NHÓM 4: HÀNH CHÍ & TÀI VỤ -->
             <TextView
+                android:id="@+id/tv_nhom4_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4. HÀNH CHÍNH &amp; TÀI VỤ"
+                android:text="HÀNH CHÍNH &amp; TÀI VỤ"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_nhom4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -156,15 +161,17 @@
 
             <!-- NHÓM 5: HỆ THỐNG & CHÍNH SÁCH -->
             <TextView
+                android:id="@+id/tv_nhom5_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5. HỆ THỐNG &amp; CHÍNH SÁCH"
+                android:text="HỆ THỐNG &amp; CHÍNH SÁCH"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_nhom5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"

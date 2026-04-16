@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1. BỘ LỌC TỔ BỘ MÔN"
+                    android:text="BỘ LỌC TỔ BỘ MÔN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2. DANH SÁCH TỔ BỘ MÔN"
+                    android:text="DANH SÁCH TỔ BỘ MÔN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -147,7 +147,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3. THÔNG TIN TỔ BỘ MÔN"
+                    android:text="THÔNG TIN TỔ BỘ MÔN"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"

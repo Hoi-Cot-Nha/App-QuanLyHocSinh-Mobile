@@ -14,6 +14,7 @@
         app:cardElevation="8dp">
 
         <TextView
+            android:id="@+id/tv_title_phuckhao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="QUẢN LÝ PHÚC KHẢO"
@@ -38,14 +39,16 @@
 
             <!-- FILTER -->
             <TextView
+                android:id="@+id/tv_filter_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. BỘ LỌC"
+                android:text="BỘ LỌC"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_filter_pk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
@@ -80,15 +83,17 @@
 
             <!-- DANH SÁCH -->
             <TextView
+                android:id="@+id/tv_list_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="2. DANH SÁCH PHÚC KHẢO"
+                android:text="DANH SÁCH PHÚC KHẢO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
@@ -158,15 +163,17 @@
 
             <!-- THÊM / SỬA / XOÁ -->
             <TextView
+                android:id="@+id/tv_update_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="3. QUẢN LÝ PHÚC KHẢO"
+                android:text="QUẢN LÝ PHÚC KHẢO"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

@@ -34,15 +34,17 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tv_filter_title_hk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. BỘ LỌC DANH SÁCH"
+                android:text="BỘ LỌC DANH SÁCH"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_filter_hk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -73,7 +75,7 @@
                                 android:textSize="12sp"
                                 android:textColor="#666666"
                                 android:paddingStart="4dp"/>
-                            <Spinner android:id="@+id/spinner_class_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <Spinner android:id="@+id/spinner_class_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -89,7 +91,7 @@
                                 android:textSize="12sp"
                                 android:textColor="#666666"
                                 android:paddingStart="4dp"/>
-                            <Spinner android:id="@+id/spinner_semester_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <Spinner android:id="@+id/spinner_semester_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -105,7 +107,7 @@
                                 android:textSize="12sp"
                                 android:textColor="#666666"
                                 android:paddingStart="4dp"/>
-                            <Spinner android:id="@+id/spinner_year_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown"/>
+                            <Spinner android:id="@+id/spinner_year_hk" android:layout_width="match_parent" android:layout_height="48dp" android:background="@android:drawable/btn_dropdown" />
                         </LinearLayout>
 
                         <Button android:id="@+id/btn_filter_hk"
@@ -123,15 +125,17 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_search_title_hk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2. TÌM KIẾM NHANH"
+                android:text="TÌM KIẾM NHANH"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_search_hk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -166,7 +170,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3. DANH SÁCH CHI TIẾT"
+                android:text="DANH SÁCH CHI TIẾT"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -210,15 +214,17 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_update_title_hk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4. CẬP NHẬT HẠNH KIỂM"
+                android:text="CẬP NHẬT HẠNH KIỂM"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_update_hk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"

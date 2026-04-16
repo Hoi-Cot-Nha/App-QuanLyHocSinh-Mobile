@@ -1,6 +1,7 @@
 package com.example.quanlyhocsinhmobile.ui.tien;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.HanhKiem;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.example.quanlyhocsinhmobile.databinding.TienActivityHanhkiemBinding;
 import com.example.quanlyhocsinhmobile.utils.ExcelHelper;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class HanhKiemActivity extends AppCompatActivity {
     private HanhKiemAdapter adapter;
     private List<Lop> listLop = new ArrayList<>();
     private HanhKiem selectedHanhKiem;
+    private PhanQuyen phanQuyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +34,44 @@ public class HanhKiemActivity extends AppCompatActivity {
         binding = TienActivityHanhkiemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(HanhKiemViewModel.class);
         
         setupRecyclerView();
         setupSpinners();
         observeViewModel();
         setupClickListeners();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        String quyen = phanQuyen.getQuyen();
+        if ("HocSinh".equals(quyen)) {
+            // Đổi tiêu đề cho học sinh
+            View titleView = ((android.view.ViewGroup)((android.view.ViewGroup)binding.getRoot()).getChildAt(0)).getChildAt(0);
+            if (titleView instanceof android.widget.TextView) {
+                ((android.widget.TextView) titleView).setText("HẠNH KIỂM");
+            }
+
+            // Ẩn phần cập nhật hạnh kiểm
+            binding.tvUpdateTitleHk.setVisibility(View.GONE);
+            binding.cardUpdateHk.setVisibility(View.GONE);
+            
+            // Chỉ thấy hạnh kiểm của mình
+            String maHS = phanQuyen.getMaNguoiDung();
+            if (maHS != null && !maHS.isEmpty()) {
+                viewModel.search(maHS);
+                // Ẩn thanh tìm kiếm và bộ lọc để học sinh chỉ thấy hạnh kiểm của mình
+                binding.cardSearchHk.setVisibility(View.GONE);
+                binding.tvSearchTitleHk.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setupRecyclerView() {
         binding.rvHanhKiem.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HanhKiemAdapter(new ArrayList<>(), display -> {
+            if ("HocSinh".equals(phanQuyen.getQuyen())) return;
             selectedHanhKiem = display.getHanhKiem();
             binding.tvMahsHkUpdate.setText("Mã HS: " + selectedHanhKiem.getMaHS());
             binding.tvHotenHkUpdate.setText("Học sinh: " + display.getTenHS());

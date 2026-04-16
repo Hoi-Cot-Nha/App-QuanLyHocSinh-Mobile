@@ -3,6 +3,7 @@ package com.example.quanlyhocsinhmobile.ui.tien;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,14 +18,12 @@ import com.example.quanlyhocsinhmobile.data.local.Model.PhongHoc;
 import com.example.quanlyhocsinhmobile.databinding.TienActivityLichthiBinding;
 import com.example.quanlyhocsinhmobile.utils.FormatDate;
 import com.example.quanlyhocsinhmobile.utils.ExcelHelper;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class LichThiActivity extends AppCompatActivity {
 
@@ -32,6 +31,7 @@ public class LichThiActivity extends AppCompatActivity {
     private LichThiViewModel viewModel;
     private LichThiAdapter adapter;
     private LichThi selectedLichThi;
+    private PhanQuyen phanQuyen;
 
     private List<MonHoc> listMonHoc = new ArrayList<>();
     private List<PhongHoc> listPhongHoc = new ArrayList<>();
@@ -42,17 +42,33 @@ public class LichThiActivity extends AppCompatActivity {
         binding = TienActivityLichthiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(LichThiViewModel.class);
 
         setupRecyclerView();
         observeViewModel();
         setupDateTimePickers();
         setupClickListeners();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        String quyen = phanQuyen.getQuyen();
+        if ("GiaoVien".equals(quyen) || "HocSinh".equals(quyen)) {
+            // Đổi tiêu đề
+            if (binding.tvTitleLichthi != null) {
+                binding.tvTitleLichthi.setText("LỊCH THI");
+            }
+            // Ẩn phần cập nhật
+            if (binding.tvUpdateTitle != null) binding.tvUpdateTitle.setVisibility(View.GONE);
+            if (binding.cardUpdate != null) binding.cardUpdate.setVisibility(View.GONE);
+        }
     }
 
     private void setupRecyclerView() {
         binding.rvLichthi.setLayoutManager(new LinearLayoutManager(this));
         adapter = new LichThiAdapter(new ArrayList<>(), display -> {
+            if ("GiaoVien".equals(phanQuyen.getQuyen()) || "HocSinh".equals(phanQuyen.getQuyen())) return;
             selectedLichThi = display.getLichThi();
             displaySelectedLichThi();
         });

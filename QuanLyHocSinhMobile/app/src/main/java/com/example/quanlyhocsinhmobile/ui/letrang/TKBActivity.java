@@ -1,6 +1,7 @@
 package com.example.quanlyhocsinhmobile.ui.letrang;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.example.quanlyhocsinhmobile.data.local.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.data.local.Model.PhongHoc;
 import com.example.quanlyhocsinhmobile.data.local.Model.ThoiKhoaBieu;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +30,14 @@ public class TKBActivity extends AppCompatActivity {
     private Button btnFilter;
     private RecyclerView rvTkb;
 
-    private TextView tvTkbInfo;
+    private TextView tvTkbInfo, tvUpdateTitle, tvTitleTkb;
     private Spinner spUpdateTietBD, spUpdateTietKT, spUpdateClass, spUpdateSubject, spUpdateRoom, spUpdateTeacher, spUpdateThu;
     private Button btnAdd, btnSave, btnDelete, btnRefresh, btnExcel;
+    private View cardUpdate, layoutTkbForm;
 
     private TKBViewModel viewModel;
     private TKBAdapter adapter;
+    private PhanQuyen phanQuyen;
     
     private List<Lop> listLop = new ArrayList<>();
     private List<MonHoc> listMonHoc = new ArrayList<>();
@@ -47,14 +51,33 @@ public class TKBActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.letrang_activity_tkb);
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(TKBViewModel.class);
 
         initViews();
         setupRecyclerView();
         observeViewModel();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        if ("GiaoVien".equals(phanQuyen.getQuyen()) || "HocSinh".equals(phanQuyen.getQuyen())) {
+            // Chỉ ẩn tiêu đề và phần Form nhập liệu, giữ lại Card để hiện nút Làm mới/Excel
+            if (tvUpdateTitle != null) tvUpdateTitle.setVisibility(View.GONE);
+            if (layoutTkbForm != null) layoutTkbForm.setVisibility(View.GONE);
+            
+            // Đảm bảo Card vẫn hiện để chứa các nút chức năng chung
+            if (cardUpdate != null) cardUpdate.setVisibility(View.VISIBLE);
+        }
+        
+        if ("HocSinh".equals(phanQuyen.getQuyen())) {
+            if (spinnerClass != null) spinnerClass.setEnabled(false);
+            viewModel.loadMaLopHocSinh(phanQuyen.getMaNguoiDung());
+        }
     }
 
     private void initViews() {
+        tvTitleTkb = findViewById(R.id.tv_title_tkb);
         spinnerClass = findViewById(R.id.spinner_class);
         spinnerSubject = findViewById(R.id.spinner_subject);
         spinnerThu = findViewById(R.id.spinner_thu);
@@ -62,6 +85,10 @@ public class TKBActivity extends AppCompatActivity {
         rvTkb = findViewById(R.id.rv_tkb);
         rvTkb.setLayoutManager(new LinearLayoutManager(this));
 
+        tvUpdateTitle = findViewById(R.id.tv_update_title);
+        cardUpdate = findViewById(R.id.card_update);
+        layoutTkbForm = findViewById(R.id.layout_tkb_form);
+        
         tvTkbInfo = findViewById(R.id.tv_tkb_info);
         spUpdateTietBD = findViewById(R.id.spinner_tietBD);
         spUpdateTietKT = findViewById(R.id.spinner_tietKT);
@@ -79,21 +106,32 @@ public class TKBActivity extends AppCompatActivity {
 
         btnFilter.setOnClickListener(v -> performFilter());
 
-        btnAdd.setOnClickListener(v -> handleAdd());
-        btnSave.setOnClickListener(v -> handleUpdate());
-        btnDelete.setOnClickListener(v -> viewModel.delete(currentSelectedTKB));
+        if (btnAdd != null) btnAdd.setOnClickListener(v -> handleAdd());
+        if (btnSave != null) btnSave.setOnClickListener(v -> handleUpdate());
+        if (btnDelete != null) btnDelete.setOnClickListener(v -> viewModel.delete(currentSelectedTKB));
+        
         btnRefresh.setOnClickListener(v -> {
-            viewModel.loadTKB(0, "", "");
+            if ("HocSinh".equals(phanQuyen.getQuyen())) {
+                String maLop = viewModel.getMaLopHocSinh().getValue();
+                viewModel.loadTKB(0, maLop != null ? maLop : "", "");
+            } else {
+                viewModel.loadTKB(0, "", "");
+            }
             clearInputs();
         });
 
-        btnExcel.setOnClickListener(v -> Toast.makeText(this, "Xuất file Excel...", Toast.LENGTH_SHORT).show());
+        if (btnExcel != null) btnExcel.setOnClickListener(v -> Toast.makeText(this, "Xuất file Excel...", Toast.LENGTH_SHORT).show());
     }
 
     private void performFilter() {
         String maLop = "";
         int lopPos = spinnerClass.getSelectedItemPosition();
         if (lopPos > 0 && !listLop.isEmpty()) maLop = listLop.get(lopPos - 1).getMaLop();
+        
+        if ("HocSinh".equals(phanQuyen.getQuyen())) {
+            String studentClass = viewModel.getMaLopHocSinh().getValue();
+            if (studentClass != null) maLop = studentClass;
+        }
 
         String maMH = "";
         int monPos = spinnerSubject.getSelectedItemPosition();
@@ -156,34 +194,63 @@ public class TKBActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         adapter = new TKBAdapter(new ArrayList<>(), display -> {
+            if ("GiaoVien".equals(phanQuyen.getQuyen()) || "HocSinh".equals(phanQuyen.getQuyen())) return;
+            
             currentSelectedTKB = display.getThoiKhoaBieu();
-            tvTkbInfo.setText("Đang chọn: " + display.getTenMH() + " - Lớp " + display.getTenLop());
+            if (tvTkbInfo != null) tvTkbInfo.setText("Đang chọn: " + display.getTenMH() + " - Lớp " + display.getTenLop());
             
             setSpinnerSelection(spUpdateClass, display.getTenLop());
             setSpinnerSelection(spUpdateSubject, display.getTenMH());
             setSpinnerSelection(spUpdateTeacher, display.getTenGV());
             setSpinnerSelection(spUpdateRoom, display.getTenPhong());
             
-            spUpdateTietBD.setSelection(currentSelectedTKB.getTietBatDau());
-            spUpdateTietKT.setSelection(currentSelectedTKB.getTietKetThuc());
-            spUpdateThu.setSelection(currentSelectedTKB.getThu() - 1);
+            if (spUpdateTietBD != null) spUpdateTietBD.setSelection(currentSelectedTKB.getTietBatDau());
+            if (spUpdateTietKT != null) spUpdateTietKT.setSelection(currentSelectedTKB.getTietKetThuc());
+            if (spUpdateThu != null) spUpdateThu.setSelection(currentSelectedTKB.getThu() - 1);
         });
         rvTkb.setAdapter(adapter);
     }
 
     private void observeViewModel() {
-        viewModel.getTkbList().observe(this, list -> adapter.setTkbList(list));
+        viewModel.getTkbList().observe(this, list -> {
+            if ("HocSinh".equals(phanQuyen.getQuyen())) {
+                String maLop = viewModel.getMaLopHocSinh().getValue();
+                if (maLop != null) {
+                    List<ThoiKhoaBieu.Display> filtered = new ArrayList<>();
+                    for (ThoiKhoaBieu.Display d : list) {
+                        if (maLop.equals(d.getThoiKhoaBieu().getMaLop())) filtered.add(d);
+                    }
+                    adapter.setTkbList(filtered);
+                } else {
+                    adapter.setTkbList(list);
+                }
+            } else {
+                adapter.setTkbList(list);
+            }
+        });
+        
+        viewModel.getMaLopHocSinh().observe(this, maLop -> {
+            if ("HocSinh".equals(phanQuyen.getQuyen()) && maLop != null) {
+                viewModel.loadTKB(0, maLop, "");
+                setSpinnerSelectionByMaLop(spinnerClass, maLop);
+            }
+        });
         
         viewModel.getLops().observe(this, lops -> {
             this.listLop = lops;
             updateSpinner(spinnerClass, lops, "--- Lớp ---", true);
-            updateSpinner(spUpdateClass, lops, "--- Chọn lớp ---", true);
+            if (spUpdateClass != null) updateSpinner(spUpdateClass, lops, "--- Chọn lớp ---", true);
+            
+            if ("HocSinh".equals(phanQuyen.getQuyen())) {
+                String maLop = viewModel.getMaLopHocSinh().getValue();
+                if (maLop != null) setSpinnerSelectionByMaLop(spinnerClass, maLop);
+            }
         });
 
         viewModel.getMonHocs().observe(this, monHocs -> {
             this.listMonHoc = monHocs;
             updateSpinner(spinnerSubject, monHocs, "--- Môn ---", false);
-            updateSpinner(spUpdateSubject, monHocs, "--- Chọn môn ---", false);
+            if (spUpdateSubject != null) updateSpinner(spUpdateSubject, monHocs, "--- Chọn môn ---", false);
         });
 
         viewModel.getGiaoViens().observe(this, gvs -> {
@@ -191,7 +258,7 @@ public class TKBActivity extends AppCompatActivity {
             List<String> names = new ArrayList<>();
             names.add("--- Chọn GV ---");
             for (GiaoVien.Display g : gvs) names.add(g.getGiaoVien().getHoTen());
-            spUpdateTeacher.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, names));
+            if (spUpdateTeacher != null) spUpdateTeacher.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, names));
         });
 
         viewModel.getPhongHocs().observe(this, phongs -> {
@@ -199,7 +266,7 @@ public class TKBActivity extends AppCompatActivity {
             List<String> names = new ArrayList<>();
             names.add("--- Chọn phòng ---");
             for (PhongHoc p : phongs) names.add(p.getTenPhong());
-            spUpdateRoom.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, names));
+            if (spUpdateRoom != null) spUpdateRoom.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, names));
         });
 
         viewModel.getToastMessage().observe(this, message -> {
@@ -209,19 +276,19 @@ public class TKBActivity extends AppCompatActivity {
             }
         });
 
-        // Fixed data spinners
         String[] listThu = {"--- Thứ ---", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
         spinnerThu.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listThu));
         
         String[] listThuUpdate = {"--- Chọn thứ ---", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
-        spUpdateThu.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listThuUpdate));
+        if (spUpdateThu != null) spUpdateThu.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listThuUpdate));
 
         String[] listTiet = {"--- Tiết ---", "Tiết 1", "Tiết 2", "Tiết 3", "Tiết 4", "Tiết 5", "Tiết 6", "Tiết 7", "Tiết 8", "Tiết 9", "Tiết 10"};
-        spUpdateTietBD.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listTiet));
-        spUpdateTietKT.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listTiet));
+        if (spUpdateTietBD != null) spUpdateTietBD.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listTiet));
+        if (spUpdateTietKT != null) spUpdateTietKT.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, listTiet));
     }
 
     private void updateSpinner(Spinner spinner, List<?> data, String hint, boolean isLop) {
+        if (spinner == null) return;
         List<String> names = new ArrayList<>();
         names.add(hint);
         for (Object item : data) {
@@ -232,22 +299,33 @@ public class TKBActivity extends AppCompatActivity {
     }
 
     private void setSpinnerSelection(Spinner spinner, String value) {
-        if (spinner.getAdapter() instanceof ArrayAdapter) {
+        if (spinner != null && spinner.getAdapter() instanceof ArrayAdapter) {
             ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
             int position = adapter.getPosition(value);
             if (position >= 0) spinner.setSelection(position);
         }
     }
+    
+    private void setSpinnerSelectionByMaLop(Spinner spinner, String maLop) {
+        if (spinner != null && !listLop.isEmpty()) {
+            for (int i = 0; i < listLop.size(); i++) {
+                if (listLop.get(i).getMaLop().equals(maLop)) {
+                    spinner.setSelection(i + 1);
+                    break;
+                }
+            }
+        }
+    }
 
     private void clearInputs() {
         currentSelectedTKB = null;
-        tvTkbInfo.setText("Tiết học: --");
-        spUpdateClass.setSelection(0);
-        spUpdateSubject.setSelection(0);
-        spUpdateTeacher.setSelection(0);
-        spUpdateRoom.setSelection(0);
-        spUpdateThu.setSelection(0);
-        spUpdateTietBD.setSelection(0);
-        spUpdateTietKT.setSelection(0);
+        if (tvTkbInfo != null) tvTkbInfo.setText("Tiết học: --");
+        if (spUpdateClass != null) spUpdateClass.setSelection(0);
+        if (spUpdateSubject != null) spUpdateSubject.setSelection(0);
+        if (spUpdateTeacher != null) spUpdateTeacher.setSelection(0);
+        if (spUpdateRoom != null) spUpdateRoom.setSelection(0);
+        if (spUpdateThu != null) spUpdateThu.setSelection(0);
+        if (spUpdateTietBD != null) spUpdateTietBD.setSelection(0);
+        if (spUpdateTietKT != null) spUpdateTietKT.setSelection(0);
     }
 }

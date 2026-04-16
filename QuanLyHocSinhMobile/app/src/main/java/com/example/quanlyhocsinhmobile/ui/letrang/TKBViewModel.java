@@ -6,7 +6,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.quanlyhocsinhmobile.data.local.AppDatabase;
 import com.example.quanlyhocsinhmobile.data.local.Model.GiaoVien;
+import com.example.quanlyhocsinhmobile.data.local.Model.HocSinh;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.example.quanlyhocsinhmobile.data.local.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.data.local.Model.PhongHoc;
@@ -25,6 +27,7 @@ public class TKBViewModel extends AndroidViewModel {
     private final MutableLiveData<List<GiaoVien.Display>> giaoViens = new MutableLiveData<>();
     private final MutableLiveData<List<PhongHoc>> phongHocs = new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
+    private final MutableLiveData<String> maLopHocSinh = new MutableLiveData<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public TKBViewModel(@NonNull Application application) {
@@ -39,6 +42,7 @@ public class TKBViewModel extends AndroidViewModel {
     public LiveData<List<GiaoVien.Display>> getGiaoViens() { return giaoViens; }
     public LiveData<List<PhongHoc>> getPhongHocs() { return phongHocs; }
     public LiveData<String> getToastMessage() { return toastMessage; }
+    public LiveData<String> getMaLopHocSinh() { return maLopHocSinh; }
 
     private void loadMasterData() {
         executor.execute(() -> {
@@ -47,6 +51,15 @@ public class TKBViewModel extends AndroidViewModel {
             giaoViens.postValue(repository.getAllGiaoVien());
             phongHocs.postValue(repository.getAllPhongHoc());
             loadTKB(0, "", "");
+        });
+    }
+
+    public void loadMaLopHocSinh(String maHS) {
+        executor.execute(() -> {
+            HocSinh hs = AppDatabase.getDatabase(getApplication()).hocSinhDAO().getHocSinhByMa(maHS);
+            if (hs != null) {
+                maLopHocSinh.postValue(hs.getMaLop());
+            }
         });
     }
 

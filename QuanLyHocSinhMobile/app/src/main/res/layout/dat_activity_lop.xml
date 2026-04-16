@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1. BỘ LỌC LỚP HỌC"
+                    android:text="BỘ LỌC LỚP"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -69,7 +69,7 @@
                             android:layout_width="0dp"
                             android:layout_height="48dp"
                             android:layout_weight="1"
-                            android:hint="Tìm kiếm lớp hoc..."
+                            android:hint="Tìm kiếm Lớp..."
                             android:paddingStart="12dp"
                             android:background="@android:drawable/edit_text"/>
 
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2. DANH SÁCH LỚP HỌC"
+                    android:text="DANH SÁCH LỚP HỌC"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -99,83 +99,65 @@
                     app:cardCornerRadius="8dp"
                     android:layout_marginBottom="16dp">
 
-                    <HorizontalScrollView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fillViewport="true"
-                        android:scrollbars="horizontal">
+                        android:orientation="vertical">
 
+                        <!-- HEADER TABLE -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="horizontal"
+                            android:background="@color/color_primary_blue_dark"
+                            android:padding="10dp">
 
-                            <!-- HEADER TABLE -->
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:background="@color/color_primary_blue_dark"
-                                android:orientation="horizontal"
-                                android:paddingTop="10dp"
-                                android:paddingBottom="10dp">
+                                android:layout_weight="1"
+                                android:text="Mã lớp"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textSize="14sp"/>
 
-                                <TextView
-                                    android:layout_width="100dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:paddingHorizontal="8dp"
-                                    android:text="Mã Lớp"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="180dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:paddingHorizontal="8dp"
-                                    android:text="Tên Lớp"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="120dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:paddingHorizontal="8dp"
-                                    android:text="Niên Khoá"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="120dp"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:paddingHorizontal="8dp"
-                                    android:text="Mã GVCN"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_lop_hoc"
-                                android:layout_width="wrap_content"
+                            <TextView
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:minWidth="520dp"
-                                android:nestedScrollingEnabled="false"/>
+                                android:layout_weight="1.5"
+                                android:text="Tên lớp"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textSize="14sp"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:text="Niên khóa"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textSize="14sp"/>
+
                         </LinearLayout>
-                    </HorizontalScrollView>
+
+                        <!-- RECYCLER VIEW -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_lop_hoc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"/>
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- FORM -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3. THÔNG TIN LỚP HỌC"
+                    android:text="THÔNG TIN LỚP HỌC"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -196,7 +178,7 @@
                             android:id="@+id/tv_lop_hoc_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lớp học: --"
+                            android:text="LỚP HỌC: --"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="@color/color_primary_blue_dark"
@@ -205,7 +187,8 @@
                         <!-- INPUTS -->
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_ma_lop"
@@ -216,35 +199,38 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_ten_lop"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Tên Lớp Học"/>
+                                android:hint="Tên Lớp"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_nien_khoa"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Niên Khoá"/>
+                                android:hint="Niên Khóa"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_giao_vien"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Giáo Viên Chủ Nhiệm"/>
+                                android:hint="Mã Giáo Viên Chủ Nhiệm"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <!-- BUTTONS -->

@@ -1,6 +1,7 @@
 package com.example.quanlyhocsinhmobile.ui.dat;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.quanlyhocsinhmobile.data.local.Model.GiaoVien;
 import com.example.quanlyhocsinhmobile.databinding.DatActivityGiaovienBinding;
 import com.example.quanlyhocsinhmobile.utils.FormatDate;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ public class GiaoVienActivity extends AppCompatActivity {
     private GiaoVienAdapter adapter;
 
     private GiaoVien.Display selectedGiaoVien;
+    private PhanQuyen phanQuyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +30,40 @@ public class GiaoVienActivity extends AppCompatActivity {
         binding = DatActivityGiaovienBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(GiaoVienViewModel.class);
 
         setupRecyclerView();
         observeViewModel();
         setupClickListeners();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        if ("GiaoVien".equals(phanQuyen.getQuyen())) {
+            // Sử dụng các ID đúng đã có trong file XML
+            if (binding.tvTitleGiaovien != null) {
+                binding.tvTitleGiaovien.setText("HỒ SƠ GIÁO VIÊN");
+            }
+            binding.tvGiaoVienInfo.setText("HỒ SƠ GIÁO VIÊN");
+            
+            // Ẩn nút thêm, xóa
+            binding.btnAdd.setVisibility(View.GONE);
+            binding.btnDelete.setVisibility(View.GONE);
+            
+            // Chỉ cho sửa tên, ngày sinh, sdt. Khóa các trường khác.
+            binding.etMaGiaoVien.setEnabled(false);
+            binding.etMaToHop.setEnabled(false);
+            binding.etTenMon.setEnabled(false);
+            
+            // Chỉ load hồ sơ của chính giáo viên đó
+            String maGV = phanQuyen.getMaNguoiDung();
+            if (maGV != null && !maGV.isEmpty()) {
+                viewModel.search(maGV);
+            }
+            if (binding.tvFilterTitle != null) binding.tvFilterTitle.setVisibility(View.GONE);
+            if (binding.cardSearch != null) binding.cardSearch.setVisibility(View.GONE);
+        }
     }
 
     private void setupRecyclerView() {
@@ -50,25 +82,21 @@ public class GiaoVienActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-
-        // 🔍 Search
         binding.btnSearch.setOnClickListener(v -> {
             String q = binding.etSearch.getText().toString();
             if (!q.isEmpty()) viewModel.search(q.trim());
             else viewModel.loadAllGiaoViens();
         });
 
-        // ➕ Add
         binding.btnAdd.setOnClickListener(v -> {
-            GiaoVien gv = getFormData(); // ✅ SỬA Ở ĐÂY
+            GiaoVien gv = getFormData();
             if (gv != null) {
-                viewModel.insert(gv); // ✅ insert GiaoVien
+                viewModel.insert(gv);
                 Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
                 clearForm();
             }
         });
 
-        // 💾 Save
         binding.btnSave.setOnClickListener(v -> {
             if (selectedGiaoVien == null) return;
 
@@ -80,7 +108,6 @@ public class GiaoVienActivity extends AppCompatActivity {
             }
         });
 
-        // ❌ Delete
         binding.btnDelete.setOnClickListener(v -> {
             if (selectedGiaoVien != null) {
                 viewModel.delete(selectedGiaoVien.getGiaoVien());
@@ -88,16 +115,17 @@ public class GiaoVienActivity extends AppCompatActivity {
             }
         });
 
-        // 🔄 Refresh
         binding.btnRefresh.setOnClickListener(v -> {
             clearForm();
-            viewModel.loadAllGiaoViens();
+            if ("GiaoVien".equals(phanQuyen.getQuyen())) {
+                viewModel.search(phanQuyen.getMaNguoiDung());
+            } else {
+                viewModel.loadAllGiaoViens();
+            }
         });
     }
 
-    // ✅ LUÔN trả về GiaoVien (KHÔNG phải Display)
     private GiaoVien getFormData() {
-
         String ma = binding.etMaGiaoVien.getText().toString().trim();
         String ten = binding.etTenGv.getText().toString().trim();
         String ngaySinhInput = binding.etNgaySinh.getText().toString().trim();
@@ -129,21 +157,17 @@ public class GiaoVienActivity extends AppCompatActivity {
 
     private void displaySelected() {
         if (selectedGiaoVien == null) return;
-
         GiaoVien gv = selectedGiaoVien.getGiaoVien();
-
         binding.etMaGiaoVien.setText(gv.getMaGV());
         binding.etTenGv.setText(gv.getHoTen());
         binding.etNgaySinh.setText(FormatDate.formatDateForDisplay(gv.getNgaySinh()));
         binding.etSdt.setText(gv.getSdt());
-
         binding.etMaToHop.setText(gv.getMaToHop());
         binding.etTenMon.setText(gv.getMaMH());
     }
 
     private void clearForm() {
         selectedGiaoVien = null;
-
         binding.etMaGiaoVien.setText("");
         binding.etTenGv.setText("");
         binding.etNgaySinh.setText("");

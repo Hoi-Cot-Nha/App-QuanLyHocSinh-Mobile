@@ -16,6 +16,14 @@ public class PhongHoc {
 
     public PhongHoc() {}
 
+    public PhongHoc(@NonNull String maPhong, String tenPhong, Integer sucChua, String loaiPhong, String tinhTrang) {
+        this.maPhong = maPhong;
+        this.tenPhong = tenPhong;
+        this.sucChua = sucChua;
+        this.loaiPhong = loaiPhong;
+        this.tinhTrang = tinhTrang;
+    }
+
     @NonNull
     public String getMaPhong() { return maPhong; }
     public void setMaPhong(@NonNull String maPhong) { this.maPhong = maPhong; }

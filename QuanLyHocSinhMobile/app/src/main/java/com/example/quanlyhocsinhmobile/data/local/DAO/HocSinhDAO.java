@@ -45,4 +45,7 @@ public interface HocSinhDAO {
     // Tìm kiếm (theo mã + tên)
     @Query("SELECT * FROM HocSinh WHERE MaHS LIKE '%' || :query || '%' OR HoTen LIKE '%' || :query || '%'")
     List<HocSinh> search(String query);
+
+    @Query("SELECT * FROM HocSinh WHERE MaHS = :maHS LIMIT 1")
+    HocSinh getHocSinhByMa(String maHS);
 }

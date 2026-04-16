@@ -1,6 +1,7 @@
 package com.example.quanlyhocsinhmobile.ui.tien;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.example.quanlyhocsinhmobile.data.local.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.databinding.TienActivityQuanlydiemBinding;
 import com.example.quanlyhocsinhmobile.utils.ExcelHelper;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class DiemActivity extends AppCompatActivity {
     private List<Lop> listLop = new ArrayList<>();
     private List<MonHoc> listMonHoc = new ArrayList<>();
     private Diem selectedDiem;
+    private PhanQuyen phanQuyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +37,41 @@ public class DiemActivity extends AppCompatActivity {
         binding = TienActivityQuanlydiemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(DiemViewModel.class);
 
         setupRecyclerView();
         setupSpinners();
         observeViewModel();
         setupClickListeners();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        String quyen = phanQuyen.getQuyen();
+        if ("HocSinh".equals(quyen)) {
+            // Đổi tiêu đề cho học sinh
+            binding.tvTitleDiem.setText("ĐIỂM SỐ");
+
+            // Ẩn phần cập nhật điểm
+            binding.tvUpdateTitle.setVisibility(View.GONE);
+            binding.cardUpdateScore.setVisibility(View.GONE);
+            
+            // Tự động load điểm của chính học sinh đó
+            String maHS = phanQuyen.getMaNguoiDung();
+            if (maHS != null && !maHS.isEmpty()) {
+                viewModel.search(maHS);
+                // Ẩn thanh tìm kiếm và bộ lọc để học sinh chỉ thấy điểm của mình
+                binding.cardSearch.setVisibility(View.GONE);
+                binding.tvSearchTitle.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setupRecyclerView() {
         binding.rvGrades.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DiemAdapter(new ArrayList<>(), display -> {
+            if ("HocSinh".equals(phanQuyen.getQuyen())) return;
             selectedDiem = display.getDiem();
             displaySelectedDiem(display);
         });

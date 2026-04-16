@@ -37,7 +37,6 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- 1. TÌM KIẾM -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +69,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- 2. DANH SÁCH MÔN HỌC -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,7 +96,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- 3. CHI TIẾT MÔN HỌC -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

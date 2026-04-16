@@ -15,13 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuanLyHocSinhMoblie">
         <activity
-            android:name=".ui.zMainForm.MainForm"
+            android:name=".ui.dai.LoginActivity"
             android:exported="true"
+            android:label="Đăng nhập"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.zMainForm.MainForm"
+            android:exported="true"
+            android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
         <activity
             android:name=".ui.tien.DiemActivity"
@@ -75,12 +81,6 @@
             android:name=".ui.dai.TaiKhoanActivity"
             android:exported="true"
             android:label="Tài khoản"
-            android:theme="@style/Theme.QuanLyHocSinhMoblie">
-        </activity>
-        <activity
-            android:name=".ui.dai.LoginActivity"
-            android:exported="true"
-            android:label="Đăng nhập"
             android:theme="@style/Theme.QuanLyHocSinhMoblie">
         </activity>
         <activity

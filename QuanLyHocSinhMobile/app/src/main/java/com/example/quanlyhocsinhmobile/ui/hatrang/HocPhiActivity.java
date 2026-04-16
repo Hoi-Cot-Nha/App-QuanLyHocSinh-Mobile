@@ -1,6 +1,7 @@
 package com.example.quanlyhocsinhmobile.ui.hatrang;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.HocPhi;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.example.quanlyhocsinhmobile.databinding.HatrangActivityHocphiBinding;
 import com.example.quanlyhocsinhmobile.utils.ExcelHelper;
+import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class HocPhiActivity extends AppCompatActivity {
     private HocPhiAdapter adapter;
     private List<Lop> listLop = new ArrayList<>();
     private HocPhi selectedHocPhi;
+    private PhanQuyen phanQuyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +34,52 @@ public class HocPhiActivity extends AppCompatActivity {
         binding = HatrangActivityHocphiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        phanQuyen = PhanQuyen.getInstance(this);
         viewModel = new ViewModelProvider(this).get(HocPhiViewModel.class);
 
         setupRecyclerView();
         setupSpinners();
         observeViewModel();
         setupClick();
+        apDungPhanQuyen();
+    }
+
+    private void apDungPhanQuyen() {
+        String quyen = phanQuyen.getQuyen();
+        if ("HocSinh".equals(quyen)) {
+            // Đổi tiêu đề cho học sinh
+            if (binding.tvTitleHocphi != null) {
+                binding.tvTitleHocphi.setText("HỌC PHÍ");
+            }
+
+            View root = binding.getRoot();
+            if (root instanceof android.view.ViewGroup) {
+                android.view.ViewGroup group = (android.view.ViewGroup) ((android.view.ViewGroup) root).getChildAt(1); // NestedScrollView
+                android.view.ViewGroup content = (android.view.ViewGroup) group.getChildAt(0); // LinearLayout
+                
+                // Ẩn 2 view cuối (Tiêu đề và Card cập nhật)
+                int count = content.getChildCount();
+                if (count >= 2) {
+                    content.getChildAt(count - 1).setVisibility(View.GONE); // Card
+                    content.getChildAt(count - 2).setVisibility(View.GONE); // TextView Tiêu đề
+                }
+                
+                // Ẩn bộ lọc và chỉ hiện học phí của mình
+                String maHS = phanQuyen.getMaNguoiDung();
+                if (maHS != null) {
+                    viewModel.filter(0, "", ""); // Load all then we filter in search if needed, but best is a dedicated search
+                    // Tạm thời ẩn bộ lọc
+                    content.getChildAt(0).setVisibility(View.GONE); // BỘ LỌC text
+                    content.getChildAt(1).setVisibility(View.GONE); // BỘ LỌC card
+                }
+            }
+        }
     }
 
     private void setupRecyclerView() {
         binding.rvHocphi.setLayoutManager(new LinearLayoutManager(this));
         adapter = new HocPhiAdapter(new ArrayList<>(), display -> {
+            if ("HocSinh".equals(phanQuyen.getQuyen())) return;
             selectedHocPhi = display.getHocPhi();
             showSelected(display);
         });
@@ -71,7 +109,16 @@ public class HocPhiActivity extends AppCompatActivity {
         });
 
         viewModel.getHocPhiList().observe(this, list -> {
-            adapter.setList(list);
+            if ("HocSinh".equals(phanQuyen.getQuyen())) {
+                String maHS = phanQuyen.getMaNguoiDung();
+                List<HocPhi.Display> filtered = new ArrayList<>();
+                for (HocPhi.Display d : list) {
+                    if (d.getHocPhi().getMaHS().equals(maHS)) filtered.add(d);
+                }
+                adapter.setList(filtered);
+            } else {
+                adapter.setList(list);
+            }
         });
     }
 
