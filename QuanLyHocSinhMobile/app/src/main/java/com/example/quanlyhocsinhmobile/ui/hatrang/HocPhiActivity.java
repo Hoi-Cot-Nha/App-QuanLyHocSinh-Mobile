@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,27 +53,21 @@ public class HocPhiActivity extends AppCompatActivity {
                 binding.tvTitleHocphi.setText("HỌC PHÍ");
             }
 
-            View root = binding.getRoot();
-            if (root instanceof android.view.ViewGroup) {
-                android.view.ViewGroup group = (android.view.ViewGroup) ((android.view.ViewGroup) root).getChildAt(1); // NestedScrollView
-                android.view.ViewGroup content = (android.view.ViewGroup) group.getChildAt(0); // LinearLayout
-                
-                // Ẩn 2 view cuối (Tiêu đề và Card cập nhật)
-                int count = content.getChildCount();
-                if (count >= 2) {
-                    content.getChildAt(count - 1).setVisibility(View.GONE); // Card
-                    content.getChildAt(count - 2).setVisibility(View.GONE); // TextView Tiêu đề
-                }
-                
-                // Ẩn bộ lọc và chỉ hiện học phí của mình
-                String maHS = phanQuyen.getMaNguoiDung();
-                if (maHS != null) {
-                    viewModel.filter(0, "", ""); // Load all then we filter in search if needed, but best is a dedicated search
-                    // Tạm thời ẩn bộ lọc
-                    content.getChildAt(0).setVisibility(View.GONE); // BỘ LỌC text
-                    content.getChildAt(1).setVisibility(View.GONE); // BỘ LỌC card
-                }
+            // Ẩn khu vực lọc và cập nhật khi học sinh đăng nhập
+            binding.tvFilterTitle.setVisibility(View.GONE);
+            binding.cardFilter.setVisibility(View.GONE);
+            binding.tvUpdateHocphi.setVisibility(View.GONE);
+            binding.cardUpdateHocphi.setVisibility(View.GONE);
+
+            // Hiện nút thanh toán cho học sinh
+            binding.cardPaymentHocphi.setVisibility(View.VISIBLE);
+
+            String maHS = phanQuyen.getMaNguoiDung();
+            if (maHS != null) {
+                viewModel.filter(0, "", "");
             }
+        } else {
+            binding.cardPaymentHocphi.setVisibility(View.GONE);
         }
     }
 
@@ -142,6 +137,19 @@ public class HocPhiActivity extends AppCompatActivity {
         binding.btnSaveHp.setOnClickListener(v -> {
             updateHocPhi();
         });
+
+        binding.btnPayHocphi.setOnClickListener(v -> {
+            showQrPaymentDialog();
+        });
+    }
+
+    private void showQrPaymentDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.hatrang_dialog_qr_payment, null);
+        new AlertDialog.Builder(this)
+                .setTitle("THANH TOÁN HỌC PHÍ")
+                .setView(dialogView)
+                .setPositiveButton("VNĐ", null)
+                .show();
     }
 
     private void showSelected(HocPhi.Display d) {

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Quét QR để thanh toán học phí"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Yêu cầu chuyển khoản đúng học phí"
+        android:textSize="20dp"
+        android:textColor="#FF0000"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/iv_qr_placeholder"
+        android:layout_width="439dp"
+        android:layout_height="506dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:contentDescription="QR thanh toan"
+        android:scaleType="centerCrop"
+        android:src="@drawable/thanhtoanhocphi" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Nội dung: MHS + HocKi"
+        android:textSize="34dp" />
+
+</LinearLayout>
+
