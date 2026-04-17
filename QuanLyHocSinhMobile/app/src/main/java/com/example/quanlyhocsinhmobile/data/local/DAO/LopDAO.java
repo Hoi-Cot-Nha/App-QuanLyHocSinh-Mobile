@@ -16,6 +16,10 @@ public interface LopDAO {
     @Query("SELECT * FROM Lop")
     List<Lop> getAll();
 
+    @Query("SELECT Lop.*, GiaoVien.hoTen AS tenGV " +
+            "FROM Lop LEFT JOIN GiaoVien ON Lop.maGVCN = GiaoVien.maGV")
+    List<Lop.Display> getAllWithTenGVCN();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Lop lop);
 
@@ -27,6 +31,15 @@ public interface LopDAO {
 
     @Query("SELECT * FROM Lop WHERE MaLop LIKE '%' || :query || '%' OR TenLop LIKE '%' || :query || '%' OR nienKhoa LIKE '%' || :query || '%' OR maGVCN LIKE '%' || :query || '%'")
     List<Lop> searchLop(String query);
+
+    @Query("SELECT Lop.*, GiaoVien.hoTen AS tenGV " +
+            "FROM Lop LEFT JOIN GiaoVien ON Lop.maGVCN = GiaoVien.maGV " +
+            "WHERE Lop.MaLop LIKE '%' || :query || '%' " +
+            "OR Lop.TenLop LIKE '%' || :query || '%' " +
+            "OR Lop.nienKhoa LIKE '%' || :query || '%' " +
+            "OR Lop.maGVCN LIKE '%' || :query || '%' " +
+            "OR GiaoVien.hoTen LIKE '%' || :query || '%'")
+    List<Lop.Display> searchLopWithTenGVCN(String query);
 
     @Query("SELECT COUNT(*) FROM Lop WHERE MaLop = :maLop")
     int checkMaLop(String maLop);

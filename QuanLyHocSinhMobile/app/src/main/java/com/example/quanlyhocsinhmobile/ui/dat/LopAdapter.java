@@ -15,17 +15,17 @@ import java.util.List;
 
 public class LopAdapter extends RecyclerView.Adapter<LopAdapter.ViewHolder>{
 
-    private List<Lop> list;
+    private List<Lop.Display> list;
     private LopAdapter.OnItemClickListener listener;
     public interface OnItemClickListener {
-        void onItemClick(Lop lop);
+        void onItemClick(Lop.Display display);
     }
 
-    public LopAdapter(List<Lop> list, LopAdapter.OnItemClickListener listener) {
+    public LopAdapter(List<Lop.Display> list, LopAdapter.OnItemClickListener listener) {
         this.list = list;
         this.listener = listener;
     }
-    public void setList(List<Lop> list) {
+    public void setList(List<Lop.Display> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -39,16 +39,21 @@ public class LopAdapter extends RecyclerView.Adapter<LopAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull LopAdapter.ViewHolder holder, int position) {
-        Lop lop = list.get(position);
+        Lop.Display display = list.get(position);
+
+        Lop lop = display.getLop();
+        if (lop == null) return;
 
         holder.tvMaLop.setText(lop.getMaLop());
         holder.tvTenLop.setText(lop.getTenLop());
+        String tenGV = display.getTenGV();
+        holder.tvGiaoVien.setText((tenGV == null || tenGV.trim().isEmpty()) ? lop.getMaGVCN() : tenGV);
         holder.tvNienKhoa.setText(lop.getNienKhoa());
-        holder.tvGiaoVien.setText(lop.getMaGVCN());
+
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(lop);
+                listener.onItemClick(display);
             }
         });
     }
@@ -59,14 +64,15 @@ public class LopAdapter extends RecyclerView.Adapter<LopAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMaLop, tvTenLop, tvNienKhoa, tvGiaoVien;
+        TextView tvMaLop, tvTenLop, tvGiaoVien, tvNienKhoa;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMaLop = itemView.findViewById(R.id.item_ma_lop);
             tvTenLop = itemView.findViewById(R.id.item_ten_lop);
-            tvNienKhoa = itemView.findViewById(R.id.item_nien_khoa);
             tvGiaoVien = itemView.findViewById(R.id.item_giao_vien_chu_nhiem);
+            tvNienKhoa = itemView.findViewById(R.id.item_nien_khoa);
+
         }
     }
 }

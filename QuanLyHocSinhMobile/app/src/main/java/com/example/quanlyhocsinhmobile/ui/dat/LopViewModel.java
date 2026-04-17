@@ -1,17 +1,13 @@
 package com.example.quanlyhocsinhmobile.ui.dat;
 
 import android.app.Application;
-import android.view.Display;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.quanlyhocsinhmobile.data.local.Model.GiaoVien;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
-import com.example.quanlyhocsinhmobile.data.local.Model.ToHopMon;
-import com.example.quanlyhocsinhmobile.data.repository.GiaoVienRepository;
 import com.example.quanlyhocsinhmobile.data.repository.LopRepository;
 
 import java.util.List;
@@ -20,7 +16,7 @@ import java.util.concurrent.Executors;
 
 public class LopViewModel extends AndroidViewModel {
     private final LopRepository repository;
-    private final MutableLiveData<List<Lop>> allLop = new MutableLiveData<>();
+    private final MutableLiveData<List<Lop.Display>> allLop = new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     public LopViewModel(@NonNull Application application) {
@@ -29,7 +25,7 @@ public class LopViewModel extends AndroidViewModel {
         loadAllLops();
     }
 
-    public LiveData<List<Lop>> getAllLops() {
+    public LiveData<List<Lop.Display>> getAllLops() {
         return allLop;
     }
 
@@ -39,7 +35,7 @@ public class LopViewModel extends AndroidViewModel {
 
     public void loadAllLops() {
         executor.execute(() -> {
-            List<Lop> lops = repository.getAllLop();
+            List<Lop.Display> lops = repository.getAllLop();
             allLop.postValue(lops);
         });
     }
@@ -48,8 +44,8 @@ public class LopViewModel extends AndroidViewModel {
             loadAllLops();
         } else {
             executor.execute(() -> {
-                List<Lop> Lops = repository.search(query);
-                allLop.postValue(Lops);
+                List<Lop.Display> lops = repository.search(query);
+                allLop.postValue(lops);
             });
         }
     }
@@ -92,7 +88,8 @@ public class LopViewModel extends AndroidViewModel {
                 return;
             }
 
-            Lop lop = new Lop(maLop, tenLop, nienKhoa, maGVCN);
+            // Constructor Lop nhận thứ tự: (maLop, tenLop, maGVCN, nienKhoa)
+            Lop lop = new Lop(maLop, tenLop, maGVCN, nienKhoa);
             repository.insert(lop);
 
             toastMessage.postValue("Thêm lớp thành công");

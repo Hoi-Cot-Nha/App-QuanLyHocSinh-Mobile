@@ -29,11 +29,12 @@ public class Lop {
     public Lop() {}
 
     @Ignore
-    public Lop(@NonNull String maLop, @NonNull String tenLop, String nienKhoa, String maGVCN) {
+    public Lop(@NonNull String maLop, @NonNull String tenLop, String maGVCN, String nienKhoa) {
         this.maLop = maLop;
         this.tenLop = tenLop;
-        this.nienKhoa = nienKhoa;
         this.maGVCN = maGVCN;
+        this.nienKhoa = nienKhoa;
+
     }
 
     public String getMaLop() { return maLop; }
@@ -48,5 +49,20 @@ public class Lop {
     public String getMaGVCN() { return maGVCN; }
     public void setMaGVCN(String maGVCN) { this.maGVCN = maGVCN; }
 
+    public static class Display {
 
+        @Embedded
+        public Lop lop;
+
+        @ColumnInfo(name = "tenGV") 
+        public String tenGV;
+
+        public Lop getLop() {
+            return lop;
+        }
+
+        public String getTenGV() {
+            return tenGV;
+        }
+    }
 }

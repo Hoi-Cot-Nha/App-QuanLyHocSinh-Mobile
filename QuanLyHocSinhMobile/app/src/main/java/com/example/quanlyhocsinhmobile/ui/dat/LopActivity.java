@@ -16,18 +16,20 @@ import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LopActivity extends AppCompatActivity {
     private EditText etSearch;
     private Button btnSearch;
     private RecyclerView rv_lop_hoc;
     private TextView tv_lop_hoc_info;
-    private TextInputEditText et_ma_lop, et_ten_lop, et_nien_khoa, et_giao_vien;
+    private TextInputEditText et_ma_lop, et_ten_lop, et_giao_vien, et_nien_khoa;
     private Button btnAdd, btnSave, btnDelete, btnRefresh;
 
     private LopViewModel viewModel;
     private LopAdapter adapter;
     private Lop selectedLop = null;
+    private String selectedTenGVCN = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +50,9 @@ public class LopActivity extends AppCompatActivity {
 
         et_ma_lop = findViewById(R.id.et_ma_lop);
         et_ten_lop = findViewById(R.id.et_ten_lop); // ❗ FIX sai id
-        et_nien_khoa = findViewById(R.id.et_nien_khoa);
+
         et_giao_vien = findViewById(R.id.et_giao_vien);
+        et_nien_khoa = findViewById(R.id.et_nien_khoa);
 
         btnAdd = findViewById(R.id.btn_add);
         btnSave = findViewById(R.id.btn_save); // đổi tên biến cho đúng logic
@@ -84,8 +87,14 @@ public class LopActivity extends AppCompatActivity {
             }
 
             String ten = et_ten_lop.getText().toString().trim();
-            String maGVCN = et_giao_vien.getText().toString().trim();
+            String maGVCNInput = et_giao_vien.getText().toString().trim();
             String nienKhoa = et_nien_khoa.getText().toString().trim();
+
+            // Nếu ô GV vẫn là tên hiển thị của dòng đang chọn, dùng lại mã GVCN gốc để update.
+            String maGVCN = maGVCNInput;
+            if (selectedTenGVCN != null && selectedTenGVCN.equalsIgnoreCase(maGVCNInput)) {
+                maGVCN = selectedLop.getMaGVCN();
+            }
 
             viewModel.update(selectedLop, ten, maGVCN, nienKhoa); // ❗ FIX thiếu param
         });
@@ -108,18 +117,24 @@ public class LopActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new LopAdapter(new ArrayList<>(), Lop -> {
+        adapter = new LopAdapter(new ArrayList<>(), display -> {
 
-            if (Lop == null) return;
+            if (display.getLop() == null) return;
 
-            selectedLop = Lop;
+            selectedLop = display.getLop();
+            selectedTenGVCN = display.getTenGV();
 
-            tv_lop_hoc_info.setText("Lớp : " + Lop.getTenLop());
+            tv_lop_hoc_info.setText("Lớp : " + selectedLop.getTenLop());
 
-            et_ma_lop.setText(Lop.getMaLop());
-            et_ten_lop.setText(Lop.getTenLop());
-            et_nien_khoa.setText(Lop.getNienKhoa());
-            et_giao_vien.setText(Lop.getMaGVCN());
+            et_ma_lop.setText(selectedLop.getMaLop());
+            et_ten_lop.setText(selectedLop.getTenLop());
+            et_giao_vien.setText(
+                    selectedTenGVCN == null || selectedTenGVCN.trim().isEmpty()
+                            ? selectedLop.getMaGVCN()
+                            : selectedTenGVCN
+            );
+            et_nien_khoa.setText(selectedLop.getNienKhoa());
+
 
             et_ma_lop.setEnabled(false); // khóa mã GV khi chọn
         });
@@ -129,8 +144,8 @@ public class LopActivity extends AppCompatActivity {
         rv_lop_hoc.setAdapter(adapter);
     }
     private void observeViewModel() {
-        viewModel.getAllLops().observe(this, Lops -> {
-            adapter.setList(Lops);
+        viewModel.getAllLops().observe(this, (List<Lop.Display> displays) -> {
+            adapter.setList(displays);
         });
 
         viewModel.getToastMessage().observe(this, message -> {
@@ -144,11 +159,13 @@ public class LopActivity extends AppCompatActivity {
     }
     private void clearInputs() {
         selectedLop = null;
+        selectedTenGVCN = null;
         tv_lop_hoc_info.setText("Lớp Học: --");
         et_ma_lop.setText("");
         et_ten_lop.setText("");
-        et_nien_khoa.setText("");
         et_giao_vien.setText("");
+        et_nien_khoa.setText("");
+
         et_ma_lop.setEnabled(true);
         etSearch.setText("");
     }

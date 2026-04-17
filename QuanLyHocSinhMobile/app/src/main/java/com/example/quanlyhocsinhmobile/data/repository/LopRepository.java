@@ -19,12 +19,12 @@ public class LopRepository {
         lopDAO = db.lopDAO();
     }
 
-    public List<Lop> getAllLop() {
-        return lopDAO.getAll();
+    public List<Lop.Display> getAllLop() {
+        return lopDAO.getAllWithTenGVCN();
     }
 
-    public List<Lop> search(String query) {
-        return lopDAO.searchLop(query);
+    public List<Lop.Display> search(String query) {
+        return lopDAO.searchLopWithTenGVCN(query);
     }
     public void insert(Lop lop) {
         AppDatabase.databaseWriteExecutor.execute(() -> lopDAO.insert(lop));
