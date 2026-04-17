@@ -41,7 +41,23 @@ public class GiaoVienViewModel extends AndroidViewModel {
 
     public LiveData<List<ToHopMon>> getToBoMonList(){ return toHopMonList;}
 
-     private void loadInitialData(){
+    // Alias đúng tên để Activity gọi không lỗi compile
+    public LiveData<List<ToHopMon>> getToHopMonList() {
+        return toHopMonList;
+    }
+
+    // ✅ Load dữ liệu cho Spinner
+    public void loadSpinnerData() {
+        executor.execute(() -> {
+            List<ToHopMon> toHops = repository.getAllToHop();
+            List<MonHoc> monHocs = repository.getAllMonHoc();
+
+            toHopMonList.postValue(toHops);
+            monHocList.postValue(monHocs);
+        });
+    }
+
+      private void loadInitialData(){
          executor.execute(() -> {
              monHocList.postValue(repository.getAllMonHoc());
              toHopMonList.postValue(repository.getAllToHop());
@@ -84,7 +100,7 @@ public class GiaoVienViewModel extends AndroidViewModel {
             }
 
             GiaoVien giaoVien = new GiaoVien(maGV, tenGV, ngaySinh, sdt, tenMaToHop, tenMon);
-            repository.insert(giaoVien);
+            repository.insertAndWait(giaoVien); // Đợi insert xong rồi mới load
             toastMessage.postValue("Thêm Giáo viên thành công");
             loadAllGiaoViens();
 
@@ -96,14 +112,19 @@ public class GiaoVienViewModel extends AndroidViewModel {
             toastMessage.setValue("Dữ liệu giáo viên không hợp lệ");
             return;
         }
-        insert(
-                giaoVien.getMaGV(),
-                giaoVien.getHoTen(),
-                giaoVien.getNgaySinh(),
-                giaoVien.getSdt(),
-                giaoVien.getMaToHop(),
-                giaoVien.getMaMH()
-        );
+
+        // ✅ Auto-generate mã GV
+        executor.execute(() -> {
+            String nextMaGV = repository.getNextMaGV();
+            insert(
+                    nextMaGV,  // Sử dụng mã tự động
+                    giaoVien.getHoTen(),
+                    giaoVien.getNgaySinh(),
+                    giaoVien.getSdt(),
+                    giaoVien.getMaToHop(),
+                    giaoVien.getMaMH()
+            );
+        });
     }
 
     public void update(GiaoVien selectedGiaoVien, String ten) {
@@ -140,7 +161,7 @@ public class GiaoVienViewModel extends AndroidViewModel {
         }
 
         executor.execute(() -> {
-            repository.update(giaoVien);
+            repository.updateAndWait(giaoVien); // Đợi update xong rồi mới load
             toastMessage.postValue("Cập nhật thành công");
             loadAllGiaoViens();
         });
@@ -153,7 +174,7 @@ public class GiaoVienViewModel extends AndroidViewModel {
         }
 
         executor.execute(() -> {
-            repository.delete(selectedGiaoVien);
+            repository.deleteAndWait(selectedGiaoVien); // Đợi delete xong rồi mới load
             toastMessage.postValue("Xóa giáo viên thành công");
             loadAllGiaoViens();
         });

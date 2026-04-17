@@ -42,4 +42,10 @@ public class MonHoc {
     public void setTenMH(String tenMH) {
         this.tenMH = tenMH;
     }
+
+    @Override
+    public String toString() {
+        // Hien thi day du ma + ten mon trong combobox
+        return maMH + " - " + (tenMH != null ? tenMH : "");
+    }
 }

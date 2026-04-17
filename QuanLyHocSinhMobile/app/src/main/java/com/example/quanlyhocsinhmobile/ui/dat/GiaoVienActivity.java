@@ -2,6 +2,8 @@ package com.example.quanlyhocsinhmobile.ui.dat;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,11 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.quanlyhocsinhmobile.data.local.Model.GiaoVien;
+import com.example.quanlyhocsinhmobile.data.local.Model.MonHoc;
+import com.example.quanlyhocsinhmobile.data.local.Model.ToHopMon;
 import com.example.quanlyhocsinhmobile.databinding.DatActivityGiaovienBinding;
 import com.example.quanlyhocsinhmobile.utils.FormatDate;
 import com.example.quanlyhocsinhmobile.utils.PhanQuyen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GiaoVienActivity extends AppCompatActivity {
 
@@ -23,6 +28,10 @@ public class GiaoVienActivity extends AppCompatActivity {
 
     private GiaoVien.Display selectedGiaoVien;
     private PhanQuyen phanQuyen;
+
+    // ✅ Adapter cho Spinner
+    private ArrayAdapter<ToHopMon> toHopAdapter;
+    private ArrayAdapter<MonHoc> monHocAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,9 @@ public class GiaoVienActivity extends AppCompatActivity {
         observeViewModel();
         setupClickListeners();
         apDungPhanQuyen();
+
+        // ✅ Load dữ liệu cho Spinner
+        viewModel.loadSpinnerData();
     }
 
     private void apDungPhanQuyen() {
@@ -51,11 +63,11 @@ public class GiaoVienActivity extends AppCompatActivity {
             binding.btnAdd.setVisibility(View.GONE);
             binding.btnDelete.setVisibility(View.GONE);
             
-            // Chỉ cho sửa tên, ngày sinh, sdt. Khóa các trường khác.
+            // ✅ Khóa các trường (bao gồm Spinner)
             binding.etMaGiaoVien.setEnabled(false);
-            binding.etMaToHop.setEnabled(false);
-            binding.etTenMon.setEnabled(false);
-            
+            binding.spMaToHop.setEnabled(false);
+            binding.spTenMon.setEnabled(false);
+
             // Chỉ load hồ sơ của chính giáo viên đó
             String maGV = phanQuyen.getMaNguoiDung();
             if (maGV != null && !maGV.isEmpty()) {
@@ -63,6 +75,9 @@ public class GiaoVienActivity extends AppCompatActivity {
             }
             if (binding.tvFilterTitle != null) binding.tvFilterTitle.setVisibility(View.GONE);
             if (binding.cardSearch != null) binding.cardSearch.setVisibility(View.GONE);
+        } else {
+            // ✅ Khóa mã GV (tự động generate)
+            binding.etMaGiaoVien.setEnabled(false);
         }
     }
 
@@ -79,6 +94,33 @@ public class GiaoVienActivity extends AppCompatActivity {
         viewModel.getAllGiaoViens().observe(this, list -> {
             adapter.setList(list);
         });
+
+        // Observe toastMessage từ ViewModel
+        viewModel.getToastMessage().observe(this, message -> {
+            if (message != null && !message.isEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                if (message.contains("thành công")) {
+                    clearForm();
+                }
+            }
+        });
+
+        // ✅ Observer dữ liệu Spinner
+        viewModel.getToHopMonList().observe(this, toHops -> {
+            if (toHops != null) {
+                toHopAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, toHops);
+                toHopAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                binding.spMaToHop.setAdapter(toHopAdapter);
+            }
+        });
+
+        viewModel.getMonHocList().observe(this, monHocs -> {
+            if (monHocs != null) {
+                monHocAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, monHocs);
+                monHocAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                binding.spTenMon.setAdapter(monHocAdapter);
+            }
+        });
     }
 
     private void setupClickListeners() {
@@ -92,8 +134,7 @@ public class GiaoVienActivity extends AppCompatActivity {
             GiaoVien gv = getFormData();
             if (gv != null) {
                 viewModel.insert(gv);
-                Toast.makeText(this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                clearForm();
+                // Toast sẽ được hiển thị từ ViewModel observer
             }
         });
 
@@ -104,7 +145,7 @@ public class GiaoVienActivity extends AppCompatActivity {
             if (gv != null) {
                 gv.setMaGV(selectedGiaoVien.getGiaoVien().getMaGV());
                 viewModel.update(gv);
-                Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                // Toast sẽ được hiển thị từ ViewModel observer
             }
         });
 
@@ -126,16 +167,27 @@ public class GiaoVienActivity extends AppCompatActivity {
     }
 
     private GiaoVien getFormData() {
-        String ma = binding.etMaGiaoVien.getText().toString().trim();
+        String ma = ""; // ✅ Sẽ được auto-generate trong ViewModel
         String ten = binding.etTenGv.getText().toString().trim();
         String ngaySinhInput = binding.etNgaySinh.getText().toString().trim();
         String sdt = binding.etSdt.getText().toString().trim();
-        String maToHop = binding.etMaToHop.getText().toString().trim();
-        String maMH = binding.etTenMon.getText().toString().trim();
+
+        // ✅ Lấy giá trị từ Spinner
+        ToHopMon selectedToHop = (ToHopMon) binding.spMaToHop.getSelectedItem();
+        MonHoc selectedMonHoc = (MonHoc) binding.spTenMon.getSelectedItem();
+
+        String maToHop = selectedToHop != null ? selectedToHop.getMaToHop() : "";
+        String maMH = selectedMonHoc != null ? selectedMonHoc.getMaMH() : "";
+
         String ngaySinh = FormatDate.normalizeDateToStorage(ngaySinhInput);
 
-        if (ma.isEmpty() || ten.isEmpty()) {
-            Toast.makeText(this, "Nhập thiếu thông tin", Toast.LENGTH_SHORT).show();
+        if (ten.isEmpty()) {
+            Toast.makeText(this, "Nhập tên giáo viên", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        if (maToHop.isEmpty() || maMH.isEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn tổ hợp và môn học", Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -145,7 +197,7 @@ public class GiaoVienActivity extends AppCompatActivity {
         }
 
         GiaoVien gv = new GiaoVien();
-        gv.setMaGV(ma);
+        gv.setMaGV(ma);  // Để trống - sẽ auto-generate
         gv.setHoTen(ten);
         gv.setNgaySinh(ngaySinh);
         gv.setSdt(sdt);
@@ -162,8 +214,25 @@ public class GiaoVienActivity extends AppCompatActivity {
         binding.etTenGv.setText(gv.getHoTen());
         binding.etNgaySinh.setText(FormatDate.formatDateForDisplay(gv.getNgaySinh()));
         binding.etSdt.setText(gv.getSdt());
-        binding.etMaToHop.setText(gv.getMaToHop());
-        binding.etTenMon.setText(gv.getMaMH());
+
+        // ✅ Set Spinner
+        if (toHopAdapter != null) {
+            for (int i = 0; i < toHopAdapter.getCount(); i++) {
+                if (toHopAdapter.getItem(i).getMaToHop().equals(gv.getMaToHop())) {
+                    binding.spMaToHop.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        if (monHocAdapter != null) {
+            for (int i = 0; i < monHocAdapter.getCount(); i++) {
+                if (monHocAdapter.getItem(i).getMaMH().equals(gv.getMaMH())) {
+                    binding.spTenMon.setSelection(i);
+                    break;
+                }
+            }
+        }
     }
 
     private void clearForm() {
@@ -172,7 +241,9 @@ public class GiaoVienActivity extends AppCompatActivity {
         binding.etTenGv.setText("");
         binding.etNgaySinh.setText("");
         binding.etSdt.setText("");
-        binding.etMaToHop.setText("");
-        binding.etTenMon.setText("");
+
+        // ✅ Reset Spinner
+        if (binding.spMaToHop.getCount() > 0) binding.spMaToHop.setSelection(0);
+        if (binding.spTenMon.getCount() > 0) binding.spTenMon.setSelection(0);
     }
 }

@@ -271,27 +271,35 @@
                                 android:hint="Số điện thoại"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:text="Tổ bộ môn"
+                            android:textColor="@color/color_primary_blue_dark"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="4dp"/>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_ma_to_hop"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Mã tổ hợp"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
+                        <Spinner
+                            android:id="@+id/sp_ma_to_hop"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@android:drawable/editbox_background"/>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_ten_mon"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Tên môn"/>
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tên môn"
+                            android:textColor="@color/color_primary_blue_dark"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="4dp"/>
+
+                        <Spinner
+                            android:id="@+id/sp_ten_mon"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@android:drawable/editbox_background"/>
 
                         <!-- BUTTONS -->
                         <LinearLayout

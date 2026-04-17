@@ -58,6 +58,30 @@ public interface LopDAO {
 
     @Query("SELECT MaLop FROM Lop")
     List<String> getAllMaLop();
+
+    // ✅ Lấy danh sách niên khóa (distinct)
+    @Query("SELECT DISTINCT nienKhoa FROM Lop ORDER BY nienKhoa DESC")
+    List<String> getAllNienKhoa();
+
+    // ✅ Lấy danh sách giáo viên (CHƯA là GVCN của lớp nào)
+    @Query("SELECT DISTINCT g.maGV, g.hoTen FROM GiaoVien g " +
+            "WHERE g.maGV NOT IN (SELECT DISTINCT maGVCN FROM Lop WHERE maGVCN IS NOT NULL) " +
+            "ORDER BY g.hoTen ASC")
+    List<GiaoVienInfo> getAllGiaoVienForLop();
+
+    // ✅ Class helper để mapping dữ liệu từ query
+    class GiaoVienInfo {
+        public String maGV;
+        public String hoTen;
+
+        public GiaoVienInfo(String maGV, String hoTen) {
+            this.maGV = maGV;
+            this.hoTen = hoTen;
+        }
+
+        @Override
+        public String toString() {
+            return hoTen;
+        }
+    }
 }
-
-

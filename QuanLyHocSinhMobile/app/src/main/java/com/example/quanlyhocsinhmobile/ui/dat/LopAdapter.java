@@ -34,28 +34,32 @@ public class LopAdapter extends RecyclerView.Adapter<LopAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.dat_item_lop, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, this::dispatchClick);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LopAdapter.ViewHolder holder, int position) {
         Lop.Display display = list.get(position);
-
         Lop lop = display.getLop();
-        if (lop == null) return;
 
-        holder.tvMaLop.setText(lop.getMaLop());
-        holder.tvTenLop.setText(lop.getTenLop());
-        String tenGV = display.getTenGV();
-        holder.tvGiaoVien.setText((tenGV == null || tenGV.trim().isEmpty()) ? lop.getMaGVCN() : tenGV);
-        holder.tvNienKhoa.setText(lop.getNienKhoa());
+        if (lop != null) {
+            holder.tvMaLop.setText(lop.getMaLop());
+            holder.tvTenLop.setText(lop.getTenLop());
+            String tenGV = display.getTenGV();
+            holder.tvGiaoVien.setText((tenGV == null || tenGV.trim().isEmpty()) ? lop.getMaGVCN() : tenGV);
+            holder.tvNienKhoa.setText(lop.getNienKhoa());
+        } else {
+            holder.tvMaLop.setText("--");
+            holder.tvTenLop.setText("--");
+            holder.tvGiaoVien.setText("--");
+            holder.tvNienKhoa.setText("--");
+        }
+    }
 
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(display);
-            }
-        });
+    private void dispatchClick(int position) {
+        if (listener == null || list == null) return;
+        if (position == RecyclerView.NO_POSITION || position >= list.size()) return;
+        listener.onItemClick(list.get(position));
     }
 
     @Override
@@ -66,13 +70,20 @@ public class LopAdapter extends RecyclerView.Adapter<LopAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvMaLop, tvTenLop, tvGiaoVien, tvNienKhoa;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnPositionClickListener onPositionClick) {
             super(itemView);
             tvMaLop = itemView.findViewById(R.id.item_ma_lop);
             tvTenLop = itemView.findViewById(R.id.item_ten_lop);
             tvGiaoVien = itemView.findViewById(R.id.item_giao_vien_chu_nhiem);
             tvNienKhoa = itemView.findViewById(R.id.item_nien_khoa);
 
+            View.OnClickListener clickListener = v -> onPositionClick.onClick(getAdapterPosition());
+            itemView.setOnClickListener(clickListener);
+            tvGiaoVien.setOnClickListener(clickListener);
         }
+    }
+
+    private interface OnPositionClickListener {
+        void onClick(int position);
     }
 }

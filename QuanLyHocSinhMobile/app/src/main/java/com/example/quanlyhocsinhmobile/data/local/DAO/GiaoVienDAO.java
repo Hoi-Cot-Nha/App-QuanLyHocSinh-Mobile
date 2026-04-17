@@ -46,5 +46,9 @@ public interface GiaoVienDAO {
             "OR GiaoVien.maToHop LIKE '%' || :query || '%' " +
             "OR MonHoc.TenMH LIKE '%' || :query || '%'")
 
-    List<GiaoVien.Display> searchGiaoVien(String query);
+     List<GiaoVien.Display> searchGiaoVien(String query);
+
+     // ✅ Lấy mã GV tiếp theo (auto-generate)
+     @Query("SELECT COALESCE(MAX(CAST(SUBSTR(MaGV, 3) AS INTEGER)), 0) FROM GiaoVien WHERE MaGV LIKE 'GV%'")
+     int getMaxGVNumber();
 }

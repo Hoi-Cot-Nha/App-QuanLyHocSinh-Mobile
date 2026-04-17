@@ -32,6 +32,7 @@
 
         <!-- CONTENT -->
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv_lop_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -219,29 +220,35 @@
                                 android:hint="Tên Lớp"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp">
+                            android:text="Niên Khóa"
+                            android:textColor="@color/color_primary_blue_dark"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="4dp"/>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_nien_khoa"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Niên Khóa"/>
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <Spinner
+                            android:id="@+id/sp_nien_khoa"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@android:drawable/editbox_background"/>
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp">
+                            android:text="Giáo Viên Chủ Nhiệm"
+                            android:textColor="@color/color_primary_blue_dark"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="4dp"/>
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_giao_vien"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="Giáo Viên Chủ Nhiệm"/>
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <Spinner
+                            android:id="@+id/sp_giao_vien"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@android:drawable/editbox_background"/>
 
                         <!-- BUTTONS -->
                         <LinearLayout

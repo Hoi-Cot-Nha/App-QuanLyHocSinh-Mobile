@@ -20,8 +20,6 @@ public class ToHopMon {
     }
     public ToHopMon() {}
 
-
-
     @NonNull
     public String getMaToHop() { return maToHop; }
     public void setMaToHop(@NonNull String maToHop) { this.maToHop = maToHop; }
@@ -29,4 +27,10 @@ public class ToHopMon {
     @NonNull
     public String getTenToHop() { return tenToHop; }
     public void setTenToHop(@NonNull String tenToHop) { this.tenToHop = tenToHop; }
+
+    @Override
+    public String toString() {
+        // Hien thi day du ma + ten to hop trong combobox
+        return maToHop + " - " + tenToHop;
+    }
 }

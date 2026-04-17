@@ -7,6 +7,7 @@ import com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class LopRepository {
     private LopDAO lopDAO;
@@ -29,12 +30,64 @@ public class LopRepository {
     public void insert(Lop lop) {
         AppDatabase.databaseWriteExecutor.execute(() -> lopDAO.insert(lop));
     }
+
+    // Đợi insert hoàn thành trước khi trở lại
+    public void insertAndWait(Lop lop) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                lopDAO.insert(lop);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public void update(Lop lop){
         AppDatabase.databaseWriteExecutor.execute(() -> lopDAO.update(lop));
     }
 
+    // Đợi update hoàn thành trước khi trở lại
+    public void updateAndWait(Lop lop) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                lopDAO.update(lop);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public void delete(Lop lop){
         AppDatabase.databaseWriteExecutor.execute(() -> lopDAO.delete(lop));
+    }
+
+    // Đợi delete hoàn thành trước khi trở lại
+    public void deleteAndWait(Lop lop) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                lopDAO.delete(lop);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public int checkMaLop(String maLop) {
@@ -56,4 +109,16 @@ public class LopRepository {
         return lopDAO.checkGVCNDaPhanCong(maGV);
     }
 
+    // ✅ Lấy danh sách niên khóa từ DB
+    public List<String> getAllNienKhoa() {
+        return lopDAO.getAllNienKhoa();
+    }
+
+    // ✅ Lấy danh sách giáo viên từ DB
+    public List<LopDAO.GiaoVienInfo> getAllGiaoVienForLop() {
+        return lopDAO.getAllGiaoVienForLop();
+    }
+
 }
+
+

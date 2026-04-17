@@ -1,18 +1,22 @@
 package com.example.quanlyhocsinhmobile.ui.dat;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quanlyhocsinhmobile.R;
 import com.example.quanlyhocsinhmobile.data.local.Model.Lop;
+import com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -23,13 +27,20 @@ public class LopActivity extends AppCompatActivity {
     private Button btnSearch;
     private RecyclerView rv_lop_hoc;
     private TextView tv_lop_hoc_info;
-    private TextInputEditText et_ma_lop, et_ten_lop, et_giao_vien, et_nien_khoa;
+    private TextInputEditText et_ma_lop, et_ten_lop;
+    private Spinner sp_giao_vien, sp_nien_khoa;
     private Button btnAdd, btnSave, btnDelete, btnRefresh;
+    private NestedScrollView nsvLopContent;
 
     private LopViewModel viewModel;
     private LopAdapter adapter;
     private Lop selectedLop = null;
     private String selectedTenGVCN = null;
+
+    // ✅ Adapter cho Spinner
+    private ArrayAdapter<String> nienKhoaAdapter;
+    private ArrayAdapter<LopDAO.GiaoVienInfo> giaoVienAdapter;
+    private final List<LopDAO.GiaoVienInfo> baseGiaoVienOptions = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +51,8 @@ public class LopActivity extends AppCompatActivity {
         initViews();
         setupRecyclerView();
         observeViewModel();
+        // ✅ Load dữ liệu cho Spinner
+        viewModel.loadSpinnerData();
     }
     private void initViews() {
         etSearch = findViewById(R.id.et_search);
@@ -47,17 +60,28 @@ public class LopActivity extends AppCompatActivity {
 
         rv_lop_hoc = findViewById(R.id.rv_lop_hoc);
         tv_lop_hoc_info = findViewById(R.id.tv_lop_hoc_info);
+        nsvLopContent = findViewById(R.id.nsv_lop_content);
 
         et_ma_lop = findViewById(R.id.et_ma_lop);
-        et_ten_lop = findViewById(R.id.et_ten_lop); // ❗ FIX sai id
+        et_ten_lop = findViewById(R.id.et_ten_lop);
 
-        et_giao_vien = findViewById(R.id.et_giao_vien);
-        et_nien_khoa = findViewById(R.id.et_nien_khoa);
+        // ✅ Thay EditText bằng Spinner
+        sp_giao_vien = findViewById(R.id.sp_giao_vien);
+        sp_nien_khoa = findViewById(R.id.sp_nien_khoa);
 
         btnAdd = findViewById(R.id.btn_add);
-        btnSave = findViewById(R.id.btn_save); // đổi tên biến cho đúng logic
+        btnSave = findViewById(R.id.btn_save);
         btnDelete = findViewById(R.id.btn_delete);
         btnRefresh = findViewById(R.id.btn_refresh);
+
+        // ✅ Init Adapter cho Spinner
+        nienKhoaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        nienKhoaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_nien_khoa.setAdapter(nienKhoaAdapter);
+
+        giaoVienAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>());
+        giaoVienAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_giao_vien.setAdapter(giaoVienAdapter);
 
         // 🔍 SEARCH
         btnSearch.setOnClickListener(v ->
@@ -68,15 +92,19 @@ public class LopActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             String ma = et_ma_lop.getText().toString().trim();
             String ten = et_ten_lop.getText().toString().trim();
-            String nienKhoa = et_nien_khoa.getText().toString().trim();
-            String maGVCN = et_giao_vien.getText().toString().trim();
 
-            if (ma.isEmpty() || ten.isEmpty() || nienKhoa.isEmpty() || maGVCN.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            // ✅ Lấy giá trị từ Spinner
+            String nienKhoa = (String) sp_nien_khoa.getSelectedItem();
+            LopDAO.GiaoVienInfo selectedGV = (LopDAO.GiaoVienInfo) sp_giao_vien.getSelectedItem();
+            String maGVCN = selectedGV != null ? selectedGV.maGV : "";
+
+            if (ma.isEmpty() || ten.isEmpty() || nienKhoa == null || nienKhoa.isEmpty() || nienKhoa.startsWith("--") ||
+                maGVCN.isEmpty() || selectedGV == null || selectedGV.maGV.isEmpty()) {
+                Toast.makeText(this, "Vui lòng chọn đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            viewModel.insert(ma, ten, maGVCN, nienKhoa); // ❗ FIX thứ tự
+            viewModel.insert(ma, ten, maGVCN, nienKhoa);
         });
 
         // ✏️ UPDATE
@@ -87,18 +115,19 @@ public class LopActivity extends AppCompatActivity {
             }
 
             String ten = et_ten_lop.getText().toString().trim();
-            String maGVCNInput = et_giao_vien.getText().toString().trim();
-            String nienKhoa = et_nien_khoa.getText().toString().trim();
 
-            // Nếu ô GV vẫn là tên hiển thị của dòng đang chọn, dùng lại mã GVCN gốc để update.
-            String maGVCN = maGVCNInput;
-            if (selectedTenGVCN != null && selectedTenGVCN.equalsIgnoreCase(maGVCNInput)) {
-                maGVCN = selectedLop.getMaGVCN();
+            // ✅ Lấy giá trị từ Spinner
+            String nienKhoa = (String) sp_nien_khoa.getSelectedItem();
+            LopDAO.GiaoVienInfo selectedGV = (LopDAO.GiaoVienInfo) sp_giao_vien.getSelectedItem();
+            String maGVCN = selectedGV != null ? selectedGV.maGV : "";
+
+            if (ten.isEmpty() || nienKhoa == null || nienKhoa.isEmpty() || nienKhoa.startsWith("--") || maGVCN.isEmpty()) {
+                Toast.makeText(this, "Vui lòng chọn đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            viewModel.update(selectedLop, ten, maGVCN, nienKhoa); // ❗ FIX thiếu param
+            viewModel.update(selectedLop, ten, maGVCN, nienKhoa);
         });
-
 
         btnDelete.setOnClickListener(v -> {
             if (selectedLop == null) {
@@ -128,21 +157,59 @@ public class LopActivity extends AppCompatActivity {
 
             et_ma_lop.setText(selectedLop.getMaLop());
             et_ten_lop.setText(selectedLop.getTenLop());
-            et_giao_vien.setText(
-                    selectedTenGVCN == null || selectedTenGVCN.trim().isEmpty()
-                            ? selectedLop.getMaGVCN()
-                            : selectedTenGVCN
-            );
-            et_nien_khoa.setText(selectedLop.getNienKhoa());
 
+            syncGiaoVienSpinnerForSelectedLop();
 
-            et_ma_lop.setEnabled(false); // khóa mã GV khi chọn
+            et_ma_lop.setEnabled(false);
+
+            // ✅ Tự cuộn xuống phần thông tin lớp học sau khi chọn dòng
+            if (nsvLopContent != null) {
+                nsvLopContent.post(() -> nsvLopContent.smoothScrollTo(0, tv_lop_hoc_info.getTop()));
+            }
         });
 
         rv_lop_hoc.setLayoutManager(new LinearLayoutManager(this));
         rv_lop_hoc.setHasFixedSize(true);
         rv_lop_hoc.setAdapter(adapter);
     }
+
+    private void rebuildGiaoVienSpinnerFromBase() {
+        giaoVienAdapter.clear();
+        giaoVienAdapter.addAll(baseGiaoVienOptions);
+        giaoVienAdapter.notifyDataSetChanged();
+    }
+
+    private void syncGiaoVienSpinnerForSelectedLop() {
+        rebuildGiaoVienSpinnerFromBase();
+
+        if (selectedLop == null) {
+            if (sp_giao_vien.getCount() > 0) sp_giao_vien.setSelection(0);
+            return;
+        }
+
+        boolean foundGVCN = false;
+        for (int i = 0; i < giaoVienAdapter.getCount(); i++) {
+            LopDAO.GiaoVienInfo item = giaoVienAdapter.getItem(i);
+            if (item != null && item.maGV.equals(selectedLop.getMaGVCN())) {
+                sp_giao_vien.setSelection(i);
+                foundGVCN = true;
+                break;
+            }
+        }
+
+        // Nếu lớp đang chọn có GVCN đã bị lọc khỏi danh sách "chưa chủ nhiệm",
+        // thêm tạm duy nhất 1 item sau khi đã reset từ danh sách gốc.
+        if (!foundGVCN && selectedLop.getMaGVCN() != null && !selectedLop.getMaGVCN().isEmpty()) {
+            String tenHienThi = (selectedTenGVCN == null || selectedTenGVCN.trim().isEmpty())
+                    ? selectedLop.getMaGVCN()
+                    : selectedTenGVCN;
+            LopDAO.GiaoVienInfo currentGVCN = new LopDAO.GiaoVienInfo(selectedLop.getMaGVCN(), tenHienThi);
+            giaoVienAdapter.add(currentGVCN);
+            giaoVienAdapter.notifyDataSetChanged();
+            sp_giao_vien.setSelection(giaoVienAdapter.getCount() - 1);
+        }
+    }
+
     private void observeViewModel() {
         viewModel.getAllLops().observe(this, (List<Lop.Display> displays) -> {
             adapter.setList(displays);
@@ -156,6 +223,23 @@ public class LopActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // ✅ Observer dữ liệu Spinner
+        viewModel.getNienKhoaList().observe(this, nienKhoas -> {
+            if (nienKhoas != null) {
+                nienKhoaAdapter.clear();
+                nienKhoaAdapter.addAll(nienKhoas);
+                nienKhoaAdapter.notifyDataSetChanged();
+            }
+        });
+
+        viewModel.getGiaoVienList().observe(this, giaoViens -> {
+            if (giaoViens != null) {
+                baseGiaoVienOptions.clear();
+                baseGiaoVienOptions.addAll(giaoViens);
+                syncGiaoVienSpinnerForSelectedLop();
+            }
+        });
     }
     private void clearInputs() {
         selectedLop = null;
@@ -163,8 +247,15 @@ public class LopActivity extends AppCompatActivity {
         tv_lop_hoc_info.setText("Lớp Học: --");
         et_ma_lop.setText("");
         et_ten_lop.setText("");
-        et_giao_vien.setText("");
-        et_nien_khoa.setText("");
+
+        // ✅ Reset Spinner
+        rebuildGiaoVienSpinnerFromBase();
+        if (sp_giao_vien.getCount() > 0) {
+            sp_giao_vien.setSelection(0);
+        }
+        if (sp_nien_khoa.getCount() > 0) {
+            sp_nien_khoa.setSelection(0);
+        }
 
         et_ma_lop.setEnabled(true);
         etSearch.setText("");

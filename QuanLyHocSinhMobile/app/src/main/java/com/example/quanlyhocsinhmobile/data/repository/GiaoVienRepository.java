@@ -11,6 +11,7 @@ import com.example.quanlyhocsinhmobile.data.local.Model.MonHoc;
 import com.example.quanlyhocsinhmobile.data.local.Model.ToHopMon;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class GiaoVienRepository {
 
@@ -46,11 +47,63 @@ public class GiaoVienRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> giaovienDAO.insert(giaoVien));
     }
 
+    // Đợi insert hoàn thành trước khi trở lại
+    public void insertAndWait(GiaoVien giaoVien) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                giaovienDAO.insert(giaoVien);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public void update(GiaoVien giaoVien){
         AppDatabase.databaseWriteExecutor.execute(() -> giaovienDAO.update(giaoVien));
     }
+
+    // Đợi update hoàn thành trước khi trở lại
+    public void updateAndWait(GiaoVien giaoVien) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                giaovienDAO.update(giaoVien);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     public void delete(GiaoVien giaoVien) {
         AppDatabase.databaseWriteExecutor.execute(() -> giaovienDAO.delete(giaoVien));
+    }
+
+    // Đợi delete hoàn thành trước khi trở lại
+    public void deleteAndWait(GiaoVien giaoVien) {
+        CountDownLatch latch = new CountDownLatch(1);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            try {
+                giaovienDAO.delete(giaoVien);
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public int checkMaGiaoVien(String maGV) {
@@ -64,4 +117,12 @@ public class GiaoVienRepository {
     public List<GiaoVien.Display> searchGiaoVien(String query){
         return giaovienDAO.searchGiaoVien(query);
     }
+
+    // ✅ Lấy mã GV tiếp theo
+    public String getNextMaGV() {
+        int maxNum = giaovienDAO.getMaxGVNumber();
+        return String.format("GV%02d", maxNum + 1);
+    }
 }
+
+

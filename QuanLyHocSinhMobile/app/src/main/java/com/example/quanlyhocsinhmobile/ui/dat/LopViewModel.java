@@ -18,6 +18,9 @@ public class LopViewModel extends AndroidViewModel {
     private final LopRepository repository;
     private final MutableLiveData<List<Lop.Display>> allLop = new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
+    // ✅ Thêm LiveData cho Spinner
+    private final MutableLiveData<List<String>> nienKhoaList = new MutableLiveData<>();
+    private final MutableLiveData<List<com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO.GiaoVienInfo>> giaoVienList = new MutableLiveData<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     public LopViewModel(@NonNull Application application) {
         super(application);
@@ -31,6 +34,34 @@ public class LopViewModel extends AndroidViewModel {
 
     public LiveData<String> getToastMessage() {
         return toastMessage;
+    }
+
+    // ✅ Getter cho Niên khóa & Giáo viên
+    public LiveData<List<String>> getNienKhoaList() {
+        return nienKhoaList;
+    }
+
+    public LiveData<List<com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO.GiaoVienInfo>> getGiaoVienList() {
+        return giaoVienList;
+    }
+
+    // ✅ Load dữ liệu cho Spinner
+    public void loadSpinnerData() {
+        executor.execute(() -> {
+            List<String> nienKhoas = repository.getAllNienKhoa();
+            List<com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO.GiaoVienInfo> giaoViens = repository.getAllGiaoVienForLop();
+
+            // Thêm tùy chọn mặc định
+            if (nienKhoas != null && nienKhoas.isEmpty()) {
+                nienKhoas.add(0, "-- Chọn niên khóa --");
+            }
+            if (giaoViens != null && giaoViens.isEmpty()) {
+                giaoViens.add(0, new com.example.quanlyhocsinhmobile.data.local.DAO.LopDAO.GiaoVienInfo("", "-- Chọn giáo viên --"));
+            }
+
+            nienKhoaList.postValue(nienKhoas);
+            giaoVienList.postValue(giaoViens);
+        });
     }
 
     public void loadAllLops() {
@@ -90,7 +121,7 @@ public class LopViewModel extends AndroidViewModel {
 
             // Constructor Lop nhận thứ tự: (maLop, tenLop, maGVCN, nienKhoa)
             Lop lop = new Lop(maLop, tenLop, maGVCN, nienKhoa);
-            repository.insert(lop);
+            repository.insertAndWait(lop); // Đợi insert xong rồi mới load
 
             toastMessage.postValue("Thêm lớp thành công");
             loadAllLops();
@@ -141,7 +172,7 @@ public class LopViewModel extends AndroidViewModel {
             selectedLop.setMaGVCN(maGVCN);
             selectedLop.setNienKhoa(nienKhoa);
 
-            repository.update(selectedLop);
+            repository.updateAndWait(selectedLop); // Đợi update xong rồi mới load
 
             toastMessage.postValue("Cập nhật lớp thành công");
             loadAllLops();
@@ -154,7 +185,7 @@ public class LopViewModel extends AndroidViewModel {
         }
 
         executor.execute(() -> {
-            repository.delete(selectedLop);
+            repository.deleteAndWait(selectedLop); // Đợi delete xong rồi mới load
 
             toastMessage.postValue("Xóa lớp thành công");
             loadAllLops();
