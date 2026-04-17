@@ -7,7 +7,7 @@
 ## 🎯 Tôi Muốn Làm Gì?
 
 ### 1️⃣ "Tôi muốn biết sửa chữa gì đã được thực hiện"
-👉 **[SUMMARY.md](./SUMMARY.md)** ← Đọc này (5 phút)
+👉 **[SUMMARY.md](SUMMARY.md)** ← Đọc này (5 phút)
 - Tóm tắt vấn đề & giải pháp
 - Kết quả trước/sau fix
 - Timeline
@@ -15,7 +15,7 @@
 ---
 
 ### 2️⃣ "Tôi muốn hiểu chi tiết kỹ thuật"
-👉 **[BUG_FIX_REPORT.md](./BUG_FIX_REPORT.md)** ← Đọc này (20 phút)
+👉 **[BUG_FIX_REPORT.md](BUG_FIX_REPORT.md)** ← Đọc này (20 phút)
 - Nguyên nhân race condition
 - Cách hoạt động CountDownLatch
 - Code ví dụ chi tiết
@@ -24,7 +24,7 @@
 ---
 
 ### 3️⃣ "Tôi muốn test các chức năng"
-👉 **[TESTING_CHECKLIST.md](./TESTING_CHECKLIST.md)** ← Đọc này (10 phút)
+👉 **[TESTING_CHECKLIST.md](TESTING_CHECKLIST.md)** ← Đọc này (10 phút)
 - 7 test cases chi tiết
 - Expected results
 - Troubleshooting
@@ -32,7 +32,7 @@
 ---
 
 ### 4️⃣ "Tôi vừa tải code mới, phải làm gì?"
-👉 **[APPLY_FIX.md](./APPLY_FIX.md)** ← Đọc này (5 phút)
+👉 **[APPLY_FIX.md](APPLY_FIX.md)** ← Đọc này (5 phút)
 - Bước rebuild & sync
 - Quick test
 - Troubleshooting
@@ -40,7 +40,7 @@
 ---
 
 ### 5️⃣ "Tôi muốn biết file nào được sửa"
-👉 **[FILE_CHANGELOG.md](./FILE_CHANGELOG.md)** ← Đọc này (3 phút)
+👉 **[FILE_CHANGELOG.md](FILE_CHANGELOG.md)** ← Đọc này (3 phút)
 - Danh sách 5 file Java sửa
 - 4 file tài liệu được tạo
 - Thống kê thay đổi

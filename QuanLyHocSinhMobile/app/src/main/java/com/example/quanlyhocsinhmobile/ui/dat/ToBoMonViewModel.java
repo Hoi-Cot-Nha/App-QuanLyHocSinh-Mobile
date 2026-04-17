@@ -1,22 +1,15 @@
 package com.example.quanlyhocsinhmobile.ui.dat;
-
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-
 import com.example.quanlyhocsinhmobile.data.local.Model.ToHopMon;
 import com.example.quanlyhocsinhmobile.data.repository.ToBoHopRepository;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 public class ToBoMonViewModel extends AndroidViewModel {
-
     private final ToBoHopRepository repository;
     private final MutableLiveData<List<ToHopMon>>  allToHop= new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
@@ -26,7 +19,6 @@ public class ToBoMonViewModel extends AndroidViewModel {
         repository = new ToBoHopRepository(application);
         loadAllToHops();
     }
-
     public LiveData<List<ToHopMon>> getAllToHop() {
         return allToHop;
     }
@@ -54,64 +46,51 @@ public class ToBoMonViewModel extends AndroidViewModel {
             toastMessage.setValue("Vui lòng nhập đầy đủ thông tin");
             return;
         }
-
         executor.execute(() -> {
             if (repository.checkMaToHop(maToHop) > 0) {
                 toastMessage.postValue("Mã tổ hợp đã tồn tại!");
                 return;
             }
-
             if (repository.checkTenToHop(tenToHop) > 0) {
                 toastMessage.postValue("Tên tổ hợp đã tồn tại!");
                 return;
             }
-
             ToHopMon toHopMon = new ToHopMon(maToHop, tenToHop);
             repository.insert(toHopMon);
-
             toastMessage.postValue("Thêm tổ bộ môn thành công");
             loadAllToHops();
         });
     }
-
     public void update(ToHopMon selectedToHop, String tenToHop) {
         if (selectedToHop == null) {
             toastMessage.setValue("Vui lòng chọn tổ bộ môn để sửa");
             return;
         }
-
         if (tenToHop.isEmpty()) {
             toastMessage.setValue("Tên tổ bộ môn không được để trống");
             return;
         }
-
         executor.execute(() -> {
             if (!selectedToHop.getTenToHop().equals(tenToHop)
                     && repository.checkTenToHop(tenToHop) > 0) {
                 toastMessage.postValue("Tên tổ bộ môn đã tồn tại!");
                 return;
             }
-
             selectedToHop.setTenToHop(tenToHop);
             repository.update(selectedToHop);
-
             toastMessage.postValue("Cập nhật thành công");
             loadAllToHops();
         });
     }
-
     public void delete(ToHopMon selectedToHop) {
         if (selectedToHop == null) {
             toastMessage.setValue("Vui lòng chọn tổ bộ môn để xóa");
             return;
         }
-
         executor.execute(() -> {
             repository.delete(selectedToHop);
             toastMessage.postValue("Xóa tổ bộ môn thành công");
             loadAllToHops();
         });
     }
-
-
-}
+}

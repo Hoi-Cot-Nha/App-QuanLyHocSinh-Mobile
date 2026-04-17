@@ -1,5 +1,4 @@
 package com.example.quanlyhocsinhmobile.ui.tien;
-
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,7 +11,6 @@ import com.example.quanlyhocsinhmobile.data.repository.LichThiRepository;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 public class LichThiViewModel extends AndroidViewModel {
     private final LichThiRepository repository;
     private final MutableLiveData<List<LichThi.Display>> lichThiList = new MutableLiveData<>();
@@ -20,29 +18,23 @@ public class LichThiViewModel extends AndroidViewModel {
     private final MutableLiveData<List<PhongHoc>> phongHocList = new MutableLiveData<>();
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
     public LichThiViewModel(@NonNull Application application) {
         super(application);
         repository = new LichThiRepository(application);
         loadInitialData();
     }
-
     public LiveData<List<LichThi.Display>> getLichThiList() {
         return lichThiList;
     }
-
     public LiveData<List<MonHoc>> getMonHocList() {
         return monHocList;
     }
-
     public LiveData<List<PhongHoc>> getPhongHocList() {
         return phongHocList;
     }
-
     public LiveData<String> getToastMessage() {
         return toastMessage;
     }
-
     private void loadInitialData() {
         executorService.execute(() -> {
             monHocList.postValue(repository.getAllMonHoc());
@@ -50,25 +42,21 @@ public class LichThiViewModel extends AndroidViewModel {
             loadAll();
         });
     }
-
     public void loadAll() {
         executorService.execute(() -> {
             lichThiList.postValue(repository.getAllLichThi());
         });
     }
-
     public void filter(String maMH, String maPhong) {
         executorService.execute(() -> {
             lichThiList.postValue(repository.filterLichThi(maMH, maPhong));
         });
     }
-
     public void search(String query) {
         executorService.execute(() -> {
             lichThiList.postValue(repository.searchLichThi(query));
         });
     }
-
     public void insert(LichThi lichThi) {
         executorService.execute(() -> {
             if (repository.hasConflict(lichThi)) {
@@ -80,7 +68,6 @@ public class LichThiViewModel extends AndroidViewModel {
             loadAll();
         });
     }
-
     public void update(LichThi lichThi) {
         executorService.execute(() -> {
             if (repository.hasConflictExcludeId(lichThi)) {
@@ -92,7 +79,6 @@ public class LichThiViewModel extends AndroidViewModel {
             loadAll();
         });
     }
-
     public void delete(LichThi lichThi) {
         executorService.execute(() -> {
             repository.delete(lichThi);
@@ -100,4 +86,4 @@ public class LichThiViewModel extends AndroidViewModel {
             loadAll();
         });
     }
-}
+}
